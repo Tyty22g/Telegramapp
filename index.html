@@ -89,7 +89,7 @@ const haptic = t => { try { tg?.HapticFeedback?.notificationOccurred?.(t); } cat
 // ===== الإعدادات الافتراضية (تُستبدل من config.json) =====
 const DEFAULTS = {
   pageCount: 3, minAway: 3,
-  rewarded: { provider: 'adsgram', blockId: '', sdk: '', fn: '', mode: 'interstitial' },
+  rewarded: { provider: 'adsgram', blockId: '', sdk: '', fn: '', mode: 'interstitial', fallbackSdk: '', fallbackFn: '' },
   pages: [
     { title: 'جاري تحضير الرابط', subtitle: 'انتظر قليلاً', seconds: 8, adCode: '', rewarded: false, require: true },
     { title: 'نفحص الرابط من أجلك', subtitle: 'تفاعل مع الإعلان لمتابعة', seconds: 8, adCode: '', rewarded: false, require: true },
@@ -97,35 +97,42 @@ const DEFAULTS = {
   ]
 };
 const num = (v, a, b, f) => { const n = Number(v); return Number.isFinite(n) && n > 0 ? Math.min(b, Math.max(a, n)) : f; };
+const MAXP = 20;
 function normalize(raw) {
   const cfg = JSON.parse(JSON.stringify(DEFAULTS));
-  if (!raw || typeof raw !== 'object') return cfg;
-  if (Array.isArray(raw.pages) && raw.pages.length) {
-    cfg.pages = cfg.pages.map((d, i) => ({ ...d, ...(raw.pages[i] || {}) }));
-    cfg.pageCount = Math.round(num(raw.pageCount, 1, 3, raw.pages.length > 3 ? 3 : raw.pages.length));
-  } else { // صيغة قديمة: صفحة واحدة
-    cfg.pages = [{ ...DEFAULTS.pages[0], title: raw.title || DEFAULTS.pages[0].title, seconds: raw.seconds || 10, adCode: raw.adCode || '' }];
-    cfg.pageCount = 1;
+  const tpl = DEFAULTS.pages[DEFAULTS.pages.length - 1];
+  if (raw && typeof raw === 'object') {
+    const src = Array.isArray(raw.pages) && raw.pages.length ? raw.pages.slice(0, MAXP) : [{ ...tpl, title: raw.title || tpl.title, seconds: raw.seconds || 10, adCode: raw.adCode || '' }];
+    cfg.pageCount = Math.round(num(raw.pageCount, 1, MAXP, Array.isArray(raw.pages) && raw.pages.length ? src.length : 1));
+    cfg.pages = src.map((p, i) => ({ ...(DEFAULTS.pages[i] || tpl), ...p }));
+    cfg.minAway = num(raw.minAway, 1, 30, 3);
+    cfg.rewarded = { ...cfg.rewarded, ...(raw.rewarded || {}) };
   }
-  cfg.minAway = num(raw.minAway, 1, 30, 3);
-  cfg.rewarded = { ...cfg.rewarded, ...(raw.rewarded || {}) };
+  while (cfg.pages.length < cfg.pageCount) cfg.pages.push({ ...tpl });
+  cfg.minAway = Math.round(cfg.minAway);
   cfg.pages.forEach(p => { p.seconds = Math.round(num(p.seconds, 3, 60, 8)); p.adCode = String(p.adCode || ''); p.rewarded = !!p.rewarded; p.require = p.require !== false; });
   return cfg;
 }
 
 let config = normalize(null), targetUrl = '', idx = 0, timer = null, state = null;
 const fragment = html => document.createRange().createContextualFragment(html); // ينفّذ وسوم <script>
-let adsgramCtl = null;
-const rewardedFn = () => {
-  const r = config.rewarded;
+let adsgramCtl = null, adsgramId = '';
+const resolveFn = path => { try { const f = String(path || '').trim().split('.').reduce((o, k) => (o == null ? o : o[k]), window); return typeof f === 'function' ? f : null; } catch (_) { return null; } };
+const cleanBlock = v => { const s = String(v || '').trim(); return /^(int-|task-)?\d+$/i.test(s) ? s : ''; };
+const runners = () => {
+  const r = config.rewarded, list = [];
   if (r.provider === 'adsgram') {
-    const id = String(r.blockId || '').trim();
-    if (!id || !window.Adsgram) return null;
-    return () => { if (!adsgramCtl) adsgramCtl = window.Adsgram.init({ blockId: id }); return adsgramCtl.show(); };
-  }
-  const n = (r.fn || '').trim();
-  return n && typeof window[n] === 'function' ? window[n] : null;
+    const id = cleanBlock(r.blockId);
+    if (id && window.Adsgram) list.push(() => {
+      if (!adsgramCtl || adsgramId !== id) { adsgramCtl = window.Adsgram.init({ blockId: id, debug: false }); adsgramId = id; }
+      return adsgramCtl.show();
+    });
+  } else { const f = resolveFn(r.fn); if (f) list.push(() => (r.mode === 'pop' ? f('pop') : f())); }
+  const fb = resolveFn(r.fallbackFn); if (fb) list.push(() => fb());
+  return list;
 };
+const rewardedFn = () => (runners().length ? true : null);
+const loadScript = tag => { try { document.body.appendChild(fragment(tag)); } catch (_) {} };
 
 // ===== واجهة =====
 function say(type, text) {
@@ -225,18 +232,20 @@ try { tg?.onEvent?.('deactivated', leave); tg?.onEvent?.('activated', back); } c
 
 // ===== الإعلان المكافئ =====
 els.reward.onclick = async () => {
-  const fn = rewardedFn(); const p = page();
-  if (!fn) { state.rewardFailed = true; say('warn', 'الإعلان المكافئ غير متاح الآن، أكمل العداد.'); evaluate(); return; }
+  const list = runners();
+  if (!list.length) { state.rewardFailed = true; say('warn', 'الإعلان المكافئ غير متاح الآن، أكمل العداد.'); evaluate(); return; }
   els.reward.disabled = true;
-  try {
-    await (config.rewarded.mode === 'pop' ? fn('pop') : fn());
-    state.rewardDone = true; state.remaining = 0; paint();
-    markInteracted();
-  } catch (e) {
-    const skipped = e && e.error === false && e.done === false; // تخطّى الإعلان قبل نهايته
-    if (skipped) { say('warn', 'لازم تكمل مشاهدة الإعلان للحصول على المكافأة.'); haptic('warning'); }
-    else { state.rewardFailed = true; say('warn', 'لا يوجد إعلان مكافئ متاح حالياً، أكمل العداد.'); haptic('warning'); evaluate(); }
+  let ok = false, skipped = false;
+  for (const run of list) {
+    try { await run(); ok = true; break; }
+    catch (e) {
+      console.warn('Rewarded ad error:', e && (e.description || e.message || e));
+      if (e && e.error === false && e.done === false) { skipped = true; break; } // تخطّى الإعلان قبل نهايته
+    }
   }
+  if (ok) { state.rewardDone = true; state.remaining = 0; paint(); markInteracted(); }
+  else if (skipped) { say('warn', 'لازم تكمل مشاهدة الإعلان للحصول على المكافأة.'); haptic('warning'); }
+  else { state.rewardFailed = true; say('warn', 'لا يوجد إعلان مكافئ متاح حالياً، أكمل العداد.'); haptic('warning'); evaluate(); }
   els.reward.disabled = false;
 };
 
@@ -256,9 +265,11 @@ async function loadJson(file) {
 }
 async function init() {
   try { config = normalize(await loadJson('config.json')); } catch (_) { config = normalize(null); }
-  if (config.rewarded.provider === 'adsgram') {
-    if (String(config.rewarded.blockId || '').trim()) { const sc = document.createElement('script'); sc.src = 'https://sad.adsgram.ai/js/sad.min.js'; sc.async = true; document.head.appendChild(sc); }
-  } else if (config.rewarded.sdk && config.rewarded.sdk.trim()) { try { document.body.appendChild(fragment(config.rewarded.sdk)); } catch (_) {} }
+  const rw = config.rewarded;
+  if (rw.provider === 'adsgram') {
+    if (cleanBlock(rw.blockId)) { const sc = document.createElement('script'); sc.src = 'https://sad.adsgram.ai/js/sad.min.js'; sc.async = true; document.head.appendChild(sc); }
+  } else if (rw.sdk && rw.sdk.trim()) loadScript(rw.sdk);
+  if (rw.fallbackSdk && rw.fallbackSdk.trim()) loadScript(rw.fallbackSdk);
   const key = getKey();
   if (!key) { showPage(0); fail('افتح هذه الصفحة من رابط مختصر صحيح.'); return; }
   try {
