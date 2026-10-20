@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>جاري تحضير الرابط</title>
+
+  <!-- Telegram Web App SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <style>
+    :root {
+      /* ألوان تيليجرام مع قيم احتياطية للوضع الداكن */
+      --bg: var(--tg-theme-bg-color, #17212b);
+      --surface: var(--tg-theme-secondary-bg-color, #232e3c);
+      --text: var(--tg-theme-text-color, #f5f5f5);
+      --hint: var(--tg-theme-hint-color, #8b9aa8);
+      --accent: var(--tg-theme-button-color, #3fa9f5);
+      --accent-text: var(--tg-theme-button-text-color, #ffffff);
+      --error: #ef6b6b;
+      --ring-size: 148px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    html, body { height: 100%; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, "Segoe UI", Tahoma, "Noto Sans Arabic", Arial, sans-serif;
+      line-height: 1.6;
+      padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom));
+    }
+
+    .app {
+      min-height: 100%;
+      max-width: 440px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 22px;
+    }
+
+    .head { text-align: center; }
+    .head h1 { font-size: 20px; font-weight: 700; }
+    .head p { margin-top: 4px; font-size: 14px; color: var(--hint); }
+
+    /* مساحة الإعلان */
+    .ad-slot {
+      min-height: 250px;
+      background: var(--surface);
+      border: 1.5px dashed color-mix(in srgb, var(--hint) 45%, transparent);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .ad-slot:not(:has(*)) { color: var(--hint); font-size: 13px; }
+    .ad-slot:not(:has(*))::before { content: "مساحة الإعلان"; }
+
+    /* العداد */
+    .timer { display: flex; justify-content: center; }
+    .ring { position: relative; width: var(--ring-size); height: var(--ring-size); }
+    .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+    .ring circle { fill: none; stroke-width: 8; }
+    .ring .track { stroke: var(--surface); }
+    .ring .bar {
+      stroke: var(--accent);
+      stroke-linecap: round;
+      stroke-dasharray: 339.292;
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset .25s linear;
+    }
+    .ring .num {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .ring .num b { font-size: 48px; font-weight: 800; line-height: 1; }
+    .ring .num span { font-size: 12px; color: var(--hint); margin-top: 4px; }
+
+    /* الزر */
+    .go {
+      width: 100%;
+      border: 0;
+      border-radius: 14px;
+      padding: 16px;
+      font: inherit;
+      font-size: 16px;
+      font-weight: 700;
+      background: var(--accent);
+      color: var(--accent-text);
+      cursor: pointer;
+      transition: opacity .2s, transform .1s;
+    }
+    .go:active:not(:disabled) { transform: scale(.98); }
+    .go:disabled {
+      background: var(--surface);
+      color: var(--hint);
+      cursor: not-allowed;
+    }
+    .go:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+    .error { text-align: center; color: var(--error); font-size: 15px; }
+
+    .done .ring .bar { stroke: #4cc38a; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ring .bar, .go { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app" id="app">
+
+    <header class="head">
+      <h1 id="title">جاري تحضير الرابط…</h1>
+      <p id="subtitle">انتظر قليلاً وسيتفعّل زر الانتقال</p>
+    </header>
+
+    <!-- ===== ضع كود شبكة الإعلانات هنا (Monetag / بنر / أي شبكة أخرى) =====
+         ملاحظة: الأكواد التي تحتوي <script> الصق وسم السكربت مباشرة هنا داخل الـ div،
+         ولا تضفه عبر innerHTML لأن المتصفح لا ينفذ السكربتات المُدرجة بهذه الطريقة. -->
+    <section class="ad-slot" id="ad-slot" aria-label="إعلان">
+      <!-- AD CODE HERE -->
+    </section>
+
+    <div class="timer" aria-live="polite">
+      <div class="ring" id="ring">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="track" cx="60" cy="60" r="54"></circle>
+          <circle class="bar" id="bar" cx="60" cy="60" r="54"></circle>
+        </svg>
+        <div class="num"><b id="count">10</b><span>ثانية</span></div>
+      </div>
+    </div>
+
+    <button class="go" id="go" disabled>انتظر العداد</button>
+    <p class="error" id="error" hidden></p>
+
+  </main>
+
+  <script>
+    (() => {
+      'use strict';
+
+      // ===== الإعدادات =====
+      let COUNTDOWN_SECONDS = 10;
+      const CONFIG_FILE = 'config.json';
+      const LINKS_FILE = 'links.json';
+
+      // ===== العناصر =====
+      const $ = (id) => document.getElementById(id);
+      const els = {
+        app: $('app'), title: $('title'), subtitle: $('subtitle'),
+        count: $('count'), bar: $('bar'), go: $('go'), error: $('error')
+      };
+      const CIRCUMFERENCE = 2 * Math.PI * 54;
+
+      // ===== تيليجرام =====
+      const tg = window.Telegram?.WebApp;
+      if (tg) {
+        tg.ready();
+        tg.expand();
+        try { tg.disableVerticalSwipes?.(); } catch (_) {}
+        try {
+          tg.setHeaderColor?.('bg_color');
+          tg.setBackgroundColor?.('bg_color');
+        } catch (_) {}
+      }
+
+      // قراءة معامل البدء (مع بديل للاختبار من المتصفح: ?startapp=link1)
+      function getStartParam() {
+        const fromTg = tg?.initDataUnsafe?.start_param;
+        if (fromTg) return fromTg;
+        const q = new URLSearchParams(location.search);
+        return q.get('startapp') || q.get('tgWebAppStartParam') || '';
+      }
+
+      // السماح فقط بروابط http/https
+      function isSafeUrl(value) {
+        try {
+          const u = new URL(value);
+          return u.protocol === 'https:' || u.protocol === 'http:';
+        } catch (_) {
+          return false;
+        }
+      }
+
+      function showError(message) {
+        els.title.textContent = 'تعذّر فتح الرابط';
+        els.subtitle.textContent = '';
+        els.error.textContent = message;
+        els.error.hidden = false;
+        els.count.textContent = '!';
+        els.bar.style.strokeDashoffset = CIRCUMFERENCE;
+        els.go.textContent = 'الرابط غير متاح';
+      }
+
+      function openTarget(url) {
+        if (tg?.openLink) tg.openLink(url);
+        else window.open(url, '_blank', 'noopener');
+      }
+
+      // ===== العداد =====
+      function startCountdown(url) {
+        const endAt = Date.now() + COUNTDOWN_SECONDS * 1000;
+        els.bar.style.strokeDasharray = CIRCUMFERENCE;
+
+        const tick = () => {
+          const msLeft = Math.max(0, endAt - Date.now());
+          const secLeft = Math.ceil(msLeft / 1000);
+          els.count.textContent = secLeft;
+          els.bar.style.strokeDashoffset =
+            CIRCUMFERENCE * (1 - msLeft / (COUNTDOWN_SECONDS * 1000));
+
+          if (msLeft <= 0) {
+            clearInterval(timer);
+            finish(url);
+          }
+        };
+
+        const timer = setInterval(tick, 250);
+        tick();
+      }
+
+      function finish(url) {
+        els.app.classList.add('done');
+        els.title.textContent = 'الرابط جاهز';
+        els.subtitle.textContent = 'اضغط الزر للانتقال';
+        els.count.textContent = '✓';
+        els.go.disabled = false;
+        els.go.textContent = 'انتقل إلى الرابط';
+        els.go.addEventListener('click', () => openTarget(url), { once: false });
+        tg?.HapticFeedback?.notificationOccurred?.('success');
+      }
+
+      // ===== الإعدادات من لوحة الإدارة (config.json) =====
+      async function loadConfig() {
+        try {
+          const res = await fetch(CONFIG_FILE + '?t=' + Date.now(), { cache: 'no-store' });
+          if (!res.ok) return;
+          const cfg = await res.json();
+          if (cfg.seconds) COUNTDOWN_SECONDS = Math.min(60, Math.max(1, Number(cfg.seconds) || 10));
+          if (cfg.title) els.title.textContent = cfg.title;
+          els.count.textContent = COUNTDOWN_SECONDS;
+          if (cfg.adCode) {
+            // createContextualFragment ينفذ وسوم <script> داخل كود الإعلان
+            const frag = document.createRange().createContextualFragment(cfg.adCode);
+            $('ad-slot').appendChild(frag);
+          }
+        } catch (_) { /* نستخدم القيم الافتراضية */ }
+      }
+
+      // ===== التشغيل =====
+      async function init() {
+        await loadConfig();
+        const key = getStartParam();
+        if (!key) {
+          showError('افتح هذه الصفحة من رابط مختصر صحيح.');
+          return;
+        }
+
+        try {
+          const res = await fetch(LINKS_FILE, { cache: 'no-store' });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const links = await res.json();
+
+          const url = Object.prototype.hasOwnProperty.call(links, key) ? links[key] : null;
+          if (!url) {
+            showError('هذا الرابط غير موجود أو تم حذفه.');
+            return;
+          }
+          if (!isSafeUrl(url)) {
+            showError('الرابط المخزّن غير صالح.');
+            return;
+          }
+          startCountdown(url);
+        } catch (err) {
+          console.error(err);
+          showError('حدث خطأ أثناء تحميل الروابط. حاول مرة أخرى.');
+        }
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>
