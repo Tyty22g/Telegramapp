@@ -2,6 +2,8 @@
   "pageCount": 3,
   "minAway": 3,
   "rewarded": {
+    "provider": "adsgram",
+    "blockId": "55072",
     "sdk": "",
     "fn": "",
     "mode": "interstitial"
