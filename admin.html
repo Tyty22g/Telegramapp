@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>لوحة الإدارة</title>
+<style>
+:root{--bg:#10151c;--s:#1a222d;--s2:#232e3c;--t:#eef2f6;--h:#8b9aa8;--a:#3fa9f5;--err:#ef6b6b;--ok:#4cc38a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;line-height:1.6;padding:16px;max-width:640px;margin:0 auto}
+h1{font-size:20px}h2{font-size:16px;margin-bottom:6px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.card{background:var(--s);border-radius:14px;padding:16px;margin-bottom:14px}
+.hint{font-size:13px;color:var(--h)}
+label{display:block;font-size:13px;color:var(--h);margin:10px 0 4px}
+input,textarea{width:100%;background:var(--s2);color:var(--t);border:1px solid transparent;border-radius:10px;padding:11px;font:inherit;font-size:15px}
+input:focus,textarea:focus{outline:none;border-color:var(--a)}
+textarea{min-height:140px;font-family:ui-monospace,Menlo,monospace;font-size:13px}
+.ltr{direction:ltr;text-align:left}
+button{font:inherit;font-weight:700;border:0;border-radius:10px;padding:11px 16px;background:var(--a);color:#fff;cursor:pointer}
+button.sec{background:var(--s2);color:var(--t)}button.del{background:transparent;color:var(--err)}
+button:disabled{opacity:.5}.full{width:100%;margin-top:14px}
+.tabs{display:flex;gap:6px;margin-bottom:14px}
+.tabs button{flex:1;background:var(--s);color:var(--h);padding:10px 4px}
+.tabs button.on{background:var(--a);color:#fff}
+.item{background:var(--s2);border-radius:10px;padding:10px;margin-top:8px}
+.item .k{font-weight:700}.item .u{font-size:12px;color:var(--h);word-break:break-all;direction:ltr;text-align:left}
+.acts{display:flex;gap:6px;margin-top:8px}.acts button{padding:7px 10px;font-size:13px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--s2);padding:10px 18px;border-radius:10px;font-size:14px;max-width:90%;box-shadow:0 4px 18px #0008}
+#toast.bad{color:var(--err)}[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- ============ شاشة التسجيل ============ -->
+<section id="setup" hidden>
+  <h1>تسجيل الدخول</h1>
+  <p class="hint" style="margin:6px 0 14px">البيانات تُحفظ في متصفحك فقط ولا تُرفع إلى GitHub.</p>
+  <div class="card">
+    <label>اسم المستخدم في GitHub</label><input id="f-owner" class="ltr" autocapitalize="off">
+    <label>اسم المستودع (Repository)</label><input id="f-repo" class="ltr" autocapitalize="off">
+    <label>الفرع (Branch)</label><input id="f-branch" class="ltr" value="main">
+    <label>توكن GitHub</label><input id="f-token" class="ltr" type="password" autocomplete="off">
+    <p class="hint" style="margin-top:6px">Fine-grained token لهذا المستودع فقط، بصلاحية Contents: Read and write.</p>
+    <label>يوزر البوت (بدون @)</label><input id="f-bot" class="ltr" autocapitalize="off">
+    <label>الاسم المختصر للتطبيق (من BotFather)</label><input id="f-app" class="ltr" autocapitalize="off">
+    <button class="full" id="b-login">تحقق وادخل</button>
+  </div>
+</section>
+
+<!-- ============ اللوحة ============ -->
+<section id="panel" hidden>
+  <div class="top"><h1>لوحة الإدارة</h1><button class="sec" id="b-out">خروج</button></div>
+  <div class="tabs">
+    <button data-t="links" class="on">الروابط</button><button data-t="ads">الإعلانات</button><button data-t="files">الملفات</button>
+  </div>
+
+  <div id="t-links">
+    <div class="card">
+      <h2>إضافة رابط</h2>
+      <label>المفتاح (اتركه فارغاً للتوليد التلقائي)</label><input id="l-key" class="ltr" autocapitalize="off">
+      <label>الرابط الأصلي</label><input id="l-url" class="ltr" placeholder="https://" autocapitalize="off">
+      <button class="full" id="b-addlink">حفظ الرابط</button>
+    </div>
+    <div class="card"><h2>الروابط الحالية</h2><div id="list"></div></div>
+  </div>
+
+  <div id="t-ads" hidden>
+    <div class="card">
+      <h2>إعدادات صفحة الانتظار</h2>
+      <label>العنوان</label><input id="a-title">
+      <label>مدة العداد (ثانية)</label><input id="a-sec" type="number" min="1" max="60" class="ltr">
+      <label>كود الإعلان (Monetag أو أي شبكة)</label><textarea id="a-code" class="ltr" spellcheck="false" placeholder="<script src=...></script>"></textarea>
+      <button class="full" id="b-saveads">حفظ ونشر</button>
+      <p class="hint" style="margin-top:8px">يظهر التغيير بعد دقيقة تقريباً (وقت نشر Cloudflare).</p>
+    </div>
+  </div>
+
+  <div id="t-files" hidden>
+    <div class="card">
+      <h2>رفع أو إنشاء ملف</h2>
+      <label>المسار داخل المستودع (مثل images/logo.png)</label><input id="x-path" class="ltr" autocapitalize="off">
+      <label>اختر ملفاً للرفع</label><input id="x-file" type="file">
+      <label>أو اكتب محتوى ملف نصي</label><textarea id="x-text" class="ltr" spellcheck="false"></textarea>
+      <button class="full" id="b-upload">رفع إلى GitHub</button>
+    </div>
+    <div class="card"><h2>ملفات المستودع</h2><div id="files"></div>
+      <button class="sec full" id="b-restore">استعادة index.html الأصلي</button></div>
+  </div>
+</section>
+
+<div id="toast" hidden></div>
+
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const LS = 'tgshort_admin';
+const PROTECTED = ['index.html', 'admin.html'];
+let cfg = JSON.parse(localStorage.getItem(LS) || 'null');
+let links = {};
+let site = { title: 'جاري تحضير الرابط', seconds: 10, adCode: '' };
+
+// ---------- أدوات ----------
+let tt;
+function toast(m, bad) {
+  const t = $('#toast'); t.textContent = m; t.className = bad ? 'bad' : ''; t.hidden = false;
+  clearTimeout(tt); tt = setTimeout(() => t.hidden = true, 3500);
+}
+const enc = s => { let r = ''; for (const c of new TextEncoder().encode(s)) r += String.fromCharCode(c); return btoa(r); };
+const dec = b => new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\s/g, '')), c => c.charCodeAt(0)));
+const readB64 = f => new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(r.result.split(',')[1]); r.onerror = no; r.readAsDataURL(f); });
+const enp = p => p.split('/').map(encodeURIComponent).join('/');
+
+async function busy(btn, fn) {
+  btn.disabled = true;
+  try { await fn(); } catch (e) { toast(e.message || 'حدث خطأ', true); }
+  btn.disabled = false;
+}
+
+// ---------- GitHub API ----------
+async function gh(path, opt = {}, c = cfg) {
+  const r = await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/${path}`, {
+    ...opt,
+    headers: { Authorization: 'Bearer ' + c.token, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' }
+  });
+  if (!r.ok) {
+    const e = await r.json().catch(() => ({}));
+    const err = new Error(e.message || 'HTTP ' + r.status); err.status = r.status; throw err;
+  }
+  return r.json();
+}
+async function getFile(p) {
+  try { return await gh(`contents/${enp(p)}?ref=${encodeURIComponent(cfg.branch)}&t=${Date.now()}`); }
+  catch (e) { if (e.status === 404) return null; throw e; }
+}
+async function putFile(p, b64, msg) {
+  const f = await getFile(p);
+  await gh(`contents/${enp(p)}`, { method: 'PUT', body: JSON.stringify({ message: msg, content: b64, branch: cfg.branch, ...(f ? { sha: f.sha } : {}) }) });
+}
+const putText = (p, text, msg) => putFile(p, enc(text), msg);
+
+// ---------- التسجيل ----------
+$('#b-login').onclick = e => busy(e.target, async () => {
+  const c = {
+    owner: $('#f-owner').value.trim(), repo: $('#f-repo').value.trim(),
+    branch: $('#f-branch').value.trim() || 'main', token: $('#f-token').value.trim(),
+    bot: $('#f-bot').value.trim().replace(/^@/, ''), app: $('#f-app').value.trim()
+  };
+  if (!c.owner || !c.repo || !c.token) throw new Error('أكمل اسم المستخدم والمستودع والتوكن');
+  const info = await gh('', {}, c);
+  if (info.permissions && !info.permissions.push) throw new Error('التوكن لا يملك صلاحية الكتابة');
+  cfg = c; localStorage.setItem(LS, JSON.stringify(c));
+  await start();
+});
+$('#b-out').onclick = () => { if (confirm('تسجيل الخروج ومسح البيانات من هذا المتصفح؟')) { localStorage.removeItem(LS); location.reload(); } };
+
+// ---------- التبويبات ----------
+document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('on', x === b));
+  ['links', 'ads', 'files'].forEach(t => $('#t-' + t).hidden = t !== b.dataset.t);
+  if (b.dataset.t === 'files') listFiles();
+});
+
+// ---------- الروابط ----------
+const tlink = k => cfg.bot && cfg.app ? `https://t.me/${cfg.bot}/${cfg.app}?startapp=${k}` : `${location.origin}/?startapp=${k}`;
+const rnd = () => Math.random().toString(36).slice(2, 8);
+
+function renderLinks() {
+  const box = $('#list'); box.textContent = '';
+  const keys = Object.keys(links);
+  if (!keys.length) { box.textContent = 'لا توجد روابط بعد.'; box.className = 'hint'; return; }
+  keys.forEach(k => {
+    const d = document.createElement('div'); d.className = 'item';
+    d.innerHTML = '<div class="k"></div><div class="u"></div><div class="acts"><button class="sec" data-a="c">نسخ رابط البوت</button><button class="sec" data-a="e">تعديل</button><button class="del" data-a="d">حذف</button></div>';
+    d.querySelector('.k').textContent = k; d.querySelector('.u').textContent = links[k];
+    d.querySelector('.acts').onclick = async ev => {
+      const a = ev.target.dataset.a; if (!a) return;
+      if (a === 'c') { try { await navigator.clipboard.writeText(tlink(k)); toast('تم النسخ'); } catch (_) { prompt('انسخ الرابط:', tlink(k)); } }
+      if (a === 'e') { $('#l-key').value = k; $('#l-url').value = links[k]; window.scrollTo({ top: 0, behavior: 'smooth' }); }
+      if (a === 'd' && confirm('حذف الرابط ' + k + '؟')) busy(ev.target, async () => { const n = { ...links }; delete n[k]; await saveLinks(n); toast('تم الحذف'); });
+    };
+    box.appendChild(d);
+  });
+}
+async function saveLinks(n) {
+  await putText('links.json', JSON.stringify(n, null, 2) + '\n', 'Update links');
+  links = n; renderLinks();
+}
+$('#b-addlink').onclick = e => busy(e.target, async () => {
+  const key = $('#l-key').value.trim() || rnd(), url = $('#l-url').value.trim();
+  if (!/^[A-Za-z0-9_-]{1,64}$/.test(key)) throw new Error('المفتاح: حروف إنجليزية وأرقام و _ و - فقط');
+  if (!/^https?:\/\//i.test(url)) throw new Error('الرابط يجب أن يبدأ بـ http أو https');
+  await saveLinks({ ...links, [key]: url });
+  $('#l-key').value = ''; $('#l-url').value = '';
+  toast('تم الحفظ — رابط البوت: ' + tlink(key));
+});
+
+// ---------- الإعلانات ----------
+$('#b-saveads').onclick = e => busy(e.target, async () => {
+  const s = { title: $('#a-title').value.trim() || 'جاري تحضير الرابط', seconds: Math.min(60, Math.max(1, +$('#a-sec').value || 10)), adCode: $('#a-code').value };
+  await putText('config.json', JSON.stringify(s, null, 2) + '\n', 'Update ads config');
+  site = s; toast('تم الحفظ والنشر');
+});
+
+// ---------- الملفات ----------
+$('#b-upload').onclick = e => busy(e.target, async () => {
+  const f = $('#x-file').files[0], text = $('#x-text').value;
+  let path = $('#x-path').value.trim().replace(/^\/+/, '') || (f ? f.name : '');
+  if (!path) throw new Error('اكتب مسار الملف');
+  if (PROTECTED.includes(path) && !confirm('هذا ملف أساسي، هل تريد استبداله؟')) return;
+  if (f) {
+    if (f.size > 25 * 1024 * 1024) throw new Error('الحد الأقصى لملفات Cloudflare Pages هو 25MB');
+    await putFile(path, await readB64(f), 'Upload ' + path);
+  } else if (text) await putText(path, text, 'Create ' + path);
+  else throw new Error('اختر ملفاً أو اكتب محتوى');
+  $('#x-file').value = ''; $('#x-text').value = ''; $('#x-path').value = '';
+  toast('تم الرفع'); listFiles();
+});
+async function listFiles() {
+  const box = $('#files'); box.textContent = 'جاري التحميل…';
+  try {
+    const items = await gh(`contents?ref=${encodeURIComponent(cfg.branch)}&t=${Date.now()}`);
+    box.textContent = '';
+    items.forEach(it => {
+      const d = document.createElement('div'); d.className = 'item';
+      d.innerHTML = '<div class="u"></div>'; d.firstChild.textContent = (it.type === 'dir' ? '📁 ' : '') + it.path;
+      if (it.type === 'file' && !PROTECTED.includes(it.path)) {
+        const a = document.createElement('div'); a.className = 'acts';
+        const b = document.createElement('button'); b.className = 'del'; b.textContent = 'حذف';
+        b.onclick = () => confirm('حذف ' + it.path + '؟') && busy(b, async () => {
+          await gh(`contents/${enp(it.path)}`, { method: 'DELETE', body: JSON.stringify({ message: 'Delete ' + it.path, sha: it.sha, branch: cfg.branch }) });
+          toast('تم الحذف'); listFiles();
+        });
+        a.appendChild(b); d.appendChild(a);
+      }
+      box.appendChild(d);
+    });
+  } catch (e) { box.textContent = e.message; }
+}
+
+// ---------- التشغيل ----------
+// نسخة index.html مضمّنة هنا لتُرفع تلقائياً (base64)
+const INDEX_B64 = 'PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImFyIiBkaXI9InJ0bCI+CjxoZWFkPgogIDxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KICA8bWV0YSBuYW1lPSJ2aWV3cG9ydCIgY29udGVudD0id2lkdGg9ZGV2aWNlLXdpZHRoLCBpbml0aWFsLXNjYWxlPTEsIHZpZXdwb3J0LWZpdD1jb3ZlciwgdXNlci1zY2FsYWJsZT1ubyI+CiAgPHRpdGxlPtis2KfYsdmKINiq2K3YttmK2LEg2KfZhNix2KfYqNi3PC90aXRsZT4KCiAgPCEtLSBUZWxlZ3JhbSBXZWIgQXBwIFNESyAtLT4KICA8c2NyaXB0IHNyYz0iaHR0cHM6Ly90ZWxlZ3JhbS5vcmcvanMvdGVsZWdyYW0td2ViLWFwcC5qcyI+PC9zY3JpcHQ+CgogIDxzdHlsZT4KICAgIDpyb290IHsKICAgICAgLyog2KPZhNmI2KfZhiDYqtmK2YTZitis2LHYp9mFINmF2Lkg2YLZitmFINin2K3YqtmK2KfYt9mK2Kkg2YTZhNmI2LbYuSDYp9mE2K/Yp9mD2YYgKi8KICAgICAgLS1iZzogdmFyKC0tdGctdGhlbWUtYmctY29sb3IsICMxNzIxMmIpOwogICAgICAtLXN1cmZhY2U6IHZhcigtLXRnLXRoZW1lLXNlY29uZGFyeS1iZy1jb2xvciwgIzIzMmUzYyk7CiAgICAgIC0tdGV4dDogdmFyKC0tdGctdGhlbWUtdGV4dC1jb2xvciwgI2Y1ZjVmNSk7CiAgICAgIC0taGludDogdmFyKC0tdGctdGhlbWUtaGludC1jb2xvciwgIzhiOWFhOCk7CiAgICAgIC0tYWNjZW50OiB2YXIoLS10Zy10aGVtZS1idXR0b24tY29sb3IsICMzZmE5ZjUpOwogICAgICAtLWFjY2VudC10ZXh0OiB2YXIoLS10Zy10aGVtZS1idXR0b24tdGV4dC1jb2xvciwgI2ZmZmZmZik7CiAgICAgIC0tZXJyb3I6ICNlZjZiNmI7CiAgICAgIC0tcmluZy1zaXplOiAxNDhweDsKICAgIH0KCiAgICAqIHsgYm94LXNpemluZzogYm9yZGVyLWJveDsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwOyAtd2Via2l0LXRhcC1oaWdobGlnaHQtY29sb3I6IHRyYW5zcGFyZW50OyB9CgogICAgaHRtbCwgYm9keSB7IGhlaWdodDogMTAwJTsgfQoKICAgIGJvZHkgewogICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1iZyk7CiAgICAgIGNvbG9yOiB2YXIoLS10ZXh0KTsKICAgICAgZm9udC1mYW1pbHk6IC1hcHBsZS1zeXN0ZW0sICJTZWdvZSBVSSIsIFRhaG9tYSwgIk5vdG8gU2FucyBBcmFiaWMiLCBBcmlhbCwgc2Fucy1zZXJpZjsKICAgICAgbGluZS1oZWlnaHQ6IDEuNjsKICAgICAgcGFkZGluZzogbWF4KDIwcHgsIGVudihzYWZlLWFyZWEtaW5zZXQtdG9wKSkgMjBweCBtYXgoMjBweCwgZW52KHNhZmUtYXJlYS1pbnNldC1ib3R0b20pKTsKICAgIH0KCiAgICAuYXBwIHsKICAgICAgbWluLWhlaWdodDogMTAwJTsKICAgICAgbWF4LXdpZHRoOiA0NDBweDsKICAgICAgbWFyZ2luOiAwIGF1dG87CiAgICAgIGRpc3BsYXk6IGZsZXg7CiAgICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47CiAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyOwogICAgICBnYXA6IDIycHg7CiAgICB9CgogICAgLmhlYWQgeyB0ZXh0LWFsaWduOiBjZW50ZXI7IH0KICAgIC5oZWFkIGgxIHsgZm9udC1zaXplOiAyMHB4OyBmb250LXdlaWdodDogNzAwOyB9CiAgICAuaGVhZCBwIHsgbWFyZ2luLXRvcDogNHB4OyBmb250LXNpemU6IDE0cHg7IGNvbG9yOiB2YXIoLS1oaW50KTsgfQoKICAgIC8qINmF2LPYp9it2Kkg2KfZhNil2LnZhNin2YYgKi8KICAgIC5hZC1zbG90IHsKICAgICAgbWluLWhlaWdodDogMjUwcHg7CiAgICAgIGJhY2tncm91bmQ6IHZhcigtLXN1cmZhY2UpOwogICAgICBib3JkZXI6IDEuNXB4IGRhc2hlZCBjb2xvci1taXgoaW4gc3JnYiwgdmFyKC0taGludCkgNDUlLCB0cmFuc3BhcmVudCk7CiAgICAgIGJvcmRlci1yYWRpdXM6IDE2cHg7CiAgICAgIGRpc3BsYXk6IGZsZXg7CiAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7CiAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyOwogICAgICBvdmVyZmxvdzogaGlkZGVuOwogICAgfQogICAgLmFkLXNsb3Q6bm90KDpoYXMoKikpIHsgY29sb3I6IHZhcigtLWhpbnQpOyBmb250LXNpemU6IDEzcHg7IH0KICAgIC5hZC1zbG90Om5vdCg6aGFzKCopKTo6YmVmb3JlIHsgY29udGVudDogItmF2LPYp9it2Kkg2KfZhNil2LnZhNin2YYiOyB9CgogICAgLyog2KfZhNi52K/Yp9ivICovCiAgICAudGltZXIgeyBkaXNwbGF5OiBmbGV4OyBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsgfQogICAgLnJpbmcgeyBwb3NpdGlvbjogcmVsYXRpdmU7IHdpZHRoOiB2YXIoLS1yaW5nLXNpemUpOyBoZWlnaHQ6IHZhcigtLXJpbmctc2l6ZSk7IH0KICAgIC5yaW5nIHN2ZyB7IHdpZHRoOiAxMDAlOyBoZWlnaHQ6IDEwMCU7IHRyYW5zZm9ybTogcm90YXRlKC05MGRlZyk7IH0KICAgIC5yaW5nIGNpcmNsZSB7IGZpbGw6IG5vbmU7IHN0cm9rZS13aWR0aDogODsgfQogICAgLnJpbmcgLnRyYWNrIHsgc3Ryb2tlOiB2YXIoLS1zdXJmYWNlKTsgfQogICAgLnJpbmcgLmJhciB7CiAgICAgIHN0cm9rZTogdmFyKC0tYWNjZW50KTsKICAgICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOwogICAgICBzdHJva2UtZGFzaGFycmF5OiAzMzkuMjkyOwogICAgICBzdHJva2UtZGFzaG9mZnNldDogMDsKICAgICAgdHJhbnNpdGlvbjogc3Ryb2tlLWRhc2hvZmZzZXQgLjI1cyBsaW5lYXI7CiAgICB9CiAgICAucmluZyAubnVtIHsKICAgICAgcG9zaXRpb246IGFic29sdXRlOwogICAgICBpbnNldDogMDsKICAgICAgZGlzcGxheTogZmxleDsKICAgICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjsKICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7CiAgICAgIGZvbnQtdmFyaWFudC1udW1lcmljOiB0YWJ1bGFyLW51bXM7CiAgICB9CiAgICAucmluZyAubnVtIGIgeyBmb250LXNpemU6IDQ4cHg7IGZvbnQtd2VpZ2h0OiA4MDA7IGxpbmUtaGVpZ2h0OiAxOyB9CiAgICAucmluZyAubnVtIHNwYW4geyBmb250LXNpemU6IDEycHg7IGNvbG9yOiB2YXIoLS1oaW50KTsgbWFyZ2luLXRvcDogNHB4OyB9CgogICAgLyog2KfZhNiy2LEgKi8KICAgIC5nbyB7CiAgICAgIHdpZHRoOiAxMDAlOwogICAgICBib3JkZXI6IDA7CiAgICAgIGJvcmRlci1yYWRpdXM6IDE0cHg7CiAgICAgIHBhZGRpbmc6IDE2cHg7CiAgICAgIGZvbnQ6IGluaGVyaXQ7CiAgICAgIGZvbnQtc2l6ZTogMTZweDsKICAgICAgZm9udC13ZWlnaHQ6IDcwMDsKICAgICAgYmFja2dyb3VuZDogdmFyKC0tYWNjZW50KTsKICAgICAgY29sb3I6IHZhcigtLWFjY2VudC10ZXh0KTsKICAgICAgY3Vyc29yOiBwb2ludGVyOwogICAgICB0cmFuc2l0aW9uOiBvcGFjaXR5IC4ycywgdHJhbnNmb3JtIC4xczsKICAgIH0KICAgIC5nbzphY3RpdmU6bm90KDpkaXNhYmxlZCkgeyB0cmFuc2Zvcm06IHNjYWxlKC45OCk7IH0KICAgIC5nbzpkaXNhYmxlZCB7CiAgICAgIGJhY2tncm91bmQ6IHZhcigtLXN1cmZhY2UpOwogICAgICBjb2xvcjogdmFyKC0taGludCk7CiAgICAgIGN1cnNvcjogbm90LWFsbG93ZWQ7CiAgICB9CiAgICAuZ286Zm9jdXMtdmlzaWJsZSB7IG91dGxpbmU6IDNweCBzb2xpZCB2YXIoLS1hY2NlbnQpOyBvdXRsaW5lLW9mZnNldDogM3B4OyB9CgogICAgLmVycm9yIHsgdGV4dC1hbGlnbjogY2VudGVyOyBjb2xvcjogdmFyKC0tZXJyb3IpOyBmb250LXNpemU6IDE1cHg7IH0KCiAgICAuZG9uZSAucmluZyAuYmFyIHsgc3Ryb2tlOiAjNGNjMzhhOyB9CgogICAgQG1lZGlhIChwcmVmZXJzLXJlZHVjZWQtbW90aW9uOiByZWR1Y2UpIHsKICAgICAgLnJpbmcgLmJhciwgLmdvIHsgdHJhbnNpdGlvbjogbm9uZTsgfQogICAgfQogIDwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+CiAgPG1haW4gY2xhc3M9ImFwcCIgaWQ9ImFwcCI+CgogICAgPGhlYWRlciBjbGFzcz0iaGVhZCI+CiAgICAgIDxoMSBpZD0idGl0bGUiPtis2KfYsdmKINiq2K3YttmK2LEg2KfZhNix2KfYqNi34oCmPC9oMT4KICAgICAgPHAgaWQ9InN1YnRpdGxlIj7Yp9mG2KrYuNixINmC2YTZitmE2KfZiyDZiNiz2YrYqtmB2LnZkdmEINiy2LEg2KfZhNin2YbYqtmC2KfZhDwvcD4KICAgIDwvaGVhZGVyPgoKICAgIDwhLS0gPT09PT0g2LbYuSDZg9mI2K8g2LTYqNmD2Kkg2KfZhNil2LnZhNin2YbYp9iqINmH2YbYpyAoTW9uZXRhZyAvINio2YbYsSAvINij2Yog2LTYqNmD2Kkg2KPYrtix2YkpID09PT09CiAgICAgICAgINmF2YTYp9it2LjYqTog2KfZhNij2YPZiNin2K8g2KfZhNiq2Yog2KrYrdiq2YjZiiA8c2NyaXB0PiDYp9mE2LXZgiDZiNiz2YUg2KfZhNiz2YPYsdio2Kog2YXYqNin2LTYsdipINmH2YbYpyDYr9in2K7ZhCDYp9mE2YAgZGl22IwKICAgICAgICAg2YjZhNinINiq2LbZgdmHINi52KjYsSBpbm5lckhUTUwg2YTYo9mGINin2YTZhdiq2LXZgditINmE2Kcg2YrZhtmB2LAg2KfZhNiz2YPYsdio2KrYp9iqINin2YTZhdmP2K/Ysdis2Kkg2KjZh9iw2Ycg2KfZhNi32LHZitmC2KkuIC0tPgogICAgPHNlY3Rpb24gY2xhc3M9ImFkLXNsb3QiIGlkPSJhZC1zbG90IiBhcmlhLWxhYmVsPSLYpdi52YTYp9mGIj4KICAgICAgPCEtLSBBRCBDT0RFIEhFUkUgLS0+CiAgICA8L3NlY3Rpb24+CgogICAgPGRpdiBjbGFzcz0idGltZXIiIGFyaWEtbGl2ZT0icG9saXRlIj4KICAgICAgPGRpdiBjbGFzcz0icmluZyIgaWQ9InJpbmciPgogICAgICAgIDxzdmcgdmlld0JveD0iMCAwIDEyMCAxMjAiIGFyaWEtaGlkZGVuPSJ0cnVlIj4KICAgICAgICAgIDxjaXJjbGUgY2xhc3M9InRyYWNrIiBjeD0iNjAiIGN5PSI2MCIgcj0iNTQiPjwvY2lyY2xlPgogICAgICAgICAgPGNpcmNsZSBjbGFzcz0iYmFyIiBpZD0iYmFyIiBjeD0iNjAiIGN5PSI2MCIgcj0iNTQiPjwvY2lyY2xlPgogICAgICAgIDwvc3ZnPgogICAgICAgIDxkaXYgY2xhc3M9Im51bSI+PGIgaWQ9ImNvdW50Ij4xMDwvYj48c3Bhbj7Yq9in2YbZitipPC9zcGFuPjwvZGl2PgogICAgICA8L2Rpdj4KICAgIDwvZGl2PgoKICAgIDxidXR0b24gY2xhc3M9ImdvIiBpZD0iZ28iIGRpc2FibGVkPtin2YbYqti42LEg2KfZhNi52K/Yp9ivPC9idXR0b24+CiAgICA8cCBjbGFzcz0iZXJyb3IiIGlkPSJlcnJvciIgaGlkZGVuPjwvcD4KCiAgPC9tYWluPgoKICA8c2NyaXB0PgogICAgKCgpID0+IHsKICAgICAgJ3VzZSBzdHJpY3QnOwoKICAgICAgLy8gPT09PT0g2KfZhNil2LnYr9in2K/Yp9iqID09PT09CiAgICAgIGxldCBDT1VOVERPV05fU0VDT05EUyA9IDEwOwogICAgICBjb25zdCBDT05GSUdfRklMRSA9ICdjb25maWcuanNvbic7CiAgICAgIGNvbnN0IExJTktTX0ZJTEUgPSAnbGlua3MuanNvbic7CgogICAgICAvLyA9PT09PSDYp9mE2LnZhtin2LXYsSA9PT09PQogICAgICBjb25zdCAkID0gKGlkKSA9PiBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChpZCk7CiAgICAgIGNvbnN0IGVscyA9IHsKICAgICAgICBhcHA6ICQoJ2FwcCcpLCB0aXRsZTogJCgndGl0bGUnKSwgc3VidGl0bGU6ICQoJ3N1YnRpdGxlJyksCiAgICAgICAgY291bnQ6ICQoJ2NvdW50JyksIGJhcjogJCgnYmFyJyksIGdvOiAkKCdnbycpLCBlcnJvcjogJCgnZXJyb3InKQogICAgICB9OwogICAgICBjb25zdCBDSVJDVU1GRVJFTkNFID0gMiAqIE1hdGguUEkgKiA1NDsKCiAgICAgIC8vID09PT09INiq2YrZhNmK2KzYsdin2YUgPT09PT0KICAgICAgY29uc3QgdGcgPSB3aW5kb3cuVGVsZWdyYW0/LldlYkFwcDsKICAgICAgaWYgKHRnKSB7CiAgICAgICAgdGcucmVhZHkoKTsKICAgICAgICB0Zy5leHBhbmQoKTsKICAgICAgICB0cnkgeyB0Zy5kaXNhYmxlVmVydGljYWxTd2lwZXM/LigpOyB9IGNhdGNoIChfKSB7fQogICAgICAgIHRyeSB7CiAgICAgICAgICB0Zy5zZXRIZWFkZXJDb2xvcj8uKCdiZ19jb2xvcicpOwogICAgICAgICAgdGcuc2V0QmFja2dyb3VuZENvbG9yPy4oJ2JnX2NvbG9yJyk7CiAgICAgICAgfSBjYXRjaCAoXykge30KICAgICAgfQoKICAgICAgLy8g2YLYsdin2KHYqSDZhdi52KfZhdmEINin2YTYqNiv2KEgKNmF2Lkg2KjYr9mK2YQg2YTZhNin2K7Yqtio2KfYsSDZhdmGINin2YTZhdiq2LXZgditOiA/c3RhcnRhcHA9bGluazEpCiAgICAgIGZ1bmN0aW9uIGdldFN0YXJ0UGFyYW0oKSB7CiAgICAgICAgY29uc3QgZnJvbVRnID0gdGc/LmluaXREYXRhVW5zYWZlPy5zdGFydF9wYXJhbTsKICAgICAgICBpZiAoZnJvbVRnKSByZXR1cm4gZnJvbVRnOwogICAgICAgIGNvbnN0IHEgPSBuZXcgVVJMU2VhcmNoUGFyYW1zKGxvY2F0aW9uLnNlYXJjaCk7CiAgICAgICAgcmV0dXJuIHEuZ2V0KCdzdGFydGFwcCcpIHx8IHEuZ2V0KCd0Z1dlYkFwcFN0YXJ0UGFyYW0nKSB8fCAnJzsKICAgICAgfQoKICAgICAgLy8g2KfZhNiz2YXYp9itINmB2YLYtyDYqNix2YjYp9io2LcgaHR0cC9odHRwcwogICAgICBmdW5jdGlvbiBpc1NhZmVVcmwodmFsdWUpIHsKICAgICAgICB0cnkgewogICAgICAgICAgY29uc3QgdSA9IG5ldyBVUkwodmFsdWUpOwogICAgICAgICAgcmV0dXJuIHUucHJvdG9jb2wgPT09ICdodHRwczonIHx8IHUucHJvdG9jb2wgPT09ICdodHRwOic7CiAgICAgICAgfSBjYXRjaCAoXykgewogICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KICAgICAgfQoKICAgICAgZnVuY3Rpb24gc2hvd0Vycm9yKG1lc3NhZ2UpIHsKICAgICAgICBlbHMudGl0bGUudGV4dENvbnRlbnQgPSAn2KrYudiw2ZHYsSDZgdiq2K0g2KfZhNix2KfYqNi3JzsKICAgICAgICBlbHMuc3VidGl0bGUudGV4dENvbnRlbnQgPSAnJzsKICAgICAgICBlbHMuZXJyb3IudGV4dENvbnRlbnQgPSBtZXNzYWdlOwogICAgICAgIGVscy5lcnJvci5oaWRkZW4gPSBmYWxzZTsKICAgICAgICBlbHMuY291bnQudGV4dENvbnRlbnQgPSAnISc7CiAgICAgICAgZWxzLmJhci5zdHlsZS5zdHJva2VEYXNob2Zmc2V0ID0gQ0lSQ1VNRkVSRU5DRTsKICAgICAgICBlbHMuZ28udGV4dENvbnRlbnQgPSAn2KfZhNix2KfYqNi3INi62YrYsSDZhdiq2KfYrSc7CiAgICAgIH0KCiAgICAgIGZ1bmN0aW9uIG9wZW5UYXJnZXQodXJsKSB7CiAgICAgICAgaWYgKHRnPy5vcGVuTGluaykgdGcub3BlbkxpbmsodXJsKTsKICAgICAgICBlbHNlIHdpbmRvdy5vcGVuKHVybCwgJ19ibGFuaycsICdub29wZW5lcicpOwogICAgICB9CgogICAgICAvLyA9PT09PSDYp9mE2LnYr9in2K8gPT09PT0KICAgICAgZnVuY3Rpb24gc3RhcnRDb3VudGRvd24odXJsKSB7CiAgICAgICAgY29uc3QgZW5kQXQgPSBEYXRlLm5vdygpICsgQ09VTlRET1dOX1NFQ09ORFMgKiAxMDAwOwogICAgICAgIGVscy5iYXIuc3R5bGUuc3Ryb2tlRGFzaGFycmF5ID0gQ0lSQ1VNRkVSRU5DRTsKCiAgICAgICAgY29uc3QgdGljayA9ICgpID0+IHsKICAgICAgICAgIGNvbnN0IG1zTGVmdCA9IE1hdGgubWF4KDAsIGVuZEF0IC0gRGF0ZS5ub3coKSk7CiAgICAgICAgICBjb25zdCBzZWNMZWZ0ID0gTWF0aC5jZWlsKG1zTGVmdCAvIDEwMDApOwogICAgICAgICAgZWxzLmNvdW50LnRleHRDb250ZW50ID0gc2VjTGVmdDsKICAgICAgICAgIGVscy5iYXIuc3R5bGUuc3Ryb2tlRGFzaG9mZnNldCA9CiAgICAgICAgICAgIENJUkNVTUZFUkVOQ0UgKiAoMSAtIG1zTGVmdCAvIChDT1VOVERPV05fU0VDT05EUyAqIDEwMDApKTsKCiAgICAgICAgICBpZiAobXNMZWZ0IDw9IDApIHsKICAgICAgICAgICAgY2xlYXJJbnRlcnZhbCh0aW1lcik7CiAgICAgICAgICAgIGZpbmlzaCh1cmwpOwogICAgICAgICAgfQogICAgICAgIH07CgogICAgICAgIGNvbnN0IHRpbWVyID0gc2V0SW50ZXJ2YWwodGljaywgMjUwKTsKICAgICAgICB0aWNrKCk7CiAgICAgIH0KCiAgICAgIGZ1bmN0aW9uIGZpbmlzaCh1cmwpIHsKICAgICAgICBlbHMuYXBwLmNsYXNzTGlzdC5hZGQoJ2RvbmUnKTsKICAgICAgICBlbHMudGl0bGUudGV4dENvbnRlbnQgPSAn2KfZhNix2KfYqNi3INis2KfZh9iyJzsKICAgICAgICBlbHMuc3VidGl0bGUudGV4dENvbnRlbnQgPSAn2KfYtti62Lcg2KfZhNiy2LEg2YTZhNin2YbYqtmC2KfZhCc7CiAgICAgICAgZWxzLmNvdW50LnRleHRDb250ZW50ID0gJ+Kckyc7CiAgICAgICAgZWxzLmdvLmRpc2FibGVkID0gZmFsc2U7CiAgICAgICAgZWxzLmdvLnRleHRDb250ZW50ID0gJ9in2YbYqtmC2YQg2KXZhNmJINin2YTYsdin2KjYtyc7CiAgICAgICAgZWxzLmdvLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgKCkgPT4gb3BlblRhcmdldCh1cmwpLCB7IG9uY2U6IGZhbHNlIH0pOwogICAgICAgIHRnPy5IYXB0aWNGZWVkYmFjaz8ubm90aWZpY2F0aW9uT2NjdXJyZWQ/Lignc3VjY2VzcycpOwogICAgICB9CgogICAgICAvLyA9PT09PSDYp9mE2KXYudiv2KfYr9in2Kog2YXZhiDZhNmI2K3YqSDYp9mE2KXYr9in2LHYqSAoY29uZmlnLmpzb24pID09PT09CiAgICAgIGFzeW5jIGZ1bmN0aW9uIGxvYWRDb25maWcoKSB7CiAgICAgICAgdHJ5IHsKICAgICAgICAgIGNvbnN0IHJlcyA9IGF3YWl0IGZldGNoKENPTkZJR19GSUxFICsgJz90PScgKyBEYXRlLm5vdygpLCB7IGNhY2hlOiAnbm8tc3RvcmUnIH0pOwogICAgICAgICAgaWYgKCFyZXMub2spIHJldHVybjsKICAgICAgICAgIGNvbnN0IGNmZyA9IGF3YWl0IHJlcy5qc29uKCk7CiAgICAgICAgICBpZiAoY2ZnLnNlY29uZHMpIENPVU5URE9XTl9TRUNPTkRTID0gTWF0aC5taW4oNjAsIE1hdGgubWF4KDEsIE51bWJlcihjZmcuc2Vjb25kcykgfHwgMTApKTsKICAgICAgICAgIGlmIChjZmcudGl0bGUpIGVscy50aXRsZS50ZXh0Q29udGVudCA9IGNmZy50aXRsZTsKICAgICAgICAgIGVscy5jb3VudC50ZXh0Q29udGVudCA9IENPVU5URE9XTl9TRUNPTkRTOwogICAgICAgICAgaWYgKGNmZy5hZENvZGUpIHsKICAgICAgICAgICAgLy8gY3JlYXRlQ29udGV4dHVhbEZyYWdtZW50INmK2YbZgdiwINmI2LPZiNmFIDxzY3JpcHQ+INiv2KfYrtmEINmD2YjYryDYp9mE2KXYudmE2KfZhgogICAgICAgICAgICBjb25zdCBmcmFnID0gZG9jdW1lbnQuY3JlYXRlUmFuZ2UoKS5jcmVhdGVDb250ZXh0dWFsRnJhZ21lbnQoY2ZnLmFkQ29kZSk7CiAgICAgICAgICAgICQoJ2FkLXNsb3QnKS5hcHBlbmRDaGlsZChmcmFnKTsKICAgICAgICAgIH0KICAgICAgICB9IGNhdGNoIChfKSB7IC8qINmG2LPYqtiu2K/ZhSDYp9mE2YLZitmFINin2YTYp9mB2KrYsdin2LbZitipICovIH0KICAgICAgfQoKICAgICAgLy8gPT09PT0g2KfZhNiq2LTYutmK2YQgPT09PT0KICAgICAgYXN5bmMgZnVuY3Rpb24gaW5pdCgpIHsKICAgICAgICBhd2FpdCBsb2FkQ29uZmlnKCk7CiAgICAgICAgY29uc3Qga2V5ID0gZ2V0U3RhcnRQYXJhbSgpOwogICAgICAgIGlmICgha2V5KSB7CiAgICAgICAgICBzaG93RXJyb3IoJ9in2YHYqtitINmH2LDZhyDYp9mE2LXZgdit2Kkg2YXZhiDYsdin2KjYtyDZhdiu2KrYtdixINi12K3ZititLicpOwogICAgICAgICAgcmV0dXJuOwogICAgICAgIH0KCiAgICAgICAgdHJ5IHsKICAgICAgICAgIGNvbnN0IHJlcyA9IGF3YWl0IGZldGNoKExJTktTX0ZJTEUsIHsgY2FjaGU6ICduby1zdG9yZScgfSk7CiAgICAgICAgICBpZiAoIXJlcy5vaykgdGhyb3cgbmV3IEVycm9yKCdIVFRQICcgKyByZXMuc3RhdHVzKTsKICAgICAgICAgIGNvbnN0IGxpbmtzID0gYXdhaXQgcmVzLmpzb24oKTsKCiAgICAgICAgICBjb25zdCB1cmwgPSBPYmplY3QucHJvdG90eXBlLmhhc093blByb3BlcnR5LmNhbGwobGlua3MsIGtleSkgPyBsaW5rc1trZXldIDogbnVsbDsKICAgICAgICAgIGlmICghdXJsKSB7CiAgICAgICAgICAgIHNob3dFcnJvcign2YfYsNinINin2YTYsdin2KjYtyDYutmK2LEg2YXZiNis2YjYryDYo9mIINiq2YUg2K3YsNmB2YcuJyk7CiAgICAgICAgICAgIHJldHVybjsKICAgICAgICAgIH0KICAgICAgICAgIGlmICghaXNTYWZlVXJsKHVybCkpIHsKICAgICAgICAgICAgc2hvd0Vycm9yKCfYp9mE2LHYp9io2Lcg2KfZhNmF2K7YstmR2YYg2LrZitixINi12KfZhNitLicpOwogICAgICAgICAgICByZXR1cm47CiAgICAgICAgICB9CiAgICAgICAgICBzdGFydENvdW50ZG93bih1cmwpOwogICAgICAgIH0gY2F0Y2ggKGVycikgewogICAgICAgICAgY29uc29sZS5lcnJvcihlcnIpOwogICAgICAgICAgc2hvd0Vycm9yKCfYrdiv2Ksg2K7Yt9ijINij2KvZhtin2KEg2KrYrdmF2YrZhCDYp9mE2LHZiNin2KjYty4g2K3Yp9mI2YQg2YXYsdipINij2K7YsdmJLicpOwogICAgICAgIH0KICAgICAgfQoKICAgICAgaW5pdCgpOwogICAgfSkoKTsKICA8L3NjcmlwdD4KPC9ib2R5Pgo8L2h0bWw+Cg==';
+const DEFAULTS = {
+  'links.json': '{}\n',
+  'config.json': JSON.stringify({ title: 'جاري تحضير الرابط', seconds: 10, adCode: '' }, null, 2) + '\n'
+};
+async function ensureFiles() {
+  const made = [];
+  if (!(await getFile('index.html'))) { await putFile('index.html', INDEX_B64, 'Add index.html'); made.push('index.html'); }
+  for (const [p, t] of Object.entries(DEFAULTS)) {
+    if (!(await getFile(p))) { await putText(p, t, 'Add ' + p); made.push(p); }
+  }
+  if (made.length) toast('تم إنشاء الملفات تلقائياً: ' + made.join('، '));
+}
+$('#b-restore').onclick = e => busy(e.target, async () => {
+  if (!confirm('استبدال index.html بالنسخة الأصلية من اللوحة؟')) return;
+  await putFile('index.html', INDEX_B64, 'Restore index.html'); toast('تمت الاستعادة');
+});
+
+async function start() {
+  $('#setup').hidden = true; $('#panel').hidden = false;
+  try {
+    await ensureFiles();
+    const l = await getFile('links.json'); if (l) links = JSON.parse(dec(l.content));
+    const c = await getFile('config.json'); if (c) site = { ...site, ...JSON.parse(dec(c.content)) };
+  } catch (e) { toast(e.message, true); }
+  $('#a-title').value = site.title; $('#a-sec').value = site.seconds; $('#a-code').value = site.adCode || '';
+  renderLinks();
+}
+if (cfg) start(); else $('#setup').hidden = false;
+})();
+</script>
+</body>
+</html>
