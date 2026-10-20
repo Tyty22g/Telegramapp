@@ -3,7 +3,7 @@
   "minAway": 3,
   "rewarded": {
     "provider": "adsgram",
-    "blockId": "55072",
+    "blockId": "int-55095",
     "sdk": "",
     "fn": "",
     "mode": "interstitial",
