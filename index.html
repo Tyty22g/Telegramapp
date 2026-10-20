@@ -89,7 +89,7 @@ const haptic = t => { try { tg?.HapticFeedback?.notificationOccurred?.(t); } cat
 // ===== الإعدادات الافتراضية (تُستبدل من config.json) =====
 const DEFAULTS = {
   pageCount: 3, minAway: 3,
-  rewarded: { sdk: '', fn: '', mode: 'interstitial' },
+  rewarded: { provider: 'adsgram', blockId: '', sdk: '', fn: '', mode: 'interstitial' },
   pages: [
     { title: 'جاري تحضير الرابط', subtitle: 'انتظر قليلاً', seconds: 8, adCode: '', rewarded: false, require: true },
     { title: 'نفحص الرابط من أجلك', subtitle: 'تفاعل مع الإعلان لمتابعة', seconds: 8, adCode: '', rewarded: false, require: true },
@@ -115,7 +115,17 @@ function normalize(raw) {
 
 let config = normalize(null), targetUrl = '', idx = 0, timer = null, state = null;
 const fragment = html => document.createRange().createContextualFragment(html); // ينفّذ وسوم <script>
-const rewardedFn = () => { const n = (config.rewarded.fn || '').trim(); return n && typeof window[n] === 'function' ? window[n] : null; };
+let adsgramCtl = null;
+const rewardedFn = () => {
+  const r = config.rewarded;
+  if (r.provider === 'adsgram') {
+    const id = String(r.blockId || '').trim();
+    if (!id || !window.Adsgram) return null;
+    return () => { if (!adsgramCtl) adsgramCtl = window.Adsgram.init({ blockId: id }); return adsgramCtl.show(); };
+  }
+  const n = (r.fn || '').trim();
+  return n && typeof window[n] === 'function' ? window[n] : null;
+};
 
 // ===== واجهة =====
 function say(type, text) {
@@ -223,7 +233,9 @@ els.reward.onclick = async () => {
     state.rewardDone = true; state.remaining = 0; paint();
     markInteracted();
   } catch (e) {
-    state.rewardFailed = true; say('warn', 'لا يوجد إعلان مكافئ متاح حالياً، أكمل العداد.'); haptic('warning'); evaluate();
+    const skipped = e && e.error === false && e.done === false; // تخطّى الإعلان قبل نهايته
+    if (skipped) { say('warn', 'لازم تكمل مشاهدة الإعلان للحصول على المكافأة.'); haptic('warning'); }
+    else { state.rewardFailed = true; say('warn', 'لا يوجد إعلان مكافئ متاح حالياً، أكمل العداد.'); haptic('warning'); evaluate(); }
   }
   els.reward.disabled = false;
 };
@@ -244,7 +256,9 @@ async function loadJson(file) {
 }
 async function init() {
   try { config = normalize(await loadJson('config.json')); } catch (_) { config = normalize(null); }
-  if (config.rewarded.sdk && config.rewarded.sdk.trim()) { try { document.body.appendChild(fragment(config.rewarded.sdk)); } catch (_) {} }
+  if (config.rewarded.provider === 'adsgram') {
+    if (String(config.rewarded.blockId || '').trim()) { const sc = document.createElement('script'); sc.src = 'https://sad.adsgram.ai/js/sad.min.js'; sc.async = true; document.head.appendChild(sc); }
+  } else if (config.rewarded.sdk && config.rewarded.sdk.trim()) { try { document.body.appendChild(fragment(config.rewarded.sdk)); } catch (_) {} }
   const key = getKey();
   if (!key) { showPage(0); fail('افتح هذه الصفحة من رابط مختصر صحيح.'); return; }
   try {
