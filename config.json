@@ -15,7 +15,8 @@
       "where": "head",
       "target": "both",
       "code": "<script src=\"https://ad.gigapub.tech/script?id=8754\"></script>\n<script>\nsetTimeout(function () {\n  if (window.showGiga) window.showGiga().then(function () {}).catch(function () {});\n}, 1500);\n</script>",
-      "on": true
+      "on": true,
+      "tg": true
     },
     {
       "pages": "all",
@@ -23,9 +24,15 @@
       "where": "head",
       "target": "both",
       "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n    document.addEventListener('DOMContentLoaded', () => {\n        const adexiumWidget = new AdexiumWidget({wid: 'bb412979-834b-4a2c-9317-3e809609a72a', adFormat: 'interstitial'});\n        adexiumWidget.autoMode();\n    });\n</script>",
-      "on": true
+      "on": true,
+      "tg": true
     }
   ],
+  "adblock": {
+    "on": true,
+    "title": "تم اكتشاف مانع إعلانات",
+    "text": "هذا الموقع مجاني ويعتمد على الإعلانات. عطّل مانع الإعلانات (أو الـ DNS الخاص) ثم اضغط إعادة الفحص."
+  },
   "about": {
     "name": "Download platform",
     "desc": "خدمة مجانية لفتح الروابط بشكل آمن وسريع داخل تيليجرام. افتح الرابط الذي وصلك، انتظر ثوانٍ قليلة، وسيُفتح الرابط الأصلي مباشرة.",
