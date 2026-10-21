@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<title>Download platform</title>
+<title>Xtreme Links</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 :root{--bg:var(--tg-theme-bg-color,#121a24);--s:var(--tg-theme-secondary-bg-color,#1b2633);--t:var(--tg-theme-text-color,#f4f6f8);--h:var(--tg-theme-hint-color,#8c9bab);--a:var(--tg-theme-button-color,#3fa9f5);--at:var(--tg-theme-button-text-color,#fff)}
@@ -37,6 +37,16 @@ summary{font-weight:700;font-size:15px;cursor:pointer}
 details p{margin-top:6px;font-size:14px;color:var(--h)}
 .warn{background:color-mix(in srgb,#ffb23f 15%,transparent);border-radius:12px;padding:10px 14px;font-size:13px;margin-bottom:12px}
 footer{text-align:center;color:var(--h);font-size:12px;padding:14px 0 24px}
+.hero{text-align:center;padding:18px 14px}
+.hero h2{font-size:19px;margin-bottom:6px}
+.steps{display:grid;gap:10px;margin-top:12px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step i{flex:none;width:30px;height:30px;border-radius:50%;background:var(--a);color:var(--at);display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;font-size:14px}
+.step b{display:block;font-size:14px}.step span{font-size:13px;color:var(--h)}
+.mock{border:1px dashed color-mix(in srgb,var(--h) 55%,transparent);border-radius:12px;padding:10px;margin-top:10px;font-size:12px;color:var(--h);text-align:center}
+.mock .ad{background:color-mix(in srgb,#ffb23f 18%,transparent);border-radius:8px;padding:10px;margin:6px 0;color:var(--t)}
+.mock .bar{background:var(--a);color:var(--at);border-radius:8px;padding:6px;margin-top:6px}
+.sec{background:none;border:1px solid color-mix(in srgb,var(--h) 40%,transparent);color:var(--t)}
 </style>
 </head>
 <body>
@@ -44,7 +54,20 @@ footer{text-align:center;color:var(--h);font-size:12px;padding:14px 0 24px}
   <header><h1 id="appname"></h1><p id="tagline"></p></header>
   <nav id="nav"></nav>
 
-  <section id="s-me" class="on">
+  <section id="s-home" class="on">
+    <div class="card hero"><h2>اختصار الروابط وفتحها بأمان</h2><p>افتح الرابط الذي وصلك عبر البوت، وسيُفتح الرابط الأصلي بعد انتظار قصير.</p>
+      <button class="act" id="demo" hidden>جرّب رابطاً تجريبياً</button></div>
+    <div class="card"><h2>خطوات الاستخدام</h2><div class="steps">
+      <div class="step"><i>1</i><div><b>استلم الرابط المختصر</b><span>من قناة أو صديق أو من البوت.</span></div></div>
+      <div class="step"><i>2</i><div><b>افتحه داخل تيليجرام</b><span>تظهر صفحة انتظار فيها عدّاد.</span></div></div>
+      <div class="step"><i>3</i><div><b>انتظر ثوانٍ قليلة</b><span>ثم يُفتح الرابط الأصلي بزر واحد.</span></div></div></div></div>
+    <div class="card"><h2>أين تظهر الإعلانات؟</h2><p>تظهر الإعلانات في صفحة الانتظار فقط، داخل مربع مكتوب عليه «إعلان»، ولا تظهر في هذه الصفحة ولا أثناء استخدامك لحسابك.</p>
+      <div class="mock">صفحة الانتظار<div class="ad">مربع «إعلان» — موضع الإعلان</div>⏱ العدّاد<div class="bar">متابعة إلى الرابط</div></div>
+      <p style="margin-top:8px">لا نُجبرك على الضغط على أي إعلان. الضغط عليه اختياري تماماً.</p></div>
+    <div class="card"><h2>ضمانات الاستخدام</h2><ul><li>لا نطلب أي بيانات شخصية أو رقم هاتف</li><li>نحذف الروابط المخالفة عند الإبلاغ</li><li>مجاني بالكامل</li></ul></div>
+  </section>
+
+  <section id="s-me">
     <div class="warn" id="outside" hidden>افتح هذه الصفحة من داخل تيليجرام لعرض بيانات حسابك.</div>
     <div class="card"><div class="me"><div class="av" id="av">?</div><div><b id="uname">زائر</b><span id="uuser"></span></div></div></div>
     <div class="card"><h2>معلومات الحساب</h2><div id="info"></div>
@@ -75,7 +98,8 @@ footer{text-align:center;color:var(--h);font-size:12px;padding:14px 0 24px}
   <section id="s-contact">
     <div class="card"><h2>تواصل معنا</h2><p id="ctext"></p>
       <button class="act" id="openbot">فتح البوت</button>
-      <button class="act" id="opensup" hidden>مراسلة الدعم</button></div>
+      <button class="act" id="opensup" hidden>مراسلة الدعم</button>
+      <button class="act sec" id="report">الإبلاغ عن رابط مخالف</button></div>
   </section>
 
   <footer id="foot"></footer>
@@ -90,8 +114,9 @@ const CONFIG = {
   tagline: 'اختصار الروابط وفتحها بأمان داخل تيليجرام',
   desc: 'خدمة مجانية لفتح الروابط المختصرة بشكل سريع وآمن داخل تيليجرام. افتح الرابط الذي وصلك، انتظر ثوانٍ قليلة، وسيُفتح الرابط الأصلي مباشرة.',
   bot: 'Downloadplatbot',
-  app: 'goxtreamapp',
-  support: ''   // يوزر الدعم بدون @ (اختياري)
+  app: 'Downloadplatform',
+  support: '',  // يوزر الدعم بدون @ (اختياري)
+  demo: ''      // رابط مختصر تجريبي كامل، مثل https://t.me/Downloadplatbot/Downloadplatform?startapp=KEY
 };
 const $ = id => document.getElementById(id);
 const tg = window.Telegram && window.Telegram.WebApp;
@@ -104,7 +129,7 @@ $('foot').textContent = '© ' + new Date().getFullYear() + ' ' + CONFIG.name;
 $('ctext').textContent = 'لأي استفسار أو بلاغ تواصل معنا عبر البوت' + (CONFIG.support ? ' أو الدعم المباشر.' : '.');
 
 // تبويبات
-const tabs = [['me', 'حسابي'], ['about', 'عن التطبيق'], ['faq', 'الأسئلة'], ['legal', 'الخصوصية والشروط'], ['contact', 'تواصل']];
+const tabs = [['home', 'الرئيسية'], ['me', 'حسابي'], ['about', 'عن التطبيق'], ['faq', 'الأسئلة'], ['legal', 'الخصوصية والشروط'], ['contact', 'تواصل']];
 tabs.forEach(([id, label], i) => {
   const b = mk('button', i ? '' : 'on', label);
   b.onclick = () => {
@@ -144,6 +169,8 @@ $('copy').onclick = async () => {
 // تواصل
 const openTg = url => { if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url, '_blank', 'noopener'); };
 $('openbot').onclick = () => openTg('https://t.me/' + CONFIG.bot + (CONFIG.app ? '/' + CONFIG.app : ''));
+$('report').onclick = () => openTg('https://t.me/' + (CONFIG.support || CONFIG.bot));
+if (CONFIG.demo && /^https:\/\/t\.me\//.test(CONFIG.demo)) { $('demo').hidden = false; $('demo').onclick = () => openTg(CONFIG.demo); }
 if (CONFIG.support) { $('opensup').hidden = false; $('opensup').onclick = () => openTg('https://t.me/' + CONFIG.support); }
 })();
 </script>
