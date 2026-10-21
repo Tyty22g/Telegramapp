@@ -26,7 +26,7 @@
   },
   "rewarded": {
     "provider": "fn",
-    "blockId": "",
+    "blockId": "8754",
     "sdk": "",
     "fn": "",
     "mode": "interstitial",
