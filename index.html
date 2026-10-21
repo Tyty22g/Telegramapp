@@ -3,384 +3,185 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<title>جاري تحضير الرابط</title>
+<title>Xtreme Links</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-:root{--bg:var(--tg-theme-bg-color,#121a24);--surface:var(--tg-theme-secondary-bg-color,#1b2633);--text:var(--tg-theme-text-color,#f4f6f8);--hint:var(--tg-theme-hint-color,#8c9bab);--accent:var(--tg-theme-button-color,#3fa9f5);--accent-text:var(--tg-theme-button-text-color,#fff);--ok:#4cc38a;--warn:#ffb23f;--ring:136px}
+:root{--bg:var(--tg-theme-bg-color,#121a24);--s:var(--tg-theme-secondary-bg-color,#1b2633);--t:var(--tg-theme-text-color,#f4f6f8);--h:var(--tg-theme-hint-color,#8c9bab);--a:var(--tg-theme-button-color,#3fa9f5);--at:var(--tg-theme-button-text-color,#fff)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{background:radial-gradient(120% 55% at 50% 0%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 70%),var(--bg);color:var(--text);font-family:-apple-system,"Segoe UI",Tahoma,"Noto Sans Arabic",Arial,sans-serif;line-height:1.6}
-.app{max-width:440px;min-height:100svh;margin:0 auto;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:max(16px,env(safe-area-inset-top)) 18px max(18px,env(safe-area-inset-bottom))}
-.app.enter>*{animation:enter .35s ease both}
-@keyframes enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.railrow{display:flex;align-items:center;gap:12px}
-.rail{flex:1;display:flex;gap:6px}
-.seg{flex:1;height:6px;border-radius:6px;background:var(--surface);overflow:hidden}
-.seg i{display:block;height:100%;width:calc(var(--p,0)*100%);background:var(--accent);border-radius:6px;transition:width .25s linear}
-.seg.done i{width:100%;background:var(--ok)}
-#stepno{font-size:13px;color:var(--hint);font-variant-numeric:tabular-nums}
-.head{text-align:center}
-.head h1{font-size:21px;font-weight:800}
-.head p{margin-top:2px;font-size:14px;color:var(--hint)}
-.adwrap{position:relative}
-.adtag{position:absolute;top:-9px;inset-inline-start:16px;background:var(--bg);color:var(--hint);font-size:11px;padding:0 8px;z-index:1}
-.ad-slot{min-height:250px;background:var(--surface);border:1px solid color-mix(in srgb,var(--hint) 30%,transparent);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.reward{width:100%;border:0;border-radius:16px;padding:14px;font:inherit;font-size:16px;font-weight:800;color:#2a1700;background:linear-gradient(135deg,#ffcf5c,#ff8f3d);box-shadow:0 6px 20px color-mix(in srgb,#ff8f3d 35%,transparent);cursor:pointer}
-.reward:disabled{opacity:.6}
-.timer{display:flex;justify-content:center}
-.ring{position:relative;width:var(--ring);height:var(--ring);filter:drop-shadow(0 0 14px color-mix(in srgb,var(--accent) 35%,transparent))}
-.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-.ring circle{fill:none;stroke-width:8}
-.ring .track{stroke:var(--surface)}
-.ring .bar{stroke:var(--accent);stroke-linecap:round;stroke-dasharray:339.292;stroke-dashoffset:0;transition:stroke-dashoffset .25s linear}
-.ring .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
-.ring .num b{font-size:46px;font-weight:800;line-height:1}
-.ring .num span{font-size:12px;color:var(--hint);margin-top:4px}
-.done .ring .bar{stroke:var(--ok)}
-.done .ring{filter:drop-shadow(0 0 14px color-mix(in srgb,var(--ok) 40%,transparent))}
-.notice{padding:12px 14px;border-radius:14px;font-size:14px;text-align:center;border:1px solid transparent}
-.notice.hint{background:color-mix(in srgb,var(--accent) 14%,transparent);border-color:color-mix(in srgb,var(--accent) 40%,transparent)}
-.notice.warn{background:color-mix(in srgb,var(--warn) 16%,transparent);border-color:color-mix(in srgb,var(--warn) 55%,transparent);animation:shake .4s}
-.notice.ok{background:color-mix(in srgb,var(--ok) 16%,transparent);border-color:color-mix(in srgb,var(--ok) 50%,transparent)}
-@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.go{width:100%;border:0;border-radius:16px;padding:16px;font:inherit;font-size:16px;font-weight:800;color:var(--accent-text);background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 70%,#7a5cff));cursor:pointer;transition:transform .1s}
-.go:active:not(:disabled){transform:scale(.98)}
-.go:disabled{background:var(--surface);color:var(--hint);cursor:not-allowed}
-.go.locked{background:color-mix(in srgb,var(--warn) 25%,var(--surface));color:var(--text)}
-.go:focus-visible,.reward:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
-.error{text-align:center;color:#ef6b6b;font-size:15px}
-[hidden]{display:none!important}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
-.about{display:flex;flex-direction:column;gap:14px}
-.about h1{font-size:24px;font-weight:800;text-align:center}
-.about .lead{text-align:center;color:var(--hint);font-size:15px}
-.about .card{background:var(--surface);border-radius:16px;padding:14px 16px}
-.about .card h2{font-size:15px;margin-bottom:6px}
-.about ol,.about ul{padding-inline-start:20px;font-size:14px;color:var(--hint)}
-.about small{display:block;text-align:center;color:var(--hint);font-size:12px}
-.aboutlink{background:none;border:0;color:var(--hint);font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;padding:6px}
-.aboutmode>:not(#about){display:none!important}
-
-body::before,body::after{content:"";position:fixed;z-index:-1;width:70vmax;height:70vmax;border-radius:50%;filter:blur(70px);opacity:.28;pointer-events:none;animation:float 16s ease-in-out infinite alternate}
-body::before{background:var(--accent);top:-35vmax;inset-inline-start:-25vmax}
-body::after{background:#7a5cff;bottom:-40vmax;inset-inline-end:-25vmax;animation-delay:-8s}
-@keyframes float{to{transform:translate(8vmax,6vmax) scale(1.15)}}
-.app{--dir:-1}
-.app>*{--i:0}
-.head h1{background:linear-gradient(120deg,var(--text),var(--accent));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.ad-slot,.about .card{backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.18)}
-.ring{--ring:168px}
-.go{position:relative;overflow:hidden}
-.go:not(:disabled)::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.35) 50%,transparent 65%);transform:translateX(-120%);animation:shine 2.6s infinite}
-@keyframes shine{to{transform:translateX(120%)}}
-.dest{text-align:center;font-size:12px;color:var(--hint);direction:ltr}
-.app.enter>*{animation-delay:calc(var(--i)*55ms)}
-[data-fx=slide].enter>*{animation:fxSlide .5s cubic-bezier(.2,.8,.2,1) both}
-[data-fx=fade].enter>*{animation:fxFade .5s ease both}
-[data-fx=zoom].enter>*{animation:fxZoom .5s cubic-bezier(.2,.8,.2,1) both}
-[data-fx=flip].enter>*{animation:fxFlip .6s cubic-bezier(.2,.8,.2,1) both}
-[data-fx=blur].enter>*{animation:fxBlur .55s ease both}
-@keyframes fxSlide{from{opacity:0;transform:translateX(calc(var(--dir)*46px))}to{opacity:1;transform:none}}
-@keyframes fxFade{from{opacity:0}to{opacity:1}}
-@keyframes fxZoom{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:none}}
-@keyframes fxFlip{from{opacity:0;transform:perspective(600px) rotateX(-40deg) translateY(14px)}to{opacity:1;transform:none}}
-@keyframes fxBlur{from{opacity:0;filter:blur(14px);transform:scale(1.04)}to{opacity:1;filter:none;transform:none}}
-.app.leave>*{animation:fxOut .22s ease both!important;animation-delay:0s!important}
-@keyframes fxOut{to{opacity:0;transform:translateX(calc(var(--dir)*-36px)) scale(.97);filter:blur(4px)}}
-.cf{position:fixed;top:-12px;width:9px;height:14px;border-radius:2px;z-index:9;pointer-events:none;animation:fall var(--d,2.4s) cubic-bezier(.3,.6,.4,1) forwards}
-@keyframes fall{to{transform:translate(var(--x,0),105vh) rotate(var(--r,540deg));opacity:.9}}
+body{background:var(--bg);color:var(--t);font-family:-apple-system,"Segoe UI",Tahoma,"Noto Sans Arabic",Arial,sans-serif;line-height:1.7;padding:0 0 env(safe-area-inset-bottom)}
+.wrap{max-width:520px;margin:0 auto;padding:16px}
+header{text-align:center;padding:10px 0 4px}
+header h1{font-size:22px;font-weight:800}
+header p{color:var(--h);font-size:14px}
+nav{display:flex;gap:6px;overflow-x:auto;padding:12px 0;position:sticky;top:0;background:var(--bg);z-index:2;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:none;border:0;border-radius:20px;padding:8px 14px;font:inherit;font-size:14px;background:var(--s);color:var(--h);cursor:pointer}
+nav button.on{background:var(--a);color:var(--at);font-weight:700}
+section{display:none;animation:in .25s ease}
+section.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--s);border-radius:16px;padding:14px 16px;margin-bottom:12px}
+.card h2{font-size:16px;margin-bottom:6px}
+.card p,.card li{font-size:14px;color:var(--h)}
+.card ul,.card ol{padding-inline-start:20px}
+.me{display:flex;align-items:center;gap:12px}
+.av{width:56px;height:56px;border-radius:50%;background:var(--a);color:var(--at);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;overflow:hidden;flex:none}
+.av img{width:100%;height:100%;object-fit:cover}
+.me b{font-size:17px;display:block}.me span{color:var(--h);font-size:13px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid color-mix(in srgb,var(--h) 20%,transparent);font-size:14px}
+.row:first-of-type{border-top:0}
+.row span:first-child{color:var(--h)}.row span:last-child{direction:ltr;text-align:left;word-break:break-all}
+button.act{width:100%;border:0;border-radius:14px;padding:13px;font:inherit;font-weight:700;background:var(--a);color:var(--at);cursor:pointer;margin-top:8px}
+details{background:var(--s);border-radius:14px;padding:12px 16px;margin-bottom:8px}
+summary{font-weight:700;font-size:15px;cursor:pointer}
+details p{margin-top:6px;font-size:14px;color:var(--h)}
+.warn{background:color-mix(in srgb,#ffb23f 15%,transparent);border-radius:12px;padding:10px 14px;font-size:13px;margin-bottom:12px}
+footer{text-align:center;color:var(--h);font-size:12px;padding:14px 0 24px}
+.hero{text-align:center;padding:18px 14px}
+.hero h2{font-size:19px;margin-bottom:6px}
+.steps{display:grid;gap:10px;margin-top:12px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step i{flex:none;width:30px;height:30px;border-radius:50%;background:var(--a);color:var(--at);display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;font-size:14px}
+.step b{display:block;font-size:14px}.step span{font-size:13px;color:var(--h)}
+.mock{border:1px dashed color-mix(in srgb,var(--h) 55%,transparent);border-radius:12px;padding:10px;margin-top:10px;font-size:12px;color:var(--h);text-align:center}
+.mock .ad{background:color-mix(in srgb,#ffb23f 18%,transparent);border-radius:8px;padding:10px;margin:6px 0;color:var(--t)}
+.mock .bar{background:var(--a);color:var(--at);border-radius:8px;padding:6px;margin-top:6px}
+.sec{background:none;border:1px solid color-mix(in srgb,var(--h) 40%,transparent);color:var(--t)}
 </style>
 </head>
 <body>
-<main class="app enter" id="app">
-  <div class="railrow"><nav class="rail" id="rail" aria-label="التقدم"></nav><span id="stepno"></span></div>
-  <header class="head"><h1 id="title">جاري تحضير الرابط…</h1><p id="subtitle">انتظر قليلاً</p></header>
+<div class="wrap">
+  <header><h1 id="appname"></h1><p id="tagline"></p></header>
+  <nav id="nav"></nav>
 
-  <!-- مساحة الإعلان تُملأ تلقائياً من لوحة الإدارة (config.json) -->
-  <section class="adwrap" id="adwrap" hidden><span class="adtag">إعلان</span><div class="ad-slot" id="ad-slot" aria-label="إعلان"></div></section>
+  <section id="s-home" class="on">
+    <div class="card hero"><h2>اختصار الروابط وفتحها بأمان</h2><p>افتح الرابط الذي وصلك عبر البوت، وسيُفتح الرابط الأصلي بعد انتظار قصير.</p>
+      <button class="act" id="demo" hidden>جرّب رابطاً تجريبياً</button></div>
+    <div class="card"><h2>خطوات الاستخدام</h2><div class="steps">
+      <div class="step"><i>1</i><div><b>استلم الرابط المختصر</b><span>من قناة أو صديق أو من البوت.</span></div></div>
+      <div class="step"><i>2</i><div><b>افتحه داخل تيليجرام</b><span>تظهر صفحة انتظار فيها عدّاد.</span></div></div>
+      <div class="step"><i>3</i><div><b>انتظر ثوانٍ قليلة</b><span>ثم يُفتح الرابط الأصلي بزر واحد.</span></div></div></div></div>
+    <div class="card"><h2>أين تظهر الإعلانات؟</h2><p>تظهر الإعلانات في صفحة الانتظار فقط، داخل مربع مكتوب عليه «إعلان»، ولا تظهر في هذه الصفحة ولا أثناء استخدامك لحسابك.</p>
+      <div class="mock">صفحة الانتظار<div class="ad">مربع «إعلان» — موضع الإعلان</div>⏱ العدّاد<div class="bar">متابعة إلى الرابط</div></div>
+      <p style="margin-top:8px">لا نُجبرك على الضغط على أي إعلان. الضغط عليه اختياري تماماً.</p></div>
+    <div class="card"><h2>ضمانات الاستخدام</h2><ul><li>لا نطلب أي بيانات شخصية أو رقم هاتف</li><li>نحذف الروابط المخالفة عند الإبلاغ</li><li>مجاني بالكامل</li></ul></div>
+  </section>
 
-  <button class="reward" id="reward" hidden>🎁 شاهد إعلاناً مكافئاً وتخطَّ الانتظار</button>
+  <section id="s-me">
+    <div class="warn" id="outside" hidden>افتح هذه الصفحة من داخل تيليجرام لعرض بيانات حسابك.</div>
+    <div class="card"><div class="me"><div class="av" id="av">?</div><div><b id="uname">زائر</b><span id="uuser"></span></div></div></div>
+    <div class="card"><h2>معلومات الحساب</h2><div id="info"></div>
+      <button class="act" id="copy">نسخ معرّف الحساب</button></div>
+    <div class="card"><h2>معلومات الجهاز والجلسة</h2><div id="dev"></div></div>
+  </section>
 
-  <div class="timer" aria-live="off">
-    <div class="ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="track" cx="60" cy="60" r="54"></circle><circle class="bar" id="bar" cx="60" cy="60" r="54"></circle></svg>
-    <div class="num"><b id="count">8</b><span>ثانية</span></div></div>
-  </div>
+  <section id="s-about">
+    <div class="card"><h2>ما هذا التطبيق؟</h2><p id="desc"></p></div>
+    <div class="card"><h2>كيف يعمل؟</h2><ol><li>تصلك رسالة تحتوي على رابط مختصر.</li><li>تفتحه داخل تيليجرام فتظهر صفحات انتظار قصيرة.</li><li>بعد انتهاء العداد يُفتح الرابط الأصلي مباشرة.</li></ol></div>
+    <div class="card"><h2>المميزات</h2><ul><li>مجاني بالكامل وبدون تسجيل</li><li>سريع ويعمل داخل تيليجرام</li><li>روابط مختصرة وسهلة المشاركة</li><li>يعمل على الهاتف والحاسوب</li></ul></div>
+    <div class="card"><h2>الإعلانات</h2><p>يعرض التطبيق إعلانات لدعم استمرار الخدمة، وقد تظهر إعلانات مكافئة اختيارية. نلتزم بسياسات شبكات الإعلانات ولا نطلب منك الضغط على أي إعلان بطريقة مضلِّلة.</p></div>
+  </section>
 
-  <div class="notice" id="notice" role="alert" hidden></div>
-  <button class="go" id="go" disabled>انتظر العداد</button>
-  <p class="dest" id="dest" hidden></p>
-    <section class="about" id="about" hidden></section>
-  <button class="aboutlink" id="aboutlink" type="button">عن التطبيق</button>
-  <p class="error" id="error" hidden></p>
-</main>
+  <section id="s-faq">
+    <details><summary>هل الخدمة مجانية؟</summary><p>نعم، الاستخدام مجاني بالكامل.</p></details>
+    <details><summary>لماذا تظهر صفحات انتظار؟</summary><p>تظهر لثوانٍ قليلة قبل فتح الرابط، وتتضمن إعلانات تدعم الخدمة.</p></details>
+    <details><summary>هل تحتاجون بياناتي الشخصية؟</summary><p>لا. لا نطلب رقم هاتفك ولا كلمات مرور. المعرّف الظاهر في صفحة "حسابي" يأتي من تيليجرام ويظهر لك فقط.</p></details>
+    <details><summary>الرابط لا يفتح، ماذا أفعل؟</summary><p>تأكد أن الرابط كامل وغير محذوف، ثم افتحه مرة أخرى من البوت. وإذا استمرت المشكلة تواصل معنا.</p></details>
+    <details><summary>كيف أبلّغ عن رابط مخالف؟</summary><p>راسلنا عبر وسيلة التواصل مع الرابط وسنراجعه ونحذفه عند المخالفة.</p></details>
+  </section>
+
+  <section id="s-legal">
+    <div class="card"><h2>سياسة الخصوصية</h2><ul><li>نستلم من تيليجرام بيانات عامة فقط (المعرّف والاسم واللغة) لتشغيل التطبيق.</li><li>لا نبيع بياناتك ولا نشاركها مع أطراف أخرى.</li><li>قد تستخدم شبكات الإعلانات معرّفات تقنية لعرض الإعلانات حسب سياساتها.</li><li>يمكنك التوقف عن استخدام التطبيق في أي وقت.</li></ul></div>
+    <div class="card"><h2>شروط الاستخدام</h2><ul><li>يُمنع استخدام الخدمة لمحتوى غير قانوني أو احتيالي أو ضار.</li><li>يُمنع اختصار روابط التصيّد أو البرمجيات الخبيثة.</li><li>نحتفظ بحق حذف أي رابط مخالف دون إشعار.</li><li>الخدمة مقدّمة كما هي دون ضمانات.</li></ul></div>
+  </section>
+
+  <section id="s-contact">
+    <div class="card"><h2>تواصل معنا</h2><p id="ctext"></p>
+      <button class="act" id="openbot">فتح البوت</button>
+      <button class="act" id="opensup" hidden>مراسلة الدعم</button>
+      <button class="act sec" id="report">الإبلاغ عن رابط مخالف</button></div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
 
 <script>
 (() => {
 'use strict';
+// ===== عدّل هذه القيم فقط =====
+const CONFIG = {
+  name: 'Download platform',
+  tagline: 'اختصار الروابط وفتحها بأمان داخل تيليجرام',
+  desc: 'خدمة مجانية لفتح الروابط المختصرة بشكل سريع وآمن داخل تيليجرام. افتح الرابط الذي وصلك، انتظر ثوانٍ قليلة، وسيُفتح الرابط الأصلي مباشرة.',
+  bot: 'Downloadplatbot',
+  app: 'Downloadplatform',
+  support: '',  // يوزر الدعم بدون @ (اختياري)
+  flow: '',     // دومين فرعي لصفحات الانتظار، مثل go.example.com (فارغ = نفس الدومين، المسار /go.html)
+  demo: ''      // رابط مختصر تجريبي كامل، مثل https://t.me/Downloadplatbot/Downloadplatform?startapp=KEY
+};
 const $ = id => document.getElementById(id);
-const els = {app:$('app'),rail:$('rail'),stepno:$('stepno'),title:$('title'),subtitle:$('subtitle'),adwrap:$('adwrap'),slot:$('ad-slot'),reward:$('reward'),count:$('count'),bar:$('bar'),notice:$('notice'),go:$('go'),error:$('error'),dest:$('dest')};
-const C = 2 * Math.PI * 54;
-const tg = window.Telegram?.WebApp;
-if (tg) {
-  tg.ready(); tg.expand();
-  try { tg.disableVerticalSwipes?.(); } catch (_) {}
-  try { tg.setHeaderColor?.('bg_color'); tg.setBackgroundColor?.('bg_color'); } catch (_) {}
+const tg = window.Telegram && window.Telegram.WebApp;
+if (tg) { try { tg.ready(); tg.expand(); } catch (_) {} }
+// إذا وصل المستخدم عبر رابط مختصر (startapp) نحوّله لصفحات الانتظار، وإلا تظهر صفحة التطبيق
+const q = new URLSearchParams(location.search);
+const key = (tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || q.get('startapp') || q.get('tgWebAppStartParam') || '';
+if (/^[\w.~-]{1,128}$/.test(key)) {
+  const base = (/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(CONFIG.flow) ? 'https://' + CONFIG.flow : location.origin) + '/go.html';
+  document.body.textContent = 'جاري تحضير الرابط…';
+  location.replace(base + '?startapp=' + encodeURIComponent(key) + location.hash);
+  return;
 }
-const haptic = t => { try { tg?.HapticFeedback?.notificationOccurred?.(t); } catch (_) {} };
+const mk = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
+const row = (k, v) => { const r = mk('div', 'row'); r.append(mk('span', '', k), mk('span', '', v == null || v === '' ? '—' : String(v))); return r; };
 
-// ===== الإعدادات الافتراضية (تُستبدل من config.json) =====
-const DEFAULTS = {
-  pageCount: 3, minAway: 3,
-  theme: { accent: '', fx: 'slide', confetti: true },
-  about: { name: 'Xtreme Links', desc: 'خدمة مجانية لفتح الروابط بشكل آمن وسريع داخل تيليجرام. افتح الرابط الذي وصلك، انتظر ثوانٍ قليلة، وسيُفتح الرابط الأصلي مباشرة.', contact: '', bot: '', app: '' },
-  rewarded: { provider: 'adsgram', blockId: '', sdk: '', fn: '', mode: 'interstitial', fallbackSdk: '', fallbackFn: '', offerAfter: 0, skipAll: false, passMinutes: 0, text: '🎁 شاهد إعلاناً ووفّر {s} ثانية' },
-  pages: [
-    { title: 'جاري تحضير الرابط', subtitle: 'انتظر قليلاً', seconds: 8, adCode: '', rewarded: true, require: false },
-    { title: 'نفحص الرابط من أجلك', subtitle: 'انتظر قليلاً', seconds: 8, adCode: '', rewarded: true, require: false },
-    { title: 'رابطك جاهز', subtitle: 'آخر خطوة', seconds: 6, adCode: '', rewarded: true, require: false }
-  ]
-};
-const num = (v, a, b, f) => { const n = Number(v); return Number.isFinite(n) && n > 0 ? Math.min(b, Math.max(a, n)) : f; };
-const MAXP = 20;
-function normalize(raw) {
-  const cfg = JSON.parse(JSON.stringify(DEFAULTS));
-  const tpl = DEFAULTS.pages[DEFAULTS.pages.length - 1];
-  if (raw && typeof raw === 'object') {
-    const src = Array.isArray(raw.pages) && raw.pages.length ? raw.pages.slice(0, MAXP) : [{ ...tpl, title: raw.title || tpl.title, seconds: raw.seconds || 10, adCode: raw.adCode || '' }];
-    cfg.pageCount = Math.round(num(raw.pageCount, 1, MAXP, Array.isArray(raw.pages) && raw.pages.length ? src.length : 1));
-    cfg.pages = src.map((p, i) => ({ ...(DEFAULTS.pages[i] || tpl), ...p }));
-    cfg.minAway = num(raw.minAway, 1, 30, 3);
-    cfg.about = { ...cfg.about, ...(raw.about || {}) };
-    cfg.theme = { ...cfg.theme, ...(raw.theme || {}) };
-    cfg.rewarded = { ...cfg.rewarded, ...(raw.rewarded || {}) };
-  }
-  while (cfg.pages.length < cfg.pageCount) cfg.pages.push({ ...tpl });
-  cfg.minAway = Math.round(cfg.minAway);
-  { const r = cfg.rewarded; r.offerAfter = Math.min(60, Math.max(0, Math.round(Number(r.offerAfter) || 0))); r.skipAll = !!r.skipAll; r.text = String(r.text || '').slice(0, 120) || '🎁 شاهد إعلاناً ووفّر {s} ثانية'; }
-  { const t = cfg.theme = { accent: '', fx: 'slide', confetti: true, ...(cfg.theme || {}) }; t.accent = /^#[0-9a-f]{6}$/i.test(t.accent) ? t.accent : ''; if (!['slide','fade','zoom','flip','blur'].includes(t.fx)) t.fx = 'slide'; t.confetti = t.confetti !== false; cfg.rewarded.passMinutes = Math.min(1440, Math.max(0, Math.round(Number(cfg.rewarded.passMinutes) || 0))); }
-  cfg.pages.forEach(p => { p.seconds = Math.round(num(p.seconds, 3, 60, 8)); p.adCode = String(p.adCode || ''); p.rewarded = !!p.rewarded; p.require = p.require !== false; });
-  return cfg;
-}
+document.title = CONFIG.name; $('appname').textContent = CONFIG.name; $('tagline').textContent = CONFIG.tagline; $('desc').textContent = CONFIG.desc;
+$('foot').textContent = '© ' + new Date().getFullYear() + ' ' + CONFIG.name;
+$('ctext').textContent = 'لأي استفسار أو بلاغ تواصل معنا عبر البوت' + (CONFIG.support ? ' أو الدعم المباشر.' : '.');
 
-let config = normalize(null), targetUrl = '', idx = 0, timer = null, state = null;
-const fragment = html => document.createRange().createContextualFragment(html); // ينفّذ وسوم <script>
-let adsgramCtl = null, adsgramId = '', passAll = false;
-const resolveFn = path => { try { const f = String(path || '').trim().split('.').reduce((o, k) => (o == null ? o : o[k]), window); return typeof f === 'function' ? f : null; } catch (_) { return null; } };
-const cleanBlock = v => { const s = String(v || '').trim(); return /^(int-|task-)?\d+$/i.test(s) ? s : ''; };
-const runners = () => {
-  const r = config.rewarded, list = [];
-  if (r.provider === 'adsgram') {
-    const id = cleanBlock(r.blockId);
-    if (id && window.Adsgram) list.push(() => {
-      if (!adsgramCtl || adsgramId !== id) { adsgramCtl = window.Adsgram.init({ blockId: id, debug: false }); adsgramId = id; }
-      return adsgramCtl.show();
-    });
-  } else { const f = resolveFn(r.fn); if (f) list.push(() => (r.mode === 'pop' ? f('pop') : f())); }
-  const fb = resolveFn(r.fallbackFn); if (fb) list.push(() => fb());
-  return list;
-};
-const rewardedFn = () => (runners().length ? true : null);
-const loadScript = tag => { try { document.body.appendChild(fragment(tag)); } catch (_) {} };
+// تبويبات
+const tabs = [['home', 'الرئيسية'], ['me', 'حسابي'], ['about', 'عن التطبيق'], ['faq', 'الأسئلة'], ['legal', 'الخصوصية والشروط'], ['contact', 'تواصل']];
+tabs.forEach(([id, label], i) => {
+  const b = mk('button', i ? '' : 'on', label);
+  b.onclick = () => {
+    tabs.forEach(([x], j) => { $('s-' + x).classList.toggle('on', x === id); $('nav').children[j].classList.toggle('on', x === id); });
+    window.scrollTo(0, 0);
+  };
+  $('nav').appendChild(b);
+});
 
-// ===== واجهة =====
-function say(type, text) {
-  els.notice.className = 'notice ' + type; els.notice.textContent = text; els.notice.hidden = false;
-  void els.notice.offsetWidth;
+// بيانات المستخدم
+const u = tg && tg.initDataUnsafe && tg.initDataUnsafe.user;
+if (!u) $('outside').hidden = false;
+else {
+  const full = [u.first_name, u.last_name].filter(Boolean).join(' ');
+  $('uname').textContent = full || 'مستخدم';
+  $('uuser').textContent = u.username ? '@' + u.username : 'بدون يوزر';
+  if (u.photo_url && /^https:\/\//.test(u.photo_url)) { const im = mk('img'); im.src = u.photo_url; im.alt = ''; $('av').textContent = ''; $('av').appendChild(im); }
+  else $('av').textContent = (u.first_name || '?').charAt(0).toUpperCase();
 }
-function renderRail() {
-  els.rail.textContent = '';
-  for (let i = 0; i < config.pageCount; i++) {
-    const s = document.createElement('div'); s.className = 'seg' + (i < idx ? ' done' : ''); s.appendChild(document.createElement('i')); els.rail.appendChild(s);
-  }
-  els.stepno.textContent = (idx + 1) + ' / ' + config.pageCount;
-}
-function paint() {
-  const total = state.total, rem = state.remaining;
-  els.count.textContent = Math.ceil(rem / 1000);
-  els.bar.style.strokeDashoffset = C * (1 - rem / total);
-  const seg = els.rail.children[idx]; if (seg) seg.style.setProperty('--p', 1 - rem / total);
-}
-
-// ===== منطق الصفحة =====
-const page = () => config.pages[idx];
-const hasBanner = () => page().adCode.trim().length > 0;
-const needInteraction = () => page().require && !state.interacted && (hasBanner() || (page().rewarded && !!rewardedFn() && !state.rewardFailed));
-
-const applyTheme = () => {
-  const t = config.theme || {};
-  if (t.accent) document.documentElement.style.setProperty('--accent', t.accent);
-  els.app.dataset.fx = t.fx || 'slide';
-  [...els.app.children].forEach((c, i) => c.style.setProperty('--i', i));
-};
-const goTo = i => { els.app.classList.add('leave'); setTimeout(() => { els.app.classList.remove('leave'); showPage(i); }, 230); };
-const burst = () => {
-  if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-  const cols = ['#ffcf5c', '#3fa9f5', '#7a5cff', '#42d392', '#ff6b8b'];
-  for (let k = 0; k < 44; k++) {
-    const s = document.createElement('span'); s.className = 'cf';
-    s.style.cssText = 'left:' + Math.random() * 100 + 'vw;background:' + cols[k % 5] + ';--x:' + (Math.random() * 120 - 60) + 'px;--r:' + (Math.random() * 900 - 450) + 'deg;--d:' + (1.8 + Math.random() * 1.6) + 's;animation-delay:' + Math.random() * .4 + 's';
-    document.body.appendChild(s); setTimeout(() => s.remove(), 4200);
-  }
-};
-const passValid = () => { try { return +localStorage.getItem('rwpass') > Date.now(); } catch (_) { return false; } };
-const savePass = () => { try { const m = config.rewarded.passMinutes; if (m > 0) localStorage.setItem('rwpass', String(Date.now() + m * 60000)); } catch (_) {} };
-function syncReward(p) {
-  const rw = config.rewarded, elapsed = state.total - state.remaining;
-  const can = p.rewarded && rewardedFn() && !state.rewardDone && !state.rewardFailed;
-  els.reward.hidden = !(can && elapsed >= rw.offerAfter * 1000);
-  const s = Math.ceil(state.remaining / 1000), t = rw.text.replace('{s}', s > 0 ? s : '');
-  if (els.reward.textContent !== t) els.reward.textContent = t;
-}
-function showPage(i) {
-  idx = i; const p = page(); applyTheme(); els.dest.hidden = true;
-  clearInterval(timer);
-  state = { total: p.seconds * 1000, remaining: p.seconds * 1000, interacted: false, timeUp: false, hinted: false, rewardFailed: false, rewardDone: false, leftAt: 0, lastTap: 0 };
-  els.app.classList.remove('done'); els.app.classList.remove('enter'); void els.app.offsetWidth; els.app.classList.add('enter');
-  els.title.textContent = p.title; els.subtitle.textContent = p.subtitle || '';
-  els.slot.textContent = ''; els.notice.hidden = true;
-  els.adwrap.hidden = !hasBanner();
-  if (hasBanner()) { try { els.slot.appendChild(fragment(p.adCode)); } catch (e) { console.error(e); } }
-  els.go.disabled = true; els.go.classList.remove('locked'); els.go.textContent = 'انتظر العداد';
-  els.bar.style.strokeDasharray = C; els.bar.style.strokeDashoffset = 0;
-  if (passAll || passValid()) { passAll = true; state.remaining = 0; state.rewardDone = true; state.interacted = true; }
-  renderRail(); paint();
-  if (passAll) say('ok', 'تم تخطي الانتظار بفضل الإعلان المكافئ ✓');
-  let last = Date.now();
-  timer = setInterval(() => {
-    const now = Date.now(), dt = now - last; last = now;
-    if (document.visibilityState === 'visible' && !state.timeUp) state.remaining = Math.max(0, state.remaining - dt);
-    syncReward(p);
-    paint();
-    if (!state.hinted && !state.timeUp && state.remaining <= state.total * 0.6 && needInteraction()) {
-      state.hinted = true; say('hint', 'تفاعل مع الإعلان (اضغط عليه وتصفّحه قليلاً) لتفعيل الزر بعد انتهاء العداد.');
-    }
-    if (state.remaining <= 0 && !state.timeUp) { state.timeUp = true; evaluate(true); }
-  }, 250);
-}
-
-function evaluate(first) {
-  if (!state.timeUp) return;
-  if (!needInteraction()) { unlock(); return; }
-  els.go.disabled = false; els.go.classList.add('locked'); els.go.textContent = 'تفاعل مع الإعلان أولاً';
-  els.count.textContent = '!';
-  say('warn', first ? 'لم نلاحظ تفاعلاً مع الإعلان. اضغط عليه وتصفّحه ' + config.minAway + ' ثوانٍ على الأقل ثم ارجع لمتابعة الرابط.' : 'التفاعل مع الإعلان مطلوب قبل المتابعة.');
-  haptic('warning');
-}
-function unlock() {
-  state.unlocked = true;
-  els.app.classList.add('done'); els.count.textContent = '✓'; els.bar.style.strokeDashoffset = 0;
-  els.go.disabled = false; els.go.classList.remove('locked');
-  els.go.textContent = idx < config.pageCount - 1 ? 'التالي' : 'انتقل إلى الرابط';
-  if (!state.interacted) els.notice.hidden = true;
-  haptic('success');
-  if (idx === config.pageCount - 1) {
-    if (config.theme.confetti) burst();
-    try { els.dest.textContent = 'الوجهة: ' + new URL(targetUrl).host; els.dest.hidden = false; } catch (_) {}
-  }
-}
-els.go.onclick = () => {
-  if (!state?.timeUp) return;
-  if (!state.unlocked) { evaluate(false); return; }
-  if (idx < config.pageCount - 1) goTo(idx + 1);
-  else openTarget(targetUrl);
-};
-function markInteracted() {
-  if (!state || state.interacted) return;
-  state.interacted = true; say('ok', 'تم احتساب تفاعلك، شكراً لك!'); haptic('success'); evaluate();
-}
-
-// ===== كشف التفاعل مع الإعلان =====
-els.slot.addEventListener('pointerdown', () => { if (state) state.lastTap = Date.now(); }, true);
-els.slot.addEventListener('click', ev => { if (els.slot.querySelector('*') && ev.target !== els.slot) markInteracted(); }, true);
-function leave() {
-  if (!state || state.leftAt) return;
-  const a = document.activeElement;
-  const iframeClick = a && a.tagName === 'IFRAME' && els.slot.contains(a);
-  if (iframeClick || Date.now() - state.lastTap < 3000) state.leftAt = Date.now();
-}
-function back() {
-  if (!state || !state.leftAt) return;
-  const away = (Date.now() - state.leftAt) / 1000; state.leftAt = 0;
-  if (away >= config.minAway) markInteracted();
-  else { say('warn', 'تفاعل قليل جداً. تصفّح الإعلان ' + config.minAway + ' ثوانٍ على الأقل.'); haptic('warning'); }
-}
-window.addEventListener('blur', leave);
-window.addEventListener('focus', back);
-document.addEventListener('visibilitychange', () => document.hidden ? leave() : back());
-try { tg?.onEvent?.('deactivated', leave); tg?.onEvent?.('activated', back); } catch (_) {}
-
-// ===== الإعلان المكافئ =====
-els.reward.onclick = async () => {
-  const list = runners();
-  if (!list.length) { state.rewardFailed = true; say('warn', 'الإعلان المكافئ غير متاح الآن، أكمل العداد.'); evaluate(); return; }
-  els.reward.disabled = true;
-  let ok = false, skipped = false;
-  for (const run of list) {
-    try { await run(); ok = true; break; }
-    catch (e) {
-      console.warn('Rewarded ad error:', e && (e.description || e.message || e));
-      if (e && e.error === false && e.done === false) { skipped = true; break; } // تخطّى الإعلان قبل نهايته
-    }
-  }
-  if (ok) { if (config.rewarded.skipAll) passAll = true; savePass(); state.rewardDone = true; state.remaining = 0; paint(); markInteracted(); }
-  else if (skipped) { say('warn', 'لازم تكمل مشاهدة الإعلان للحصول على المكافأة.'); haptic('warning'); }
-  else { state.rewardFailed = true; say('warn', 'لا يوجد إعلان مكافئ متاح حالياً، أكمل العداد.'); haptic('warning'); evaluate(); }
-  els.reward.disabled = false;
+const info = $('info');
+info.append(
+  row('المعرّف (ID)', u && u.id), row('الاسم الأول', u && u.first_name), row('الاسم الأخير', u && u.last_name),
+  row('اليوزر', u && u.username ? '@' + u.username : ''), row('اللغة', u && u.language_code),
+  row('حساب Premium', u ? (u.is_premium ? 'نعم' : 'لا') : ''), row('نوع الفتح', tg && tg.initDataUnsafe && tg.initDataUnsafe.chat_type)
+);
+$('dev').append(
+  row('المنصة', tg && tg.platform), row('إصدار تيليجرام', tg && tg.version), row('الثيم', tg && tg.colorScheme),
+  row('المنطقة الزمنية', Intl.DateTimeFormat().resolvedOptions().timeZone), row('الوقت المحلي', new Date().toLocaleString('ar'))
+);
+$('copy').onclick = async () => {
+  if (!u) return;
+  try { await navigator.clipboard.writeText(String(u.id)); $('copy').textContent = 'تم النسخ ✓'; }
+  catch (_) { prompt('معرّف الحساب:', String(u.id)); }
+  setTimeout(() => { $('copy').textContent = 'نسخ معرّف الحساب'; }, 1800);
 };
 
-// ===== تحميل وتشغيل =====
-const getKey = () => tg?.initDataUnsafe?.start_param || new URLSearchParams(location.search).get('startapp') || new URLSearchParams(location.search).get('tgWebAppStartParam') || '';
-const isSafeUrl = v => { try { const u = new URL(v); return u.protocol === 'https:' || u.protocol === 'http:'; } catch (_) { return false; } };
-function openTarget(url) { if (tg?.openLink) tg.openLink(url); else window.open(url, '_blank', 'noopener'); }
-function fail(msg) {
-  clearInterval(timer);
-  els.title.textContent = 'تعذّر فتح الرابط'; els.subtitle.textContent = ''; els.error.textContent = msg; els.error.hidden = false;
-  els.count.textContent = '!'; els.bar.style.strokeDashoffset = C; els.go.textContent = 'الرابط غير متاح'; els.go.disabled = true; els.adwrap.hidden = true; els.reward.hidden = true;
-}
-async function loadJson(file) {
-  const r = await fetch(file + '?t=' + Date.now(), { cache: 'no-store' });
-  if (!r.ok) throw new Error('HTTP ' + r.status);
-  return r.json();
-}
-
-function el(t, txt, cls) { const e = document.createElement(t); if (txt) e.textContent = txt; if (cls) e.className = cls; return e; }
-function card(title, node) { const c = el('div', '', 'card'); c.appendChild(el('h2', title)); c.appendChild(node); return c; }
-function list(tag, items) { const l = el(tag); items.forEach(i => l.appendChild(el('li', i))); return l; }
-function buildAbout(canBack) {
-  const a = config.about, box = $('about'); box.textContent = '';
-  box.appendChild(el('h1', a.name || 'عن التطبيق')); box.appendChild(el('p', a.desc, 'lead'));
-  box.appendChild(card('كيف يعمل؟', list('ol', ['تصلك رسالة تحتوي على رابط مختصر من البوت.', 'تفتح الرابط فتظهر صفحات انتظار قصيرة.', 'بعد انتهاء العداد يُفتح الرابط الأصلي.'])));
-  box.appendChild(card('المميزات', list('ul', ['مجاني بالكامل', 'سريع وبدون تسجيل', 'يعمل داخل تيليجرام مباشرة'])));
-  box.appendChild(card('الإعلانات والخصوصية', el('p', 'يعرض التطبيق إعلانات لدعم الخدمة، وقد تُعرض إعلانات مكافئة اختيارية. لا نطلب أي بيانات شخصية ولا نخزّنها.', 'lead')));
-  const bot = String(a.bot || '').replace(/^@/, '').trim();
-  if (/^[A-Za-z0-9_]{3,64}$/.test(bot)) {
-    const url = 'https://t.me/' + bot + (/^[A-Za-z0-9_]{1,64}$/.test(a.app || '') ? '/' + a.app : '');
-    const bb = el('button', 'افتح البوت @' + bot, 'go'); bb.onclick = () => { if (tg?.openTelegramLink) tg.openTelegramLink(url); else window.open(url, '_blank', 'noopener'); };
-    box.appendChild(bb);
-  }
-  if (a.contact) box.appendChild(el('small', 'للتواصل: ' + a.contact));
-  if (canBack) { const b = el('button', 'رجوع', 'go'); b.onclick = () => { els.app.classList.remove('aboutmode'); }; box.appendChild(b); }
-  box.hidden = false;
-}
-$('aboutlink').onclick = () => { buildAbout(!!targetUrl); els.app.classList.add('aboutmode'); window.scrollTo(0, 0); };
-async function init() {
-  try { config = normalize(await loadJson('config.json')); } catch (_) { config = normalize(null); }
-  const rw = config.rewarded;
-  if (rw.provider === 'adsgram') {
-    if (cleanBlock(rw.blockId)) { const sc = document.createElement('script'); sc.src = 'https://sad.adsgram.ai/js/sad.min.js'; sc.async = true; document.head.appendChild(sc); }
-  } else if (rw.sdk && rw.sdk.trim()) loadScript(rw.sdk);
-  if (rw.fallbackSdk && rw.fallbackSdk.trim()) loadScript(rw.fallbackSdk);
-  const key = getKey();
-  if (!key) { buildAbout(false); els.app.classList.add('aboutmode'); return; }
-  try {
-    const links = await loadJson('links.json');
-    const url = Object.prototype.hasOwnProperty.call(links, key) ? links[key] : null;
-    if (!url) { showPage(0); fail('هذا الرابط غير موجود أو تم حذفه.'); return; }
-    if (!isSafeUrl(url)) { showPage(0); fail('الرابط المخزّن غير صالح.'); return; }
-    targetUrl = url; showPage(0);
-  } catch (e) { console.error(e); showPage(0); fail('حدث خطأ أثناء تحميل الروابط. حاول مرة أخرى.'); }
-}
-init();
+// تواصل
+const openTg = url => { if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url, '_blank', 'noopener'); };
+$('openbot').onclick = () => openTg('https://t.me/' + CONFIG.bot + (CONFIG.app ? '/' + CONFIG.app : ''));
+$('report').onclick = () => openTg('https://t.me/' + (CONFIG.support || CONFIG.bot));
+if (CONFIG.demo && /^https:\/\/t\.me\//.test(CONFIG.demo)) { $('demo').hidden = false; $('demo').onclick = () => openTg(CONFIG.demo); }
+if (CONFIG.support) { $('opensup').hidden = false; $('opensup').onclick = () => openTg('https://t.me/' + CONFIG.support); }
 })();
 </script>
 </body>
