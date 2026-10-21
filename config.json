@@ -3,9 +3,9 @@
   "minAway": 3,
   "theme": {
     "accent": "",
-    "fx": "slide",
+    "fx": "flip",
     "confetti": true,
-    "counter": "liquid"
+    "counter": "bar"
   },
   "ads": [],
   "inject": [
@@ -26,13 +26,13 @@
   },
   "rewarded": {
     "provider": "fn",
-    "blockId": "bb412979-834b-4a2c-9317-3e809609a72a",
+    "blockId": "",
     "sdk": "bb412979-834b-4a2c-9317-3e809609a72a",
-    "fn": "bb412979-834b-4a2c-9317-3e809609a72a",
+    "fn": "",
     "mode": "interstitial",
-    "fallbackSdk": "",
+    "fallbackSdk": "bb412979-834b-4a2c-9317-3e809609a72a",
     "fallbackFn": "",
-    "offerAfter": 0,
+    "offerAfter": 1,
     "skipAll": false,
     "passMinutes": 0,
     "text": "🎁 شاهد إعلاناً ووفّر {s} ثانية"
