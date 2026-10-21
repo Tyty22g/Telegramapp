@@ -59,7 +59,7 @@ body{background:radial-gradient(120% 55% at 50% 0%,color-mix(in srgb,var(--accen
 .about ol,.about ul{padding-inline-start:20px;font-size:14px;color:var(--hint)}
 .about small{display:block;text-align:center;color:var(--hint);font-size:12px}
 .aboutlink{background:none;border:0;color:var(--hint);font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;padding:6px}
-.aboutmode>:not(#about){display:none!important}
+.aboutmode>:not(#about):not(.aads){display:none!important}
 
 body::before,body::after{content:"";position:fixed;z-index:-1;width:70vmax;height:70vmax;border-radius:50%;filter:blur(70px);opacity:.28;pointer-events:none;animation:float 16s ease-in-out infinite alternate}
 body::before{background:var(--accent);top:-35vmax;inset-inline-start:-25vmax}
@@ -108,12 +108,29 @@ body::after{background:#7a5cff;bottom:-40vmax;inset-inline-end:-25vmax;animation
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes ripple{0%{transform:scale(.85);opacity:.7}100%{transform:scale(1.45);opacity:0}}
 .aads{animation:none!important;opacity:1!important;transform:none!important;filter:none!important;position:relative;z-index:5;width:100%;min-height:60px;overflow:visible}
+
+.app{max-width:460px}
+.head h1{font-size:27px;font-weight:900;background:linear-gradient(135deg,var(--text) 30%,var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+.trust{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.trust span{font-size:12px;font-weight:700;padding:5px 11px;border-radius:99px;background:color-mix(in srgb,var(--accent) 14%,transparent);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent)}
+.timer{padding:20px;border-radius:26px;background:linear-gradient(160deg,color-mix(in srgb,var(--surface) 85%,transparent),color-mix(in srgb,var(--accent) 10%,transparent));border:1px solid color-mix(in srgb,var(--accent) 38%,transparent);box-shadow:0 20px 55px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.08)}
+.ring .bar{filter:drop-shadow(0 0 9px var(--accent))}
+.ring .num b{font-size:40px;font-weight:900}
+.go{font-size:18px;font-weight:900;padding:19px;border-radius:18px;letter-spacing:.2px}
+.go:not(:disabled){box-shadow:0 14px 38px color-mix(in srgb,var(--accent) 55%,transparent);animation:goPulse 1.7s ease-in-out infinite}
+.go:disabled{opacity:.6;filter:saturate(.7)}
+@keyframes goPulse{50%{transform:scale(1.025)}}
+.aboutlink{font-weight:700;padding:10px;border-radius:12px;background:color-mix(in srgb,var(--surface) 70%,transparent)}
+.about .card{border:1px solid color-mix(in srgb,var(--accent) 22%,transparent)}
+.xclose{display:none;position:fixed;top:max(12px,env(safe-area-inset-top));inset-inline-end:14px;z-index:99990;width:42px;height:42px;border-radius:50%;border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);background:var(--surface);color:var(--text);font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.app.aboutmode~.xclose{display:flex;align-items:center;justify-content:center}
 </style>
 </head>
 <body>
 <main class="app enter" id="app">
   <div class="railrow"><nav class="rail" id="rail" aria-label="التقدم"></nav><span id="stepno"></span></div>
   <header class="head"><h1 id="title">جاري تحضير الرابط…</h1><p id="subtitle">انتظر قليلاً</p></header>
+  <div class="trust"><span>🔒 رابط آمن</span><span>⚡ تجهيز سريع</span><span>✓ بدون تسجيل</span></div>
 
   <!-- مساحة الإعلان تُملأ تلقائياً من لوحة الإدارة (config.json) -->
   <section class="adwrap" id="adwrap" hidden><span class="adtag">إعلان</span><div class="ad-slot" id="ad-slot" aria-label="إعلان"></div></section>
@@ -127,20 +144,36 @@ body::after{background:#7a5cff;bottom:-40vmax;inset-inline-end:-25vmax;animation
   </div>
 
   <div class="notice" id="notice" role="alert" hidden></div>
-  <div class="aads">
+  <div class="aads"><!--SLOT:MID-->
   <!-- BEGIN AADS AD UNIT 2459306 -->
   <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
     <iframe data-aa='2459306' src='//acceptable.a-ads.com/2459306/?size=Adaptive'
       style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
   </div>
   <!-- END AADS AD UNIT 2459306 -->
-  </div>
+<!--/SLOT:MID--></div>
   <button class="go" id="go" disabled>انتظر العداد</button>
   <p class="dest" id="dest" hidden></p>
     <section class="about" id="about" hidden></section>
   <button class="aboutlink" id="aboutlink" type="button">عن التطبيق</button>
   <p class="error" id="error" hidden></p>
 </main>
+<!--SLOT:FOOT-->
+<!-- BEGIN AADS AD UNIT 2459308 -->
+<div style="position: absolute; z-index: 99999">
+  <input autocomplete="off" type="checkbox" id="aadsstickymvhxnyvj" hidden />
+  <div style="padding-top: 0; padding-bottom: auto;">
+    <div style="width:100%;height:auto;position:fixed;text-align:center;font-size:0;bottom:0;left:0;right:0;margin:auto">
+      <label for="aadsstickymvhxnyvj" style="top: 50%;transform: translateY(-50%);right:24px;; position: absolute;border-radius: 4px; background: rgba(248, 248, 249, 0.70); padding: 4px;z-index: 99999;cursor:pointer">
+        <svg fill="#000000" height="16px" width="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 490"><polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/></svg>
+      </label>
+      <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;"><iframe data-aa=2459308 src=//acceptable.a-ads.com/2459308/?size=Adaptive style='border:0; padding:0; width:70%; height:auto; overflow:hidden; margin: auto'></iframe></div>
+    </div>
+    <style>#aadsstickymvhxnyvj:checked + div { display: none; }</style>
+  </div></div>
+<!-- END AADS AD UNIT 2459308 -->
+<!--/SLOT:FOOT-->
+<button class="xclose" id="xclose" type="button" aria-label="إغلاق">✕</button>
 
 <script>
 (() => {
@@ -462,6 +495,16 @@ async function init() {
   } catch (e) { console.error(e); showPage(0); fail('حدث خطأ أثناء تحميل الروابط. حاول مرة أخرى.'); }
 }
 init();
+
+(function(){
+  const inAbout=()=>els.app.classList.contains('aboutmode');
+  const closeAbout=()=>{ if(targetUrl){ els.app.classList.remove('aboutmode'); window.scrollTo(0,0); } else if(tg?.close) tg.close(); else history.back(); };
+  const sync=()=>{ try{ const b=tg?.BackButton; if(!b) return; inAbout()?b.show():b.hide(); }catch(_){} };
+  $('xclose').onclick=closeAbout;
+  try{ tg?.BackButton?.onClick(()=>{ closeAbout(); sync(); }); }catch(_){}
+  new MutationObserver(sync).observe(els.app,{attributes:true,attributeFilter:['class']});
+  sync();
+})();
 })();
 </script>
 </body>
