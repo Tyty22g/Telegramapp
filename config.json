@@ -13,7 +13,7 @@
       "name": "كود جديد",
       "where": "head",
       "target": "both",
-      "code": "bb412979-834b-4a2c-9317-3e809609a72a",
+      "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n    document.addEventListener('DOMContentLoaded', () => {\n        const adexiumWidget = new AdexiumWidget({wid: 'bb412979-834b-4a2c-9317-3e809609a72a', adFormat: 'interstitial'});\n        adexiumWidget.autoMode();\n    });\n</script>",
       "on": true
     }
   ],
