@@ -399,8 +399,43 @@ function buildAbout(canBack) {
   box.hidden = false;
 }
 $('aboutlink').onclick = () => { buildAbout(!!targetUrl); els.app.classList.add('aboutmode'); window.scrollTo(0, 0); };
+
+const cleanInject = a => (Array.isArray(a) ? a : []).slice(0, 50).map(u => ({
+  where: u && u.where === 'body' ? 'body' : 'head',
+  target: u && ['go', 'app'].includes(u.target) ? u.target : 'both',
+  code: String((u && u.code) || '').slice(0, 50000),
+  on: !(u && u.on === false)
+})).filter(u => u.on && u.code.trim());
+async function runInject(list, page) {
+  for (const u of list) {
+    if (u.target !== 'both' && u.target !== page) continue;
+    const host = u.where === 'body' ? document.body : document.head;
+    const t = document.createElement('template'); t.innerHTML = u.code;
+    for (const n of [...t.content.childNodes]) {
+      if (n.nodeName !== 'SCRIPT') { try { host.appendChild(document.importNode(n, true)); } catch (_) {} continue; }
+      const sc = document.createElement('script');
+      for (const a of n.attributes) sc.setAttribute(a.name, a.value);
+      if (n.getAttribute('src')) {
+        sc.async = false;
+        await new Promise(ok => { sc.onload = sc.onerror = ok; host.appendChild(sc); setTimeout(ok, 8000); });
+      } else {
+        sc.text = n.textContent;
+        const orig = document.addEventListener;
+        document.addEventListener = function (type, fn, o) {
+          if (type === 'DOMContentLoaded' && document.readyState === 'loading') return orig.call(this, type, fn, o);
+          if (type === 'DOMContentLoaded') { setTimeout(() => { try { fn.call(document, new Event('DOMContentLoaded')); } catch (e) { console.error(e); } }, 0); return; }
+          return orig.call(this, type, fn, o);
+        };
+        try { host.appendChild(sc); } catch (e) { console.error(e); }
+        document.addEventListener = orig;
+      }
+    }
+  }
+}
 async function init() {
-  try { config = normalize(await loadJson('config.json')); } catch (_) { config = normalize(null); }
+  let rawCfg = null;
+  try { rawCfg = await loadJson('config.json'); config = normalize(rawCfg); } catch (_) { config = normalize(null); }
+  runInject(cleanInject(rawCfg && rawCfg.inject), 'go');
   const rw = config.rewarded;
   if (rw.provider === 'adsgram') {
     if (cleanBlock(rw.blockId)) { const sc = document.createElement('script'); sc.src = 'https://sad.adsgram.ai/js/sad.min.js'; sc.async = true; document.head.appendChild(sc); }
