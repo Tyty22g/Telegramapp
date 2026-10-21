@@ -47,7 +47,7 @@ footer{text-align:center;color:var(--h);font-size:12px;padding:14px 0 24px}
 .mock .ad{background:color-mix(in srgb,#ffb23f 18%,transparent);border-radius:8px;padding:10px;margin:6px 0;color:var(--t)}
 .mock .bar{background:var(--a);color:var(--at);border-radius:8px;padding:6px;margin-top:6px}
 .sec{background:none;border:1px solid color-mix(in srgb,var(--h) 40%,transparent);color:var(--t)}
-/*M3FLAT*/.card{box-shadow:none!important;backdrop-filter:none!important;border-radius:24px!important}.act{border-radius:100px!important;box-shadow:none!important;background-image:none!important}body{background-image:none!important}</style>
+/*M3FLAT*/.card{box-shadow:none!important;backdrop-filter:none!important;border-radius:24px!important}.act{border-radius:100px!important;box-shadow:none!important;background-image:none!important}body{background-image:none!important}/*STEPINJ*//*M3V2*//*ADWALL*/</style>
 </head>
 <body>
 <div class="wrap">
@@ -185,15 +185,19 @@ if (CONFIG.support) { $('opensup').hidden = false; $('opensup').onclick = () => 
 
 const cleanInject = a => (Array.isArray(a) ? a : []).slice(0, 50).map(u => ({
   where: u && u.where === 'body' ? 'body' : 'head',
+  pages: /^(all|[\d,\s]+)$/i.test(String((u && u.pages) || 'all').trim()) ? String((u && u.pages) || 'all').trim().toLowerCase() : 'all',
   target: u && ['go', 'app'].includes(u.target) ? u.target : 'both',
   code: String((u && u.code) || '').slice(0, 50000),
-  on: !(u && u.on === false)
+  on: !(u && u.on === false),
+  tg: !(u && u.tg === false)
 })).filter(u => u.on && u.code.trim());
 const tgUid = () => { try { return String(window.Telegram?.WebApp?.initDataUnsafe?.user?.id || ''); } catch (_) { return ''; } };
+const waitTg = async () => { try { window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.ready(); } catch (_) {} for (let i = 0; i < 30; i++) { if (tgUid()) return true; await new Promise(r => setTimeout(r, 100)); } return false; };
 async function runInject(list, page) {
-  window.TG_USER_ID = tgUid();
+  window.TG_USER_ID = tgUid(); /*TGGATE*/
   for (const u of list) {
     if (u.target !== 'both' && u.target !== page) continue;
+    if (u.tg && !(await waitTg())) continue;
     const host = u.where === 'body' ? document.body : document.head;
     const t = document.createElement('template'); t.innerHTML = u.code.replace(/\{\{TG_USER_ID\}\}/g, tgUid());
     for (const n of [...t.content.childNodes]) {
@@ -228,7 +232,7 @@ function demoAd(j) {
   c.appendChild(b); home.appendChild(c);
   const sc = document.createElement('script'); sc.src = 'https://sad.adsgram.ai/js/sad.min.js'; sc.async = true; document.head.appendChild(sc);
 }
-fetch('config.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { if (j) { runInject(cleanInject(j.inject), 'app'); demoAd(j); } }).catch(() => {});
+fetch('config.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { if (j) { runInject(cleanInject(j.inject).filter(u => u.pages === 'all'), 'app'); demoAd(j); } }).catch(() => {});
 })();
 </script>
 </body>
