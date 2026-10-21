@@ -5,7 +5,7 @@
     "accent": "",
     "fx": "slide",
     "confetti": true,
-    "counter": "ring"
+    "counter": "liquid"
   },
   "ads": [],
   "inject": [
@@ -25,10 +25,10 @@
     "app": "Downloadplatform"
   },
   "rewarded": {
-    "provider": "adsgram",
-    "blockId": "int-55095",
+    "provider": "fn",
+    "blockId": "bb412979-834b-4a2c-9317-3e809609a72a",
     "sdk": "bb412979-834b-4a2c-9317-3e809609a72a",
-    "fn": "",
+    "fn": "bb412979-834b-4a2c-9317-3e809609a72a",
     "mode": "interstitial",
     "fallbackSdk": "",
     "fallbackFn": "",
@@ -41,7 +41,7 @@
     {
       "title": "جاري تحضير الرابط",
       "subtitle": "انتظر قليلاً",
-      "seconds": 60,
+      "seconds": 10,
       "adCode": "",
       "rewarded": true,
       "require": false
@@ -49,7 +49,7 @@
     {
       "title": "نفحص الرابط من أجلك",
       "subtitle": "تفاعل مع الإعلان لمتابعة",
-      "seconds": 50,
+      "seconds": 10,
       "adCode": "",
       "rewarded": true,
       "require": false
@@ -57,7 +57,7 @@
     {
       "title": "رابطك جاهز",
       "subtitle": "آخر خطوة",
-      "seconds": 20,
+      "seconds": 10,
       "adCode": "",
       "rewarded": true,
       "require": false
