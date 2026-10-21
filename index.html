@@ -117,7 +117,7 @@ const CONFIG = {
   app: 'Downloadplatform',
   support: '',  // يوزر الدعم بدون @ (اختياري)
   flow: '',     // دومين فرعي لصفحات الانتظار، مثل go.example.com (فارغ = نفس الدومين، المسار /go.html)
-  demo: ''      // رابط مختصر تجريبي كامل، مثل https://t.me/Downloadplatbot/Downloadplatform?startapp=si72on
+  demo: ''      // رابط مختصر تجريبي كامل، مثل https://t.me/Downloadplatbot/Downloadplatform?startapp=KEY
 };
 const $ = id => document.getElementById(id);
 const tg = window.Telegram && window.Telegram.WebApp;
@@ -182,6 +182,40 @@ $('openbot').onclick = () => openTg('https://t.me/' + CONFIG.bot + (CONFIG.app ?
 $('report').onclick = () => openTg('https://t.me/' + (CONFIG.support || CONFIG.bot));
 if (CONFIG.demo && /^https:\/\/t\.me\//.test(CONFIG.demo)) { $('demo').hidden = false; $('demo').onclick = () => openTg(CONFIG.demo); }
 if (CONFIG.support) { $('opensup').hidden = false; $('opensup').onclick = () => openTg('https://t.me/' + CONFIG.support); }
+
+const cleanInject = a => (Array.isArray(a) ? a : []).slice(0, 50).map(u => ({
+  where: u && u.where === 'body' ? 'body' : 'head',
+  target: u && ['go', 'app'].includes(u.target) ? u.target : 'both',
+  code: String((u && u.code) || '').slice(0, 50000),
+  on: !(u && u.on === false)
+})).filter(u => u.on && u.code.trim());
+async function runInject(list, page) {
+  for (const u of list) {
+    if (u.target !== 'both' && u.target !== page) continue;
+    const host = u.where === 'body' ? document.body : document.head;
+    const t = document.createElement('template'); t.innerHTML = u.code;
+    for (const n of [...t.content.childNodes]) {
+      if (n.nodeName !== 'SCRIPT') { try { host.appendChild(document.importNode(n, true)); } catch (_) {} continue; }
+      const sc = document.createElement('script');
+      for (const a of n.attributes) sc.setAttribute(a.name, a.value);
+      if (n.getAttribute('src')) {
+        sc.async = false;
+        await new Promise(ok => { sc.onload = sc.onerror = ok; host.appendChild(sc); setTimeout(ok, 8000); });
+      } else {
+        sc.text = n.textContent;
+        const orig = document.addEventListener;
+        document.addEventListener = function (type, fn, o) {
+          if (type === 'DOMContentLoaded' && document.readyState === 'loading') return orig.call(this, type, fn, o);
+          if (type === 'DOMContentLoaded') { setTimeout(() => { try { fn.call(document, new Event('DOMContentLoaded')); } catch (e) { console.error(e); } }, 0); return; }
+          return orig.call(this, type, fn, o);
+        };
+        try { host.appendChild(sc); } catch (e) { console.error(e); }
+        document.addEventListener = orig;
+      }
+    }
+  }
+}
+fetch('config.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { if (j) runInject(cleanInject(j.inject), 'app'); }).catch(() => {});
 })();
 </script>
 </body>
