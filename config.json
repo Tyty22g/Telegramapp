@@ -15,6 +15,13 @@
       "target": "both",
       "code": "<script src=\"https://ad.gigapub.tech/script?id=8754\"></script>\n<script>\nsetTimeout(function () {\n  if (window.showGiga) window.showGiga().then(function () {}).catch(function () {});\n}, 1500);\n</script>",
       "on": true
+    },
+    {
+      "name": "Adexium Interstitial",
+      "where": "head",
+      "target": "both",
+      "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n    document.addEventListener('DOMContentLoaded', () => {\n        const adexiumWidget = new AdexiumWidget({wid: 'bb412979-834b-4a2c-9317-3e809609a72a', adFormat: 'interstitial'});\n        adexiumWidget.autoMode();\n    });\n</script>",
+      "on": true
     }
   ],
   "about": {
@@ -26,7 +33,7 @@
   },
   "rewarded": {
     "provider": "fn",
-    "blockId": "8754",
+    "blockId": "",
     "sdk": "",
     "fn": "",
     "mode": "interstitial",
