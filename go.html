@@ -129,6 +129,17 @@ body{background:var(--bg)!important}
 .about .card{border:0!important;background:var(--surface);border-radius:24px;box-shadow:none!important}
 .xclose{display:none;position:fixed;top:max(12px,env(safe-area-inset-top));inset-inline-end:14px;z-index:99990;width:44px;height:44px;border-radius:50%;border:0;background:color-mix(in srgb,var(--text) 12%,var(--surface));color:var(--text);font-size:18px;font-weight:700;cursor:pointer}
 .app.aboutmode~.xclose{display:flex;align-items:center;justify-content:center}
+/*M3V2*/
+:root{--ring:168px}
+.app{gap:14px;padding-bottom:calc(140px + env(safe-area-inset-bottom))}
+.head h1{font-size:24px;line-height:1.35}
+.timer{display:block!important;text-align:center;padding:26px 20px 20px!important;border-radius:28px!important}
+.ring{margin:0 auto 18px}
+.ring .num b{font-size:56px}.ring .num span{font-size:13px}
+.pbar{height:6px;border-radius:6px;background:color-mix(in srgb,var(--text) 10%,transparent);overflow:hidden}
+.pbar i{display:block;height:100%;width:0;background:var(--accent);border-radius:6px}
+.done .pbar i{background:var(--ok)}
+.go{height:56px!important;font-size:17px!important}
 </style>
 </head>
 <body>
@@ -263,6 +274,7 @@ function renderRail() {
     const s = document.createElement('div'); s.className = 'seg' + (i < idx ? ' done' : ''); s.appendChild(document.createElement('i')); els.rail.appendChild(s);
   }
   els.stepno.textContent = (idx + 1) + ' / ' + config.pageCount;
+  try { window.__onStep && window.__onStep(idx + 1); } catch (_) {} /*STEPINJ*/
 }
 function paint() {
   const total = state.total, rem = state.remaining;
@@ -451,15 +463,19 @@ $('aboutlink').onclick = () => { buildAbout(!!targetUrl); els.app.classList.add(
 
 const cleanInject = a => (Array.isArray(a) ? a : []).slice(0, 50).map(u => ({
   where: u && u.where === 'body' ? 'body' : 'head',
+  pages: /^(all|[\d,\s]+)$/i.test(String((u && u.pages) || 'all').trim()) ? String((u && u.pages) || 'all').trim().toLowerCase() : 'all',
   target: u && ['go', 'app'].includes(u.target) ? u.target : 'both',
   code: String((u && u.code) || '').slice(0, 50000),
-  on: !(u && u.on === false)
+  on: !(u && u.on === false),
+  tg: !(u && u.tg === false)
 })).filter(u => u.on && u.code.trim());
 const tgUid = () => { try { return String(window.Telegram?.WebApp?.initDataUnsafe?.user?.id || ''); } catch (_) { return ''; } };
+const waitTg = async () => { try { window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.ready(); } catch (_) {} for (let i = 0; i < 30; i++) { if (tgUid()) return true; await new Promise(r => setTimeout(r, 100)); } return false; };
 async function runInject(list, page) {
-  window.TG_USER_ID = tgUid();
+  window.TG_USER_ID = tgUid(); /*TGGATE*/
   for (const u of list) {
     if (u.target !== 'both' && u.target !== page) continue;
+    if (u.tg && !(await waitTg())) continue;
     const host = u.where === 'body' ? document.body : document.head;
     const t = document.createElement('template'); t.innerHTML = u.code.replace(/\{\{TG_USER_ID\}\}/g, tgUid());
     for (const n of [...t.content.childNodes]) {
@@ -483,10 +499,40 @@ async function runInject(list, page) {
     }
   }
 }
+/*ADWALL*/
+function adWall(cfg) {
+  const wall = document.createElement('div'); wall.id = 'abwall';
+  wall.style.cssText = 'position:fixed;inset:0;z-index:2147483000;display:none;align-items:center;justify-content:center;padding:24px;background:var(--bg,#111);color:var(--text,#fff);text-align:center';
+  wall.innerHTML = '<div style="max-width:380px"><div style="font-size:44px">🛡️</div><h2 style="margin:12px 0 8px;font-size:22px"></h2><p style="margin:0 0 20px;line-height:1.7;opacity:.8"></p><button class="go" id="ab-re" style="width:100%">أعدت التفعيل، افحص مجدداً</button><button class="aboutlink" id="ab-x" style="width:100%;margin-top:10px">إغلاق التطبيق</button></div>';
+  wall.querySelector('h2').textContent = cfg.title || 'تم اكتشاف مانع إعلانات';
+  wall.querySelector('p').textContent = cfg.text || 'هذا الموقع مجاني ويعتمد على الإعلانات. عطّل مانع الإعلانات (أو الـ DNS الخاص) ثم اضغط إعادة الفحص.';
+  document.body.appendChild(wall);
+  const app = document.getElementById('app');
+  const probe = u => fetch(u, { mode: 'no-cors', cache: 'no-store' }).then(() => true, () => false);
+  async function check() {
+    const bait = document.createElement('div'); bait.className = 'adsbox ad-banner pub_300x250 text-ad textAd banner_ad adsbygoogle';
+    bait.style.cssText = 'position:absolute;left:-9999px;top:0;width:10px;height:10px'; document.body.appendChild(bait);
+    await new Promise(r => setTimeout(r, 400));
+    const cs = getComputedStyle(bait), hid = !bait.offsetHeight || cs.display === 'none' || cs.visibility === 'hidden'; bait.remove();
+    const [a, b, ok] = await Promise.all([probe('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'), probe('https://acceptable.a-ads.com/favicon.ico'), probe(location.pathname + '?p=' + Date.now())]);
+    return ok && (hid || (!a && !b));
+  }
+  async function run() { const v = await check(); wall.style.display = v ? 'flex' : 'none'; if (app) { if (v) app.setAttribute('inert', ''); else app.removeAttribute('inert'); } }
+  wall.querySelector('#ab-re').onclick = run;
+  wall.querySelector('#ab-x').onclick = () => { try { tg && tg.close(); } catch (_) {} };
+  setTimeout(run, 1200); document.addEventListener('visibilitychange', () => { if (!document.hidden) run(); });
+}
 async function init() {
   let rawCfg = null;
   try { rawCfg = await loadJson('config.json'); config = normalize(rawCfg); } catch (_) { config = normalize(null); }
-  runInject(cleanInject(rawCfg && rawCfg.inject), 'go');
+  const injList = cleanInject(rawCfg && rawCfg.inject), injDone = new Set();
+  runInject(injList.filter(u => u.pages === 'all'), 'go');
+  window.__onStep = n => {
+    const due = injList.filter(u => u.pages !== 'all' && !injDone.has(u) && u.pages.split(/[,\s]+/).includes(String(n)));
+    due.forEach(u => injDone.add(u)); if (due.length) runInject(due, 'go');
+  };
+  window.__onStep(idx + 1);
+  if (rawCfg && rawCfg.adblock && rawCfg.adblock.on) adWall(rawCfg.adblock);
   const rw = config.rewarded;
   if (rw.provider === 'adsgram') {
     if (cleanBlock(rw.blockId)) { const sc = document.createElement('script'); sc.src = 'https://sad.adsgram.ai/js/sad.min.js'; sc.async = true; document.head.appendChild(sc); }
