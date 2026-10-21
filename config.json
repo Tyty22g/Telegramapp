@@ -1,10 +1,15 @@
 {
   "pageCount": 3,
   "minAway": 3,
+  "theme": {
+    "accent": "",
+    "fx": "slide",
+    "confetti": true
+  },
   "about": {
     "name": "Download platform",
     "desc": "خدمة مجانية لفتح الروابط بشكل آمن وسريع داخل تيليجرام. افتح الرابط الذي وصلك، انتظر ثوانٍ قليلة، وسيُفتح الرابط الأصلي مباشرة.",
-    "contact": "",
+    "contact": "@y66h77",
     "bot": "Downloadplatbot",
     "app": "Downloadplatform"
   },
@@ -18,13 +23,14 @@
     "fallbackFn": "",
     "offerAfter": 2,
     "skipAll": true,
+    "passMinutes": 0,
     "text": "🎁 شاهد إعلاناً ووفّر {s} ثانية"
   },
   "pages": [
     {
       "title": "جاري تحضير الرابط",
       "subtitle": "انتظر قليلاً",
-      "seconds": 10,
+      "seconds": 60,
       "adCode": "",
       "rewarded": true,
       "require": false
@@ -32,7 +38,7 @@
     {
       "title": "نفحص الرابط من أجلك",
       "subtitle": "تفاعل مع الإعلان لمتابعة",
-      "seconds": 8,
+      "seconds": 50,
       "adCode": "",
       "rewarded": true,
       "require": false
@@ -40,7 +46,7 @@
     {
       "title": "رابطك جاهز",
       "subtitle": "آخر خطوة",
-      "seconds": 6,
+      "seconds": 20,
       "adCode": "",
       "rewarded": true,
       "require": false
