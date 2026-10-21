@@ -109,20 +109,25 @@ body::after{background:#7a5cff;bottom:-40vmax;inset-inline-end:-25vmax;animation
 @keyframes ripple{0%{transform:scale(.85);opacity:.7}100%{transform:scale(1.45);opacity:0}}
 .aads{animation:none!important;opacity:1!important;transform:none!important;filter:none!important;position:relative;z-index:5;width:100%;min-height:60px;overflow:visible}
 
-.app{max-width:460px}
-.head h1{font-size:27px;font-weight:900;background:linear-gradient(135deg,var(--text) 30%,var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+/*M3FLAT*/
+body{background:var(--bg)!important}
+.app{max-width:480px;gap:14px}
+.app.enter>*{animation:none!important}
+.head h1{font-size:22px;font-weight:700;background:none!important;color:var(--text)!important;-webkit-text-fill-color:currentColor!important}
 .trust{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
-.trust span{font-size:12px;font-weight:700;padding:5px 11px;border-radius:99px;background:color-mix(in srgb,var(--accent) 14%,transparent);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent)}
-.timer{padding:20px;border-radius:26px;background:linear-gradient(160deg,color-mix(in srgb,var(--surface) 85%,transparent),color-mix(in srgb,var(--accent) 10%,transparent));border:1px solid color-mix(in srgb,var(--accent) 38%,transparent);box-shadow:0 20px 55px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.08)}
-.ring .bar{filter:drop-shadow(0 0 9px var(--accent))}
-.ring .num b{font-size:40px;font-weight:900}
-.go{font-size:18px;font-weight:900;padding:19px;border-radius:18px;letter-spacing:.2px}
-.go:not(:disabled){box-shadow:0 14px 38px color-mix(in srgb,var(--accent) 55%,transparent);animation:goPulse 1.7s ease-in-out infinite}
-.go:disabled{opacity:.6;filter:saturate(.7)}
-@keyframes goPulse{50%{transform:scale(1.025)}}
-.aboutlink{font-weight:700;padding:10px;border-radius:12px;background:color-mix(in srgb,var(--surface) 70%,transparent)}
-.about .card{border:1px solid color-mix(in srgb,var(--accent) 22%,transparent)}
-.xclose{display:none;position:fixed;top:max(12px,env(safe-area-inset-top));inset-inline-end:14px;z-index:99990;width:42px;height:42px;border-radius:50%;border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);background:var(--surface);color:var(--text);font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.trust span{font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;background:var(--surface);border:0;color:var(--hint)}
+.timer{padding:22px;border-radius:28px;background:var(--surface)!important;border:0!important;box-shadow:none!important}
+.ring,.done .ring{filter:none!important}.ring .bar{filter:none!important}.ring circle{stroke-width:10}
+.ring .track{stroke:color-mix(in srgb,var(--text) 10%,transparent)}
+.seg{height:4px;background:color-mix(in srgb,var(--text) 12%,transparent)}
+.go{height:52px;padding:0 24px;border-radius:100px;background:var(--accent)!important;box-shadow:none!important;animation:none!important;font-size:16px;font-weight:600;letter-spacing:.1px}
+.go:disabled{background:color-mix(in srgb,var(--text) 12%,transparent)!important;color:color-mix(in srgb,var(--text) 38%,transparent)}
+.reward{height:48px;padding:0 20px;border-radius:100px;background:color-mix(in srgb,var(--accent) 16%,var(--surface))!important;color:var(--text)!important;box-shadow:none!important;font-weight:600}
+.notice{border-radius:16px;border:0!important}
+.ad-slot{border:0;border-radius:20px}
+.aboutlink{border-radius:100px;background:transparent!important;color:var(--accent);font-weight:600;padding:10px}
+.about .card{border:0!important;background:var(--surface);border-radius:24px;box-shadow:none!important}
+.xclose{display:none;position:fixed;top:max(12px,env(safe-area-inset-top));inset-inline-end:14px;z-index:99990;width:44px;height:44px;border-radius:50%;border:0;background:color-mix(in srgb,var(--text) 12%,var(--surface));color:var(--text);font-size:18px;font-weight:700;cursor:pointer}
 .app.aboutmode~.xclose{display:flex;align-items:center;justify-content:center}
 </style>
 </head>
@@ -145,25 +150,12 @@ body::after{background:#7a5cff;bottom:-40vmax;inset-inline-end:-25vmax;animation
 
   <div class="notice" id="notice" role="alert" hidden></div>
   <div class="aads"><!--SLOT:MID-->
-<!-- BEGIN AADS AD UNIT 2459314 -->
-
-<div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-          <iframe data-aa='2459314' src='//acceptable.a-ads.com/2459314/?size=Adaptive'
-                            style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
-        </div>
-
-<!-- END AADS AD UNIT 2459314 -->
-
-
-
-
-<!-- BEGIN AADS AD UNIT 2459306 -->
+  <!-- BEGIN AADS AD UNIT 2459306 -->
   <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
     <iframe data-aa='2459306' src='//acceptable.a-ads.com/2459306/?size=Adaptive'
       style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
   </div>
   <!-- END AADS AD UNIT 2459306 -->
-
 <!--/SLOT:MID--></div>
   <button class="go" id="go" disabled>انتظر العداد</button>
   <p class="dest" id="dest" hidden></p>
@@ -442,6 +434,8 @@ function buildAbout(canBack) {
   box.appendChild(el('h1', a.name || 'عن التطبيق')); box.appendChild(el('p', a.desc, 'lead'));
   box.appendChild(card('كيف يعمل؟', list('ol', ['تصلك رسالة تحتوي على رابط مختصر من البوت.', 'تفتح الرابط فتظهر صفحات انتظار قصيرة.', 'بعد انتهاء العداد يُفتح الرابط الأصلي.'])));
   box.appendChild(card('المميزات', list('ul', ['مجاني بالكامل', 'سريع وبدون تسجيل', 'يعمل داخل تيليجرام مباشرة'])));
+  box.appendChild(card('أماكن عرض الإعلانات', list('ul', ['إعلان ثابت داخل صفحة الانتظار فوق زر الفتح.', 'إعلان ثابت أسفل الشاشة ويمكن إغلاقه.', 'إعلان مكافأة اختياري بزر «شاهد إعلاناً»، ولا يلزم لفتح الرابط.'])));
+  { const rn = runners(); if (rn.length) { const db = el('button', 'شاهد إعلاناً لدعم الخدمة (اختياري)', 'go'); db.onclick = () => { Promise.resolve().then(() => rn[0]()).catch(() => {}); }; box.appendChild(db); } }
   box.appendChild(card('الإعلانات والخصوصية', el('p', 'يعرض التطبيق إعلانات لدعم الخدمة، وقد تُعرض إعلانات مكافئة اختيارية. لا نطلب أي بيانات شخصية ولا نخزّنها.', 'lead')));
   const bot = String(a.bot || '').replace(/^@/, '').trim();
   if (/^[A-Za-z0-9_]{3,64}$/.test(bot)) {
@@ -461,11 +455,13 @@ const cleanInject = a => (Array.isArray(a) ? a : []).slice(0, 50).map(u => ({
   code: String((u && u.code) || '').slice(0, 50000),
   on: !(u && u.on === false)
 })).filter(u => u.on && u.code.trim());
+const tgUid = () => { try { return String(window.Telegram?.WebApp?.initDataUnsafe?.user?.id || ''); } catch (_) { return ''; } };
 async function runInject(list, page) {
+  window.TG_USER_ID = tgUid();
   for (const u of list) {
     if (u.target !== 'both' && u.target !== page) continue;
     const host = u.where === 'body' ? document.body : document.head;
-    const t = document.createElement('template'); t.innerHTML = u.code;
+    const t = document.createElement('template'); t.innerHTML = u.code.replace(/\{\{TG_USER_ID\}\}/g, tgUid());
     for (const n of [...t.content.childNodes]) {
       if (n.nodeName !== 'SCRIPT') { try { host.appendChild(document.importNode(n, true)); } catch (_) {} continue; }
       const sc = document.createElement('script');
