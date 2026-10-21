@@ -10,37 +10,23 @@
   "ads": [],
   "inject": [
     {
-      "name": "Adexium (interstitial)",
-      "where": "head",
-      "target": "go",
-      "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n  const adexiumWidget = new AdexiumWidget({wid: 'bb412979-834b-4a2c-9317-3e809609a72a', adFormat: 'interstitial'});\n  adexiumWidget.autoMode();\n</script>",
-      "on": true
-    },
-    {
-      "name": "Adexium Push-like",
-      "where": "head",
-      "target": "go",
-      "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n{\n  const w = new AdexiumWidget({wid: 'b23bbbba-4fb5-44e7-9023-bc065dc83c73', adFormat: 'push-like'});\n  w.autoMode();\n}\n</script>",
-      "on": true
-    },
-    {
       "name": "Giga Pub",
       "where": "head",
-      "target": "go",
+      "target": "both",
       "code": "<script src=\"https://ad.gigapub.tech/script?id=8754\"></script>\n<script>\nsetTimeout(function () {\n  if (window.showGiga) window.showGiga().then(function () {}).catch(function () {});\n}, 1500);\n</script>",
       "on": true
     }
   ],
   "about": {
-    "name": "Xtreme Links",
+    "name": "Download platform",
     "desc": "خدمة مجانية لفتح الروابط بشكل آمن وسريع داخل تيليجرام. افتح الرابط الذي وصلك، انتظر ثوانٍ قليلة، وسيُفتح الرابط الأصلي مباشرة.",
     "contact": "",
     "bot": "Downloadplatbot",
     "app": "Downloadplatform"
   },
   "rewarded": {
-    "provider": "adsgram",
-    "blockId": "52330",
+    "provider": "fn",
+    "blockId": "",
     "sdk": "",
     "fn": "",
     "mode": "interstitial",
