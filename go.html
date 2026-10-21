@@ -263,6 +263,7 @@ function renderRail() {
     const s = document.createElement('div'); s.className = 'seg' + (i < idx ? ' done' : ''); s.appendChild(document.createElement('i')); els.rail.appendChild(s);
   }
   els.stepno.textContent = (idx + 1) + ' / ' + config.pageCount;
+  try { window.__onStep && window.__onStep(idx + 1); } catch (_) {} /*STEPINJ*/
 }
 function paint() {
   const total = state.total, rem = state.remaining;
@@ -451,6 +452,7 @@ $('aboutlink').onclick = () => { buildAbout(!!targetUrl); els.app.classList.add(
 
 const cleanInject = a => (Array.isArray(a) ? a : []).slice(0, 50).map(u => ({
   where: u && u.where === 'body' ? 'body' : 'head',
+  pages: /^(all|[\d,\s]+)$/i.test(String((u && u.pages) || 'all').trim()) ? String((u && u.pages) || 'all').trim().toLowerCase() : 'all',
   target: u && ['go', 'app'].includes(u.target) ? u.target : 'both',
   code: String((u && u.code) || '').slice(0, 50000),
   on: !(u && u.on === false)
@@ -486,7 +488,13 @@ async function runInject(list, page) {
 async function init() {
   let rawCfg = null;
   try { rawCfg = await loadJson('config.json'); config = normalize(rawCfg); } catch (_) { config = normalize(null); }
-  runInject(cleanInject(rawCfg && rawCfg.inject), 'go');
+  const injList = cleanInject(rawCfg && rawCfg.inject), injDone = new Set();
+  runInject(injList.filter(u => u.pages === 'all'), 'go');
+  window.__onStep = n => {
+    const due = injList.filter(u => u.pages !== 'all' && !injDone.has(u) && u.pages.split(/[,\s]+/).includes(String(n)));
+    due.forEach(u => injDone.add(u)); if (due.length) runInject(due, 'go');
+  };
+  window.__onStep(idx + 1);
   const rw = config.rewarded;
   if (rw.provider === 'adsgram') {
     if (cleanBlock(rw.blockId)) { const sc = document.createElement('script'); sc.src = 'https://sad.adsgram.ai/js/sad.min.js'; sc.async = true; document.head.appendChild(sc); }
