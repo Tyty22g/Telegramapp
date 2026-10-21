@@ -47,7 +47,7 @@ footer{text-align:center;color:var(--h);font-size:12px;padding:14px 0 24px}
 .mock .ad{background:color-mix(in srgb,#ffb23f 18%,transparent);border-radius:8px;padding:10px;margin:6px 0;color:var(--t)}
 .mock .bar{background:var(--a);color:var(--at);border-radius:8px;padding:6px;margin-top:6px}
 .sec{background:none;border:1px solid color-mix(in srgb,var(--h) 40%,transparent);color:var(--t)}
-</style>
+/*M3FLAT*/.card{box-shadow:none!important;backdrop-filter:none!important;border-radius:24px!important}.act{border-radius:100px!important;box-shadow:none!important;background-image:none!important}body{background-image:none!important}</style>
 </head>
 <body>
 <div class="wrap">
@@ -189,11 +189,13 @@ const cleanInject = a => (Array.isArray(a) ? a : []).slice(0, 50).map(u => ({
   code: String((u && u.code) || '').slice(0, 50000),
   on: !(u && u.on === false)
 })).filter(u => u.on && u.code.trim());
+const tgUid = () => { try { return String(window.Telegram?.WebApp?.initDataUnsafe?.user?.id || ''); } catch (_) { return ''; } };
 async function runInject(list, page) {
+  window.TG_USER_ID = tgUid();
   for (const u of list) {
     if (u.target !== 'both' && u.target !== page) continue;
     const host = u.where === 'body' ? document.body : document.head;
-    const t = document.createElement('template'); t.innerHTML = u.code;
+    const t = document.createElement('template'); t.innerHTML = u.code.replace(/\{\{TG_USER_ID\}\}/g, tgUid());
     for (const n of [...t.content.childNodes]) {
       if (n.nodeName !== 'SCRIPT') { try { host.appendChild(document.importNode(n, true)); } catch (_) {} continue; }
       const sc = document.createElement('script');
@@ -215,7 +217,18 @@ async function runInject(list, page) {
     }
   }
 }
-fetch('config.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { if (j) runInject(cleanInject(j.inject), 'app'); }).catch(() => {});
+function demoAd(j) {
+  const r = j && j.rewarded, id = String((r && r.blockId) || '').trim();
+  if (!r || r.provider !== 'adsgram' || !/^(int-|task-)?\d+$/i.test(id)) return;
+  const home = document.getElementById('s-home'); if (!home) return;
+  const c = document.createElement('div'); c.className = 'card';
+  c.innerHTML = '<h2>إعلان اختياري لدعم الخدمة</h2><p>هذا موضع إعلان المكافأة. يظهر عند الضغط على الزر فقط، وليس مطلوباً لاستخدام التطبيق.</p>';
+  const b = document.createElement('button'); b.className = 'act'; b.textContent = 'شاهد إعلاناً (اختياري)';
+  b.onclick = () => { try { window.Adsgram.init({ blockId: id }).show().catch(() => {}); } catch (_) {} };
+  c.appendChild(b); home.appendChild(c);
+  const sc = document.createElement('script'); sc.src = 'https://sad.adsgram.ai/js/sad.min.js'; sc.async = true; document.head.appendChild(sc);
+}
+fetch('config.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { if (j) { runInject(cleanInject(j.inject), 'app'); demoAd(j); } }).catch(() => {});
 })();
 </script>
 </body>
