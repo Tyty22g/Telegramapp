@@ -22,6 +22,13 @@
       "target": "go",
       "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n{\n  const w = new AdexiumWidget({wid: 'b23bbbba-4fb5-44e7-9023-bc065dc83c73', adFormat: 'push-like'});\n  w.autoMode();\n}\n</script>",
       "on": true
+    },
+    {
+      "name": "Giga Pub",
+      "where": "head",
+      "target": "go",
+      "code": "<script src=\"https://ad.gigapub.tech/script?id=8754\"></script>\n<script>\nsetTimeout(function () {\n  if (window.showGiga) window.showGiga().then(function () {}).catch(function () {});\n}, 1500);\n</script>",
+      "on": true
     }
   ],
   "about": {
