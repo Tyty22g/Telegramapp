@@ -7,25 +7,13 @@
     "confetti": true,
     "counter": "bar"
   },
-  "ads": [
-    {
-      "id": "umvhouyg7sep",
-      "name": "وحدة جديدة",
-      "type": "popup",
-      "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n    document.addEventListener('DOMContentLoaded', () => {\n        const adexiumWidget = new AdexiumWidget({wid: 'b23bbbba-4fb5-44e7-9023-bc065dc83c73', adFormat: 'push-like'});\n        adexiumWidget.autoMode();\n    });\n</script>",
-      "fn": "",
-      "pages": "all",
-      "cap": "once",
-      "capMin": 30,
-      "on": true
-    }
-  ],
+  "ads": [],
   "inject": [
     {
-      "name": "كود جديد",
+      "name": "Adexium (interstitial)",
       "where": "head",
-      "target": "both",
-      "code": "<script src=\"https://telegram.org/js/telegram-web-app.js?56\"></script>\n\n<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n    document.addEventListener('DOMContentLoaded', () => {\n        const adexiumWidget = new AdexiumWidget({wid: 'bb412979-834b-4a2c-9317-3e809609a72a', adFormat: 'interstitial'});\n        adexiumWidget.autoMode();\n    });\n</script>",
+      "target": "go",
+      "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n  const adexiumWidget = new AdexiumWidget({wid: 'bb412979-834b-4a2c-9317-3e809609a72a', adFormat: 'interstitial'});\n  adexiumWidget.autoMode();\n</script>",
       "on": true
     }
   ],
