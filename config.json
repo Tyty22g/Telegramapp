@@ -37,8 +37,8 @@
     "app": "Downloadplatform"
   },
   "rewarded": {
-    "provider": "fn",
-    "blockId": "bb412979-834b-4a2c-9317-3e809609a72a",
+    "provider": "adsgram",
+    "blockId": "52330",
     "sdk": "",
     "fn": "",
     "mode": "interstitial",
