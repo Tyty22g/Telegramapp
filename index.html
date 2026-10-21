@@ -47,7 +47,7 @@ footer{text-align:center;color:var(--h);font-size:12px;padding:14px 0 24px}
 .mock .ad{background:color-mix(in srgb,#ffb23f 18%,transparent);border-radius:8px;padding:10px;margin:6px 0;color:var(--t)}
 .mock .bar{background:var(--a);color:var(--at);border-radius:8px;padding:6px;margin-top:6px}
 .sec{background:none;border:1px solid color-mix(in srgb,var(--h) 40%,transparent);color:var(--t)}
-/*M3FLAT*/.card{box-shadow:none!important;backdrop-filter:none!important;border-radius:24px!important}.act{border-radius:100px!important;box-shadow:none!important;background-image:none!important}body{background-image:none!important}</style>
+/*M3FLAT*/.card{box-shadow:none!important;backdrop-filter:none!important;border-radius:24px!important}.act{border-radius:100px!important;box-shadow:none!important;background-image:none!important}body{background-image:none!important}/*STEPINJ*/</style>
 </head>
 <body>
 <div class="wrap">
@@ -185,6 +185,7 @@ if (CONFIG.support) { $('opensup').hidden = false; $('opensup').onclick = () => 
 
 const cleanInject = a => (Array.isArray(a) ? a : []).slice(0, 50).map(u => ({
   where: u && u.where === 'body' ? 'body' : 'head',
+  pages: /^(all|[\d,\s]+)$/i.test(String((u && u.pages) || 'all').trim()) ? String((u && u.pages) || 'all').trim().toLowerCase() : 'all',
   target: u && ['go', 'app'].includes(u.target) ? u.target : 'both',
   code: String((u && u.code) || '').slice(0, 50000),
   on: !(u && u.on === false)
@@ -228,7 +229,7 @@ function demoAd(j) {
   c.appendChild(b); home.appendChild(c);
   const sc = document.createElement('script'); sc.src = 'https://sad.adsgram.ai/js/sad.min.js'; sc.async = true; document.head.appendChild(sc);
 }
-fetch('config.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { if (j) { runInject(cleanInject(j.inject), 'app'); demoAd(j); } }).catch(() => {});
+fetch('config.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { if (j) { runInject(cleanInject(j.inject).filter(u => u.pages === 'all'), 'app'); demoAd(j); } }).catch(() => {});
 })();
 </script>
 </body>
