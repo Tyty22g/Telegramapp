@@ -14,7 +14,7 @@
       "type": "rewarded",
       "code": "<script src=\"https://ad.gigapub.tech/script?id=8754\"></script>",
       "fn": "showGiga",
-      "pages": "1",
+      "pages": "1,2",
       "cap": "once",
       "capMin": 30,
       "on": true
@@ -25,7 +25,7 @@
       "type": "rewarded",
       "code": "<script src=\"https://ad.gigapub.tech/script?id=8754\"></script>",
       "fn": "showGiga",
-      "pages": "2",
+      "pages": "2,3",
       "cap": "once",
       "capMin": 30,
       "on": true
