@@ -1,32 +1,38 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>Xtreme Links</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
-<style>
-:root{--ac:#2a2fd9;--bg:#eceef6;--ink:#10142b}*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:Tajawal,system-ui,sans-serif;line-height:1.8}
-main{max-width:520px;margin:0 auto;padding:44px 24px}
-h1{font-size:44px;font-weight:900;line-height:1.1;letter-spacing:-.02em}
-.lead{margin-top:14px;font-size:17px;opacity:.75}
-ol{list-style:none;margin:34px 0;border-inline-start:3px solid var(--ac);padding-inline-start:18px;display:grid;gap:16px}
-ol b{display:block;font-size:18px}ol span{opacity:.7;font-size:15px}
-.c{background:var(--ac);color:#fff;border-radius:26px;padding:20px 22px}.c b{font-size:18px}.c p{opacity:.85;margin-top:2px}
-a.bt{display:inline-block;margin-top:12px;background:#fff;color:var(--ac);font-weight:900;border-radius:14px;padding:10px 18px;text-decoration:none}
-footer{margin-top:30px;font-size:13px;opacity:.55}
-</style></head><body><main>
-<h1 id="n">Xtreme Links</h1><p class="lead" id="d"></p>
-<ol><li><b>افتح الرابط</b><span>الرابط الذي وصلك داخل تيليجرام</span></li><li><b>انتظر ثوانٍ</b><span>نجهّز الرابط ونفحصه لك</span></li><li><b>تابع</b><span>يُفتح الرابط الأصلي مباشرة</span></li></ol>
-<div class="c"><b>تحتاج مساعدة؟</b><p>تواصل معنا عبر البوت لأي استفسار أو بلاغ.</p><a class="bt" id="bot" hidden>افتح البوت</a></div>
-<footer id="f"></footer></main>
-<script>
-(async()=>{
-const tg=window.Telegram&&window.Telegram.WebApp;try{tg.ready();tg.expand()}catch(_){}
-const Q=new URLSearchParams(location.search),key=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.start_param)||Q.get('startapp')||Q.get('tgWebAppStartParam')||'';
-if(/^[\w.~-]{1,128}$/.test(key)){document.body.textContent='جاري التحضير…';location.replace('go.html?startapp='+encodeURIComponent(key)+location.hash);return}
-let c={};try{c=await fetch('config.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.json())}catch(_){}
-const a=c.about||{},name=c.name||a.name||'Xtreme Links',desc=c.desc||a.desc||'خدمة مجانية لفتح الروابط بأمان وسرعة داخل تيليجرام.',bot=c.bot||a.bot||'';
-const $=i=>document.getElementById(i);document.title=name;$('n').textContent=name;$('d').textContent=desc;$('f').textContent='© '+new Date().getFullYear()+' '+name;
-if(/^#[0-9a-f]{6}$/i.test(c.accent||''))document.documentElement.style.setProperty('--ac',c.accent);
-if(/^[\w]{3,64}$/.test(bot)){const b=$('bot');b.href='https://t.me/'+bot;b.hidden=false}
-if(c.head){const t=document.createElement('template');t.innerHTML=c.head.replace(/\{\{TG_USER_ID\}\}/g,String(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user?tg.initDataUnsafe.user.id:''));t.content.querySelectorAll('script').forEach(o=>{const n=document.createElement('script');[...o.attributes].forEach(x=>n.setAttribute(x.name,x.value));n.text=o.text;o.replaceWith(n)});document.head.appendChild(t.content)}
-})();
-</script></body></html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>جارٍ تحضير الرابط</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="head">
+      <h1 id="title">جارٍ تحضير الرابط…</h1>
+      <p id="subtitle">انتظر قليلاً قبل الانتقال.</p>
+    </header>
+
+    <!-- ضع كود شبكة الإعلانات هنا (Monetag / بنر) -->
+    <section class="ad-slot" id="ad-slot">
+      مساحة الإعلان
+    </section>
+
+    <section class="timer">
+      <div class="ring">
+        <svg viewBox="0 0 96 96" aria-hidden="true">
+          <circle class="track" cx="48" cy="48" r="42"></circle>
+          <circle class="bar" id="bar" cx="48" cy="48" r="42"></circle>
+        </svg>
+        <div id="count" aria-live="polite">10</div>
+      </div>
+      <p id="status">يرجى الانتظار حتى انتهاء العد التنازلي</p>
+    </section>
+
+    <button id="go" disabled>انتقل إلى الرابط</button>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
