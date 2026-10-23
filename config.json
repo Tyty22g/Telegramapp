@@ -1,5 +1,5 @@
 {
-  "pageCount": 3,
+  "pageCount": 1,
   "minAway": 3,
   "theme": {
     "accent": "",
@@ -9,23 +9,16 @@
   },
   "ads": [
     {
-      "id": "umvkntx42jja",
-      "name": "GigaPub",
+      "id": "umvkw5cz36ve",
+      "name": "Adsgram",
+      "net": "adsgram",
+      "zid": "int-55626",
       "type": "rewarded",
-      "code": "<script src=\"https://ad.gigapub.tech/script?id=8754\"></script>",
-      "fn": "showGiga",
-      "pages": "1,2",
-      "cap": "once",
-      "capMin": 30,
-      "on": true
-    },
-    {
-      "id": "umvko1vuitgv",
-      "name": "GigaPub2",
-      "type": "rewarded",
-      "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n    document.addEventListener('DOMContentLoaded', () => {\n        const adexiumWidget = new AdexiumWidget({wid: 'b23bbbba-4fb5-44e7-9023-bc065dc83c73', adFormat: 'push-like'});\n        adexiumWidget.autoMode();\n    });\n</script>",
-      "fn": "AdexiumWidget",
-      "pages": "2,3",
+      "code": "",
+      "fn": "",
+      "arg": "",
+      "rep": 1,
+      "pages": "1",
       "cap": "once",
       "capMin": 30,
       "on": true
@@ -38,9 +31,9 @@
     "text": "هذا الموقع مجاني ويعتمد على الإعلانات. عطّل مانع الإعلانات (أو الـ DNS الخاص) ثم اضغط إعادة الفحص."
   },
   "about": {
-    "name": "Download platform",
-    "desc": "خدمة مجانية لتحميل ملفات او كتب او اكواد برمجية وغيهرا بشكل آمن وسريع داخل تيليجرام. افتح الرابط الذي وصلك، انتظر ثوانٍ قليلة، وسيُفتح الرابط الأصلي مباشرة.",
-    "contact": "@y66h77",
+    "name": "Xtreme Links",
+    "desc": "خدمة مجانية لفتح الروابط بشكل آمن وسريع داخل تيليجرام. افتح الرابط الذي وصلك، انتظر ثوانٍ قليلة، وسيُفتح الرابط الأصلي مباشرة.",
+    "contact": "",
     "bot": "Downloadplatbot",
     "app": "Downloadplatform",
     "logo": "",
@@ -64,22 +57,6 @@
       "title": "رابطك جاهز",
       "subtitle": "آخر خطوة",
       "seconds": 10,
-      "adCode": "",
-      "rewarded": true,
-      "require": false
-    },
-    {
-      "title": "رابطك جاهز",
-      "subtitle": "آخر خطوة",
-      "seconds": 6,
-      "adCode": "",
-      "rewarded": true,
-      "require": false
-    },
-    {
-      "title": "رابطك جاهز",
-      "subtitle": "آخر خطوة",
-      "seconds": 6,
       "adCode": "",
       "rewarded": true,
       "require": false
