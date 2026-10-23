@@ -5,7 +5,19 @@
     "accent": "",
     "fx": "slide",
     "confetti": true,
-    "counter": "ring"
+    "counter": "ring",
+    "frame": "rainbow"
+  },
+  "retries": 2,
+  "tgOnly": true,
+  "consent": {
+    "on": false,
+    "text": "بالمتابعة توافق صراحةً على عرض إعلانات من شبكات خارجية أثناء استخدام الخدمة. الإعلانات تدعم بقاء الخدمة مجاناً، ولا يُطلب منك النقر عليها، ويمكنك الإبلاغ عن أي إعلان عبر وسيلة التواصل."
+  },
+  "maint": {
+    "on": false,
+    "title": "الخدمة متوقفة مؤقتاً",
+    "text": "نعود قريباً."
   },
   "ads": [
     {
@@ -18,6 +30,7 @@
       "fn": "",
       "arg": "",
       "rep": 3,
+      "opt": 2,
       "pages": "1,2",
       "cap": "once",
       "capMin": 30,
@@ -33,6 +46,7 @@
       "fn": "",
       "arg": "",
       "rep": 1,
+      "opt": 0,
       "pages": "all",
       "cap": "once",
       "capMin": 30,
@@ -48,6 +62,7 @@
       "fn": "",
       "arg": "",
       "rep": 2,
+      "opt": 0,
       "pages": "1",
       "cap": "once",
       "capMin": 30,
