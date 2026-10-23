@@ -26,6 +26,24 @@
   },
   "ads": [
     {
+      "id": "umvkzxbh3vsg",
+      "name": "gigapub",
+      "net": "gigapub",
+      "zid": "8754",
+      "type": "rewarded",
+      "code": "",
+      "fn": "",
+      "arg": "",
+      "rep": 1,
+      "opt": 0,
+      "pages": "1",
+      "cap": "once",
+      "capMin": 30,
+      "pts": 2,
+      "daily": 0,
+      "on": false
+    },
+    {
       "id": "umvkx7lleizr",
       "name": "adexium",
       "net": "adexium",
