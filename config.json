@@ -34,13 +34,13 @@
       "code": "",
       "fn": "",
       "arg": "",
-      "rep": 1,
+      "rep": 3,
       "opt": 0,
-      "pages": "1",
+      "pages": "1, 2",
       "cap": "once",
       "capMin": 30,
       "pts": 2,
-      "daily": 0,
+      "daily": 5,
       "on": false
     },
     {
@@ -53,12 +53,12 @@
       "fn": "",
       "arg": "",
       "rep": 3,
-      "opt": 2,
+      "opt": 0,
       "pages": "1,2",
       "cap": "once",
       "capMin": 30,
       "pts": 2,
-      "daily": 0,
+      "daily": 5,
       "on": true
     },
     {
