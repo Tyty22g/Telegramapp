@@ -98,7 +98,17 @@
       "on": true
     }
   ],
-  "inject": [],
+  "inject": [
+    {
+      "pages": "all",
+      "name": "taddy",
+      "where": "head",
+      "target": "both",
+      "code": "<script src=\"https://sdk.taddy.pro/web/taddy.min.js\" data-pub-id=\"2eebf9c5b9f8c9fffd731f720ba490fd\"></script>",
+      "on": true,
+      "tg": true
+    }
+  ],
   "adblock": {
     "on": false,
     "title": "تم اكتشاف مانع إعلانات",
