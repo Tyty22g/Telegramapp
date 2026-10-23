@@ -10,7 +10,7 @@
   "ads": [],
   "inject": [
     {
-      "pages": "all",
+      "pages": "2",
       "name": "Giga Pub",
       "where": "head",
       "target": "both",
@@ -22,7 +22,7 @@
       "label": ""
     },
     {
-      "pages": "all",
+      "pages": "3",
       "name": "Adexium Interstitial",
       "where": "head",
       "target": "both",
