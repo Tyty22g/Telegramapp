@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>الملفات</title>
+<title>Download Platform</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 :root{--bg:#0b0906;--card:#16120b;--line:#2b2314;--tx:#f5ecd9;--mut:#9c9078;--g1:#ffc247;--g2:#ff9300}
@@ -13,7 +13,7 @@ body{background:radial-gradient(120% 55% at 50% -10%,#2b1e08 0%,var(--bg) 62%) f
 .top{display:flex;align-items:center;gap:12px;padding:16px 16px 4px;max-width:520px;margin:0 auto}
 .lg{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;color:#2a1700;background:linear-gradient(145deg,var(--g1),var(--g2));box-shadow:0 8px 22px #ff930044}
 .top b{font-size:18px;display:block}.top small{color:var(--mut);font-size:12px}
-#view{max-width:520px;margin:0 auto;padding:6px 16px 120px;animation:in .3s ease}
+#view{max-width:520px;margin:0 auto;padding:6px 16px 16px;animation:in .3s ease}
 @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .hero{padding:14px 2px 4px}.hero h1{font-size:21px;line-height:1.5}.hero p{color:var(--mut);font-size:13.5px;margin-top:4px;line-height:1.7}
 .prog{height:7px;background:#221b0e;border-radius:9px;margin-top:14px;overflow:hidden}.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--g1),var(--g2));border-radius:9px;transition:width .5s}
@@ -54,6 +54,12 @@ body::before{background:#ff9300;top:-90px;right:-110px}body::after{background:#f
 .cf{position:fixed;top:32%;left:50%;width:8px;height:12px;border-radius:2px;z-index:50;pointer-events:none;animation:cf 1.2s ease-out forwards}
 @keyframes cf{to{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0}}
 @media (prefers-reduced-motion:reduce){body::before,body::after,.hb::before,.btn::after,.final::after{animation:none}.cf{display:none}}
+#slot-mid,#slot-foot{max-width:520px;margin:0 auto;padding:0 16px}#slot-foot{padding-bottom:112px}
+.note{text-align:center;color:var(--mut);font-size:11.5px;line-height:1.8;margin-top:14px}
+.nt{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:12px 14px;border-radius:16px;background:#2a1f08;border:1px solid #ffb11b44;color:var(--g1);font-size:13px;line-height:1.7}
+.acts{display:flex;gap:8px;flex:none}.sh{flex:none;width:44px;height:44px;border:1px solid var(--line);background:var(--card);color:var(--mut);border-radius:14px;display:grid;place-items:center;cursor:pointer}
+.dt{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-top:12px}.dt summary{cursor:pointer;font-weight:700;list-style:none}.dt summary::-webkit-details-marker{display:none}.dt p{color:var(--mut);font-size:13px;line-height:1.9;margin-top:8px}
+nav button{font-size:11.5px}
 </style>
 </head>
 <body>
@@ -77,14 +83,18 @@ body::before{background:#ff9300;top:-90px;right:-110px}body::after{background:#f
 <symbol id="i-game" viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="11" rx="5"/><path d="M7 10.5v4M5 12.5h4M15.5 11.5v.01M18 13.5v.01"/></symbol>
 <symbol id="i-app" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M7 6.5v.01M10 6.5v.01"/></symbol>
 <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 8-5 4 5 4M16 8l5 4-5 4M14 5l-4 14"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.5 3 7.7 7.5 9.5 4.5-1.8 7.5-5 7.5-9.5V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
+<symbol id="i-share" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="m8.2 10.8 7.6-3.6M8.2 13.2l7.6 3.6"/></symbol>
 </defs></svg>
 
-<header class="top"><div class="lg" id="lg"><svg class="ic"><use href="#i-logo"/></svg></div><div><b id="brand">الملفات</b><small>تحميل سريع وآمن</small></div></header>
+<header class="top"><div class="lg" id="lg"><svg class="ic"><use href="#i-logo"/></svg></div><div><b id="brand">Download Platform</b><small>تحميل سريع وآمن</small></div></header>
+<div id="slot-mid"><!--SLOT:MID--><!--/SLOT:MID--></div>
 <main id="view"></main>
-<nav><button id="t-files" class="on"><svg class="ic"><use href="#i-file"/></svg>الملفات</button><button id="t-about"><svg class="ic"><use href="#i-info"/></svg>حول</button></nav>
+<div id="slot-foot"><!--SLOT:FOOT--><!--/SLOT:FOOT--></div>
+<nav><button id="t-files" class="on"><svg class="ic"><use href="#i-file"/></svg>الملفات</button><button id="t-about"><svg class="ic"><use href="#i-info"/></svg>حول</button><button id="t-legal"><svg class="ic"><use href="#i-shield"/></svg>السياسات</button></nav>
 
 <script>
-/*TGGATE*/ /*SLOT:FOOT*/ /*ADS-V5*/
+/*TGGATE*/ /*SLOT:FOOT*/ /*ADS-V6*/
 (() => {
 'use strict';
 const tg = window.Telegram && Telegram.WebApp, $ = s => document.querySelector(s);
@@ -111,7 +121,7 @@ async function loadHtml(code, host) {
     if (n.nodeName !== 'SCRIPT') continue;
     const s = document.createElement('script'); for (const a of n.attributes) s.setAttribute(a.name, a.value);
     if (n.getAttribute('src')) { s.async = false; await new Promise(ok => { s.onload = s.onerror = ok; (host || document.head).append(s); setTimeout(ok, 8000); }); }
-    else { s.text = n.textContent; (host || document.head).append(s); }
+    else { s.text = n.textContent.replace(/(?:window|document)\.addEventListener\(\s*['\"](?:DOMContentLoaded|load)['\"]\s*,/g, '(function(f){f()})('); (host || document.head).append(s); }
   }
 }
 
@@ -122,17 +132,27 @@ function buildSteps() {
   if (r.provider === 'adsgram') { const id = String(r.blockId || '').trim(); if (/^(int-|task-)?\d+$/i.test(id)) out.push({ pg: [1], kind: 'adsgram', name: 'Adsgram', id }); }
   else if (r.fn) out.push({ pg: [1], kind: 'sdk', name: r.name || 'Monetag', code: r.sdk || '', fn: r.fn, mode: r.mode });
   if (r.fallbackFn) out.push({ pg: [1], kind: 'sdk', name: 'Ads', code: r.fallbackSdk || '', fn: r.fallbackFn });
+  const NETN = { adsgram: 'Adsgram', monetag: 'Monetag', gigapub: 'GigaPub', adexium: 'Adexium', link: 'Ads' };
   (Array.isArray(cfg.ads) ? cfg.ads : []).filter(u => u && u.on !== false).forEach(u => {
-    if (u.type === 'rewarded' && u.fn) out.push({ pg: pgs(u.pages), kind: 'sdk', name: u.name || 'Ads', code: u.code || '', fn: u.fn, rep: u.rep, arg: u.arg });
-    else if (u.type === 'link' && safe(u.code)) out.push({ pg: pgs(u.pages), kind: 'link', name: u.name || 'Ads', url: String(u.code).trim(), rep: u.rep });
+    const net = u.net || 'custom', z = String(u.zid || '').trim(), pg = pgs(u.pages), nm = u.name || NETN[net] || 'Ads', rep = u.rep;
+    if (net === 'adsgram' && z) out.push({ pg, kind: 'adsgram', name: nm, id: z, rep });
+    else if (net === 'monetag' && /^\d+$/.test(z)) out.push({ pg, kind: 'sdk', name: nm, code: '<script src="//libtl.com/sdk.js" data-zone="' + z + '" data-sdk="show_' + z + '"><\/script>', fn: 'show_' + z, arg: u.arg, rep });
+    else if (net === 'gigapub' && /^\d+$/.test(z)) out.push({ pg, kind: 'sdk', name: nm, code: '<script src="https://ad.gigapub.tech/script?id=' + z + '"><\/script>', fn: 'showGiga', arg: u.arg, rep });
+    else if (net === 'adexium' && /^[0-9a-f-]{36}$/i.test(z)) out.push({ pg, kind: 'adexium', name: nm, wid: z, rep });
+    else if (net === 'link' && safe(z)) out.push({ pg, kind: 'link', name: nm, url: z, rep });
+    else if (net === 'custom') {
+      if (u.type === 'rewarded' && u.fn) out.push({ pg, kind: 'sdk', name: nm, code: u.code || '', fn: u.fn, rep, arg: u.arg });
+      else if (u.type === 'link' && safe(u.code)) out.push({ pg, kind: 'link', name: nm, url: String(u.code).trim(), rep });
+    }
   });
-  const flat = []; out.forEach(s => s.pg.forEach(p => { const n = Math.max(1, Math.min(50, +s.rep || 1)); for (let k = 1; k <= n; k++) flat.push({ ...s, pg: p, name: n > 1 ? s.name + ' ' + k : s.name }); }));
-  return flat.length ? flat : [{ kind: 'timer', name: 'انتظار', seconds: 10, pg: 1 }];
+  const flat = []; out.forEach(s => s.pg.forEach(p => { const n = Math.max(1, Math.min(50, +s.rep || 1)); flat.push({ ...s, pg: p, need: n, got: 0 }); }));
+  return flat.length ? flat : [{ kind: 'timer', name: 'انتظار', seconds: 10, pg: 1, need: 1, got: 0 }];
 }
 async function prep(st) {
   if (!st || st.ready) return;
   try {
     if (st.kind === 'adsgram') { if (!window.Adsgram && !loaded.has('ag')) { loaded.add('ag'); await loadHtml('<script src="https://sad.adsgram.ai/js/sad.min.js"><\/script>'); } for (let i = 0; i < 15 && !window.Adsgram; i++) await sleep(200); st.ready = !!window.Adsgram; }
+    else if (st.kind === 'adexium') { if (!window.AdexiumWidget && !loaded.has('adx')) { loaded.add('adx'); await loadHtml('<script src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"><\/script>'); } for (let i = 0; i < 15 && !window.AdexiumWidget; i++) await sleep(200); st.ready = !!window.AdexiumWidget; }
     else if (st.kind === 'sdk') { if (tg) for (let i = 0; i < 30 && !uid(); i++) await sleep(100); if (st.code.trim() && !loaded.has(st.code)) { loaded.add(st.code); await loadHtml(st.code.replace(/\{\{TG_USER_ID\}\}/g, uid())); } for (let i = 0; i < 15 && !fnOf(st.fn); i++) await sleep(200); st.ready = !!fnOf(st.fn); }
     else st.ready = true;
   } catch (e) { dbg('prep error ' + e.message); }
@@ -141,6 +161,13 @@ async function prep(st) {
 const fill = s => String(s).replace(/\{\{TG_USER_ID\}\}/g, uid()).replace(/\{\{KEY\}\}/g, gate ? gate.key : '');
 const argOf = st => { const a = String(st.arg || '').trim(), id = uid(); if (!a) return /^show_/.test(st.fn) && id ? { ymid: id, requestVar: gate ? gate.key : '' } : undefined; const x = fill(a); try { return JSON.parse(x); } catch (_) { return x; } };
 const run = st => {
+  if (st.kind === 'adexium') return new Promise((res, rej) => {
+    const w = st.w || (st.w = new window.AdexiumWidget({ wid: st.wid, adFormat: 'interstitial', debug: false })); let fin = false;
+    const ok = () => { if (!fin) { fin = true; res(); } }, no = e => { if (!fin) { fin = true; rej(e || { error: true }); } };
+    w.on('adReceived', ad => { try { w.displayAd(ad); } catch (e) { no(e); } }); w.on('adPlaybackCompleted', ok);
+    w.on('noAdFound', () => no({ error: true, description: 'no ad found' })); w.on('adClosed', () => no({ error: false, done: false }));
+    w.requestAd('interstitial'); setTimeout(() => no({ error: true, description: 'timeout' }), 30000);
+  });
   if (st.kind === 'adsgram') { st.ctl = st.ctl || window.Adsgram.init({ blockId: st.id }); return st.ctl.show(); }
   if (st.kind === 'sdk') { const f = fnOf(st.fn), x = argOf(st); return Promise.resolve(st.mode === 'pop' ? f('pop') : x === undefined ? f() : f(x)); }
   if (st.kind === 'link') return new Promise((res, rej) => { const a = { t: Date.now(), res, rej }; away = a; openUrl(fill(st.url)); setTimeout(() => { if (away === a) { away = null; res(); } }, ((cfg.minAway || 5) + 12) * 1000); });
@@ -153,7 +180,7 @@ try { tg.onEvent('activated', back); } catch (_) {}
 // واجهة
 const BR = { adsgram: ['#2f6bff', '#fff'], monetag: ['#a6e25f', '#1a2a08'], giga: ['#101010', '#b6ff3b'], adex: ['#eef4ff', '#2b7cff'], usl: ['#0b1b4f', '#6aa8ff'] };
 const badge = name => { const n = String(name).toLowerCase(); let c = ['linear-gradient(145deg,#ffc247,#ff9300)', '#2a1700']; for (const k in BR) if (n.includes(k)) c = BR[k]; const b = H('div', 'bd', (String(name).trim()[0] || 'A').toUpperCase()); b.style.background = c[0]; b.style.color = c[1]; return b; };
-const view = () => { const v = $('#view'); v.replaceChildren(); v.style.animation = 'none'; void v.offsetWidth; v.style.animation = ''; window.scrollTo(0, 0); return v; };
+const view = keep => { const v = $('#view'); v.replaceChildren(); if (!keep) { v.style.animation = 'none'; void v.offsetWidth; v.style.animation = ''; window.scrollTo(0, 0); } return v; };
 const slots = () => {
   const w = H('div', 'slots');
   (Array.isArray(cfg.ads) ? cfg.ads : []).filter(u => u && u.on !== false && u.type === 'banner' && String(u.code || '').trim()).forEach(u => {
@@ -166,8 +193,8 @@ const slots = () => {
 };
 const onBack = () => setTab('files');
 const setBack = s => { try { tg.BackButton.offClick(onBack); if (s) { tg.BackButton.onClick(onBack); tg.BackButton.show(); } else tg.BackButton.hide(); } catch (_) {} };
-function setTab(t) { $('#t-files').classList.toggle('on', t === 'files'); $('#t-about').classList.toggle('on', t === 'about'); t === 'files' ? paintHome() : paintAbout(); }
-$('#t-files').onclick = () => setTab('files'); $('#t-about').onclick = () => setTab('about');
+function setTab(t) { ['files', 'about', 'legal'].forEach(x => $('#t-' + x).classList.toggle('on', x === t)); ({ files: paintHome, about: paintAbout, legal: paintLegal })[t](); }
+$('#t-files').onclick = () => setTab('files'); $('#t-about').onclick = () => setTab('about'); $('#t-legal').onclick = () => setTab('legal');
 
 const TYPES = { apk: ['APK', '#58d27a', 'apk'], zip: ['ZIP', '#ffb11b', 'zip'], pdf: ['PDF', '#ff6b5e', 'pdf'], doc: ['DOC', '#5aa2ff', 'file'], video: ['VIDEO', '#b07bff', 'video'], audio: ['AUDIO', '#ff6fb1', 'audio'], image: ['IMG', '#35d4c4', 'image'], game: ['GAME', '#ff8a3d', 'game'], app: ['APP', '#4cc3ff', 'app'], code: ['CODE', '#a6e25f', 'code'], file: ['FILE', '#ffc247', 'file'] };
 const RX = [['apk', /apk/], ['zip', /\.(zip|rar|7z)|zip|rar/], ['pdf', /pdf/], ['video', /\.(mp4|mkv|avi)|video|فيديو/], ['audio', /\.(mp3|wav)|mp3|صوت/], ['image', /\.(png|jpe?g|webp)|صور/], ['game', /game|لعبة|العاب|ألعاب/], ['code', /\.(js|py|json)|script|سكربت|كود/], ['doc', /\.(docx?|txt)|doc|كتاب/], ['app', /app|تطبيق|برنامج|\.exe|\.ipa/]];
@@ -176,10 +203,29 @@ const fileTile = i => { const t = guessType(i), [lb, c, sy] = TYPES[t], d = H('d
 const banner = () => {
   const a = cfg.about || {}, b = H('div', 'hb'), r = H('div', 'hr'), l = H('div', 'lg'), t = H('div', 'tx'), m = H('div', 'meta');
   if (safe(a.logo)) { const im = document.createElement('img'); im.alt = ''; im.src = a.logo; l.append(im); } else l.append(ic('logo'));
-  t.append(H('b', '', a.name || 'منصة التحميل'), H('span', '', 'حمّل ملفاتك المفضلة بسرعة وأمان')); r.append(l, t);
+  t.append(H('b', '', a.name || 'Download Platform'), H('span', '', 'حمّل ملفاتك المفضلة بسرعة وأمان')); r.append(l, t);
   [items.length + ' ملف', 'روابط آمنة', 'تحديث مستمر'].forEach(x => m.append(H('em', 'g', x))); b.append(r, m); return b;
 };
 const burst = () => { const cs = ['#ffc247', '#ff9300', '#58d27a', '#4cc3ff', '#ff6fb1']; for (let i = 0; i < 26; i++) { const e = H('i', 'cf'); e.style.background = cs[i % 5]; e.style.setProperty('--x', (Math.random() * 320 - 160) + 'px'); e.style.setProperty('--y', (Math.random() * 380 - 60) + 'px'); e.style.setProperty('--r', (Math.random() * 720) + 'deg'); document.body.append(e); setTimeout(() => e.remove(), 1300); } };
+const injected = new Set();
+const runInject = mode => (Array.isArray(cfg.inject) ? cfg.inject : []).forEach(async (u, idx) => {
+  if (!u || u.on === false || !String(u.code || '').trim() || injected.has(idx)) return;
+  const t = u.target || 'both'; if (t !== 'both' && t !== mode) return; injected.add(idx);
+  if (u.tg !== false) for (let i = 0; i < 30 && !uid(); i++) await sleep(100);
+  loadHtml(String(u.code).replace(/\{\{TG_USER_ID\}\}/g, uid()), u.where === 'body' ? document.body : document.head);
+});
+const notice = () => { const n = cfg.about && cfg.about.notice; if (!n) return H('i'); const d = H('div', 'nt'); d.append(ic('info'), H('span', '', n)); return d; };
+const shareLink = i => { const bot = String((cfg.about && cfg.about.bot) || 'Downloadplat').replace(/^@/, ''), u = 'https://t.me/' + bot + '/' + cfg.about.app + '?startapp=' + i.link, s = 'https://t.me/share/url?url=' + encodeURIComponent(u) + '&text=' + encodeURIComponent(i.title || ''); tg && tg.openTelegramLink ? tg.openTelegramLink(s) : openUrl(s); };
+function paintLegal() {
+  gate = null; setBack(false);
+  const a = cfg.about || {}, v = view(), h = H('div', 'hero'), ct = a.contact || ('@' + String(a.bot || 'Downloadplat').replace(/^@/, ''));
+  h.append(H('h1', '', 'السياسات والشروط'), H('p', '', 'نلتزم بالشفافية في الإعلانات والخصوصية والمحتوى.')); v.append(h);
+  [['سياسة الخصوصية', 'نستخدم معرّف حسابك على تيليجرام لتشغيل الخدمة وللتحقق من عرض الإعلانات وقياس أدائها لدى الشركاء الإعلانيين. لا نطلب رقم هاتفك ولا بريدك الإلكتروني ولا نبيع بياناتك. قد تستخدم شبكات الإعلان بيانات تقنية مثل نوع الجهاز واللغة وفق سياساتها الخاصة.'],
+   ['شروط الاستخدام', 'تُستخدم الروابط والملفات للأغراض المشروعة فقط. الملفات تعود لأصحابها وتُعرض كما هي دون ضمانات، والمستخدم مسؤول عن تحميلها واستخدامها. نحتفظ بحق تعديل الخدمة أو إيقافها.'],
+   ['الإعلانات', 'تُعرض الإعلانات من شبكات خارجية، ولا تُعرض تلقائياً بل بعد ضغطك على زر المتابعة. لا نطلب منك النقر على أي إعلان ولا نقدّم مقابلاً على النقر. الإعلانات تموّل بقاء الخدمة مجاناً، ويمكنك الإبلاغ عن أي إعلان غير لائق عبر التواصل أدناه.'],
+   ['الملكية وحقوق النشر', 'نحترم حقوق الملكية الفكرية. إذا كنت صاحب حق وترى أن ملفاً مخالف لحقوقك، راسلنا وسنراجع الطلب ونزيل المحتوى عند ثبوته.'],
+   ['التواصل', 'للاستفسار أو الإبلاغ: ' + ct]].forEach(([t, d]) => { const x = H('details', 'dt'); x.append(H('summary', '', t), H('p', '', d)); v.append(x); });
+}
 function paintHome() {
   gate = null; setBack(false);
   const v = view(), q = H('input', 'search'), chips = H('div', 'chips'), list = H('div'); let cat = '';
@@ -193,55 +239,59 @@ function paintHome() {
       tx.append(H('b', '', i.title), H('span', '', i.desc || ''));
       if (i.cat || i.featured) { const m = H('div', 'meta'); if (i.featured) m.append(H('em', 'g', 'مميز')); if (i.cat) m.append(H('em', '', i.cat)); tx.append(m); }
       b.append(H('span', '', 'تحميل'), ic('download')); b.onclick = () => startGate(i.link, i.title);
-      c.append(ib, tx, b); list.append(c);
+      const ac = H('div', 'acts'); ac.append(b); if (cfg.about && cfg.about.app) { const sh = H('button', 'sh'); sh.append(ic('share')); sh.onclick = () => shareLink(i); ac.append(sh); }
+      c.append(ib, tx, ac); list.append(c);
     });
   };
   const cats = [...new Set(items.map(i => i.cat).filter(Boolean))];
   if (cats.length) ['', ...cats].forEach(n => { const b = H('button', n ? '' : 'on', n || 'الكل'); b.onclick = () => { cat = n; [...chips.children].forEach(x => x.classList.toggle('on', x === b)); draw(); }; chips.append(b); });
-  q.oninput = draw; v.append(banner(), q, chips, list, slots()); draw();
+  q.oninput = draw; runInject('app'); v.append(banner(), notice(), q, chips, list, slots()); draw();
 }
 function paintAbout() {
   gate = null; setBack(false);
   const a = cfg.about || {}, v = view(), h = H('div', 'hero'); h.append(H('h1', '', a.name || 'عن التطبيق'), H('p', '', a.desc || '')); v.append(h);
-  [['اختر الملف', 'افتح الملف الذي تريده من القائمة الرئيسية.'], ['أكمل الخطوات', 'شاهد إعلاناً في كل خطوة لتنتقل إلى التالية.'], ['حمّل الملف', 'عند اكتمال الخطوات يُفتح الرابط الأصلي مباشرة.']].forEach(([t, d], k) => {
+  [['اختر الملف', 'افتح الملف الذي تريده من القائمة الرئيسية.'], ['أكمل الخطوات', 'تعرض كل خطوة محتوى راعٍ قصيراً قبل الانتقال إلى التي بعدها.'], ['حمّل الملف', 'عند اكتمال الخطوات يُفتح الرابط الأصلي مباشرة.']].forEach(([t, d], k) => {
     const c = H('div', 'task'), tx = H('div', 'tx'); tx.append(H('b', '', t), H('span', '', d)); c.append(badge(String(k + 1)), tx); v.append(c);
   });
-  const bot = String(a.bot || '').replace(/^@/, '').trim();
+  const bot = String(a.bot || 'Downloadplat').replace(/^@/, '').trim();
   if (/^[A-Za-z0-9_]{3,64}$/.test(bot)) { const b = H('button', 'final on'); b.append(ic('bolt'), H('span', '', 'افتح البوت @' + bot)); b.onclick = () => { const u = 'https://t.me/' + bot; tg && tg.openTelegramLink ? tg.openTelegramLink(u) : openUrl(u); }; v.append(b); }
   if (a.contact) v.append(H('p', 'empty', 'للتواصل: ' + a.contact));
-  v.append(H('p', 'empty', 'يعرض التطبيق إعلانات لدعم الخدمة، ولا نجمع أي بيانات شخصية.'));
+  v.append(H('p', 'empty', 'يعرض التطبيق إعلانات من جهات خارجية لدعم الخدمة. راجع تبويب السياسات للتفاصيل.'));
 }
 function fail(msg) { const v = view(), h = H('div', 'hero'); h.append(H('h1', '', 'تعذّر فتح الرابط'), H('p', '', msg)); v.append(h); const b = H('button', 'final on'); b.append(ic('file'), H('span', '', 'تصفّح الملفات')); b.onclick = () => setTab('files'); v.append(b); }
 
 function startGate(key, title) {
+  runInject('go');
   const url = links[key]; if (!safe(url)) return fail('هذا الرابط غير موجود أو تم حذفه.');
   const all = buildSteps(), pn = [...new Set(all.map(s => s.pg))].sort((x, y) => x - y), pages = pn.map(p => all.filter(s => s.pg === p));
-  gate = { key, url, title, i: 0, p: 0, pages, total: all.length, done: false, pageDone: false, busy: false, steps: pages[0] };
+  gate = { key, url, title, i: 0, p: 0, pages, total: all.reduce((x, s) => x + s.need, 0), done: false, pageDone: false, busy: false, steps: pages[0] };
   setBack(!fromLink); paintGate(); const s = gate.steps[0]; prep(s).then(() => { if (gate && gate.steps[gate.i] === s) paintGate(); });
 }
-const info = (st, s) => s === 'done' ? 'تمت المشاهدة' : s === 'lock' ? 'بانتظار الخطوة السابقة' : st.msg || (st.kind === 'timer' ? 'انتظر ' + st.seconds + ' ثوانٍ' : st.ready ? 'جاهز، اضغط للمشاهدة' : 'جارٍ تجهيز الإعلان');
+const info = (st, s) => s === 'done' ? 'تم' : s === 'lock' ? 'بانتظار الخطوة السابقة' : st.cool > Date.now() ? 'التالي بعد لحظات' : st.msg || (st.kind === 'timer' ? 'انتظر ' + st.seconds + ' ثوانٍ' : st.ready ? 'إعلان من راعٍ، يُعرض عند الضغط' : 'جارٍ التجهيز');
+const doneViews = g => g.pages.reduce((acc, sts, p) => acc + sts.reduce((x, s, k) => x + (p < g.p || (p === g.p && k < g.i) ? s.need : (p === g.p && k === g.i ? (s.got || 0) : 0)), 0), 0);
 function paintGate() {
-  const g = gate; if (!g) return; const v = view(), n = g.steps.length, done = g.pages.slice(0, g.p).reduce((x, s) => x + s.length, 0) + Math.min(g.i, n), hd = H('div', 'hero'), pr = H('div', 'prog'), pf = H('i');
-  hd.append(H('h1', '', g.title || 'رابطك قيد التحضير'), H('p', '', g.done ? 'اكتملت الخطوات، رابطك جاهز.' : g.pageDone ? 'اكتملت هذه الصفحة، تابع للصفحة التالية.' : (g.pages.length > 1 ? 'الصفحة ' + (g.p + 1) + ' من ' + g.pages.length + ' - ' : '') + 'أكمل الخطوات بالترتيب لفتح الرابط (' + done + '/' + g.total + ')'));
+  const g = gate; if (!g) return; const v = view(g.painted), n = g.steps.length, done = doneViews(g), hd = H('div', 'hero'), pr = H('div', 'prog'), pf = H('i');
+  g.painted = true; hd.append(H('h1', '', g.title || 'رابطك قيد التحضير'), H('p', '', g.done ? 'اكتملت الخطوات، رابطك جاهز.' : g.pageDone ? 'اكتملت هذه الصفحة، تابع للصفحة التالية.' : (g.pages.length > 1 ? 'الصفحة ' + (g.p + 1) + ' من ' + g.pages.length + ' - ' : '') + 'أكمل الخطوات بالترتيب لفتح الرابط (' + done + '/' + g.total + ')'));
   pf.style.width = (100 * done / g.total) + '%'; pr.append(pf); hd.append(pr); v.append(hd);
   g.steps.forEach((st, k) => {
     const s = k < g.i ? 'done' : (k === g.i && !g.done ? 'on' : 'lock'), c = H('div', 'task ' + s), tx = H('div', 'tx'), b = H('button', 'btn');
     tx.append(H('b', '', st.name), H('span', '', info(st, s))); c.append(badge(st.name), tx);
     if (s === 'done') { b.className = 'btn ok'; b.append(ic('check')); b.disabled = true; }
     else if (s === 'lock') { b.className = 'btn off'; b.append(ic('lock')); b.disabled = true; }
-    else { b.append(H('span', '', st.fail ? 'تخطي' : st.kind === 'timer' ? 'ابدأ' : 'شاهد'), ic(st.fail ? 'back' : 'play', !st.fail)); b.disabled = g.busy; b.onclick = () => st.fail ? next() : play(k); }
+    else { const cd = st.cool && st.cool > Date.now() ? Math.ceil((st.cool - Date.now()) / 1000) : 0; b.append(H('span', '', cd ? cd + ' ث' : (st.need > 1 && !st.fail ? (st.got || 0) + '/' + st.need + ' ' : '') + (st.fail ? 'التالي' : st.kind === 'timer' ? 'ابدأ' : 'متابعة')), ic(st.fail ? 'back' : 'play', !st.fail)); b.disabled = g.busy || !!cd; b.onclick = () => st.fail ? next() : play(k); }
     c.append(b); v.append(c);
   });
   const f = H('button', 'final' + (g.done || g.pageDone ? ' on' : '')); f.append(ic(g.done ? 'link' : g.pageDone ? 'back' : 'lock'), H('span', '', g.done ? 'فتح الرابط الآن' : g.pageDone ? 'الصفحة التالية' : 'الرابط مقفل')); f.disabled = !(g.done || g.pageDone);
-  f.onclick = () => { hap(); if (g.pageDone) { g.p++; g.i = 0; g.pageDone = false; g.steps = g.pages[g.p]; paintGate(); const s = g.steps[0]; prep(s).then(() => { if (gate === g && g.steps[g.i] === s) paintGate(); }); } else openUrl(g.url); }; v.append(f, slots());
+  f.onclick = () => { hap(); if (g.pageDone) { g.p++; g.i = 0; g.pageDone = false; g.painted = false; g.steps = g.pages[g.p]; paintGate(); const s = g.steps[0]; prep(s).then(() => { if (gate === g && g.steps[g.i] === s) paintGate(); }); } else openUrl(g.url); }; v.append(f, H('p', 'note', 'الإعلانات من جهات خارجية وتُعرض عند الضغط على زر المتابعة، وهي تدعم استمرار الخدمة مجاناً.'), slots());
 }
+function tick() { const g = gate, st = g && g.steps[g.i]; if (!st || !st.cool) return; if (Date.now() >= st.cool) { st.cool = 0; paintGate(); return; } paintGate(); setTimeout(tick, 1000); }
 async function play(k) {
   const g = gate, st = g.steps[k]; if (g.busy) return; g.busy = true; st.msg = 'جارٍ التشغيل'; paintGate();
-  try { if (!st.ready) await prep(st); if (!st.ready) throw { noad: 1 }; await run(st); st.msg = ''; g.busy = false; next(); return; }
+  try { if (!st.ready) await prep(st); if (!st.ready) throw { noad: 1 }; await run(st); st.msg = ''; g.busy = false; st.got = (st.got || 0) + 1; if (st.got < st.need) { st.cool = Date.now() + 4000; hap(); paintGate(); tick(); return; } next(); return; }
   catch (e) {
     dbg(st.name + ' error: ' + (e && (e.description || e.message || JSON.stringify(e))));
-    if (e && e.error === false && e.done === false) st.msg = 'أكمل مشاهدة الإعلان للمتابعة';
-    else { st.fail = cfg.failSkip !== false; st.msg = 'لا يتوفر إعلان حالياً، حاول مرة أخرى أو تخطَّ'; }
+    if (e && e.error === false && e.done === false) st.msg = 'لم يكتمل العرض، حاول مرة أخرى';
+    else { st.fail = cfg.failSkip !== false; st.msg = 'لا يتوفر إعلان حالياً، حاول مرة أخرى أو اضغط التالي'; }
   }
   g.busy = false; paintGate();
 }
@@ -257,10 +307,6 @@ function next() {
   const nm = (cfg.about && cfg.about.name) || ''; if (nm) { $('#brand').textContent = nm; document.title = nm; }
   window.TG_USER_ID = uid(); window.getTgUserId = uid;
   { const lo = cfg.about && cfg.about.logo; if (safe(lo)) { const im = document.createElement('img'); im.alt = ''; im.onerror = () => im.remove(); im.src = lo; $('#lg').replaceChildren(im); } }
-  (Array.isArray(cfg.inject) ? cfg.inject : []).filter(u => u && u.on !== false && String(u.code || '').trim()).forEach(async u => {
-    if (u.tg !== false) for (let i = 0; i < 30 && !uid(); i++) await sleep(100);
-    loadHtml(String(u.code).replace(/\{\{TG_USER_ID\}\}/g, uid()), u.where === 'body' ? document.body : document.head);
-  });
   const key = getKey();
   if (key) { fromLink = true; const it = items.find(i => i.link === key); startGate(key, it ? it.title : ''); } else paintHome();
 })();
