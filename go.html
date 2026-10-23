@@ -140,6 +140,22 @@ body{background:var(--bg)!important}
 .pbar i{display:block;height:100%;width:0;background:var(--accent);border-radius:6px}
 .done .pbar i{background:var(--ok)}
 .go{height:56px!important;font-size:17px!important}
+/*TPL*/
+html[data-tpl=neon]{--bg:#0b0f1a!important;--surface:#121a2b!important;--text:#e8f0ff!important;--hint:#8a9bbd!important;--accent:#00e5c3!important;--ok:#3dffa2!important}
+html[data-tpl=royal]{--bg:#100c08!important;--surface:#1b150e!important;--text:#f6ead4!important;--hint:#b09c78!important;--accent:#e8b84a!important;--ok:#8fd18a!important}
+html[data-tpl=aurora]{--bg:#0e0b1f!important;--surface:#171232!important;--text:#efeaff!important;--hint:#9a90c9!important;--accent:#9d7bff!important;--ok:#5be3b0!important}
+html[data-tpl=sunset]{--bg:#1a0d10!important;--surface:#26141a!important;--text:#ffeef0!important;--hint:#c99aa3!important;--accent:#ff6b57!important;--ok:#7bdc9c!important}
+html[data-tpl=mint]{--bg:#f3f8f5!important;--surface:#ffffff!important;--text:#12261d!important;--hint:#5d7a6b!important;--accent:#1c9d6b!important;--ok:#1c9d6b!important}
+html[data-tpl=royal] .head h1{letter-spacing:.4px}
+html[data-tpl=royal] .go,html[data-tpl=royal] .reward{border-radius:16px!important}
+html[data-tpl=royal] .go:not(:disabled){color:#1b150e!important}
+html[data-tpl=neon] .timer{border:1px solid color-mix(in srgb,var(--accent) 40%,transparent)!important}
+html[data-tpl=neon] .go:not(:disabled){color:#04201b!important}
+html[data-tpl=aurora] .timer{border-radius:36px!important}
+html[data-tpl=sunset] .head h1{font-weight:900}
+html[data-tpl=mint] .timer{border:1px solid color-mix(in srgb,var(--accent) 22%,transparent)!important}
+html[data-tpl=mint] .go:not(:disabled){color:#fff!important}
+.gatebtn{width:100%}
 </style>
 </head>
 <body>
@@ -355,6 +371,7 @@ function showPage(i) {
 
 function evaluate(first) {
   if (!state.timeUp) return;
+  if (gatePending().length) { els.go.disabled = false; els.go.classList.add('locked'); els.go.textContent = 'شاهد الإعلان أولاً'; els.count.textContent = '!'; return; }
   if (!needInteraction()) { unlock(); return; }
   els.go.disabled = false; els.go.classList.add('locked'); els.go.textContent = 'تفاعل مع الإعلان أولاً';
   els.count.textContent = '!';
@@ -375,7 +392,7 @@ function unlock() {
 }
 els.go.onclick = () => {
   if (!state?.timeUp) return;
-  if (!state.unlocked) { evaluate(false); return; }
+  if (!state.unlocked) { const gp = gatePending(); if (gp.length) { runGate(gp[0], document.querySelector('.gatebtn')); return; } evaluate(false); return; }
   if (idx < config.pageCount - 1) goTo(idx + 1);
   else openTarget(targetUrl);
 };
@@ -467,12 +484,15 @@ const cleanInject = a => (Array.isArray(a) ? a : []).slice(0, 50).map(u => ({
   target: u && ['go', 'app'].includes(u.target) ? u.target : 'both',
   code: String((u && u.code) || '').slice(0, 50000),
   on: !(u && u.on === false),
-  tg: !(u && u.tg === false)
+  tg: !(u && u.tg === false),
+  mode: u && u.mode === 'gate' ? 'gate' : 'auto',
+  show: String((u && u.show) || '').slice(0, 500),
+  label: String((u && u.label) || '').slice(0, 60)
 })).filter(u => u.on && u.code.trim());
 const tgUid = () => { try { return String(window.Telegram?.WebApp?.initDataUnsafe?.user?.id || ''); } catch (_) { return ''; } };
 const waitTg = async () => { try { window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.ready(); } catch (_) {} for (let i = 0; i < 30; i++) { if (tgUid()) return true; await new Promise(r => setTimeout(r, 100)); } return false; };
 async function runInject(list, page) {
-  window.TG_USER_ID = tgUid(); /*TGGATE*/
+  window.TG_USER_ID = tgUid(); /*TGGATE*//*GATE1*/
   for (const u of list) {
     if (u.target !== 'both' && u.target !== page) continue;
     if (u.tg && !(await waitTg())) continue;
@@ -522,12 +542,34 @@ function adWall(cfg) {
   wall.querySelector('#ab-x').onclick = () => { try { tg && tg.close(); } catch (_) {} };
   setTimeout(run, 1200); document.addEventListener('visibilitychange', () => { if (!document.hidden) run(); });
 }
+const gateFor = n => (window.__gate || []).filter(u => u.pages === 'all' || u.pages.split(/[,\s]+/).includes(String(n)));
+const gatePending = () => gateFor(idx + 1).filter(u => !(u.ok && u.ok[idx]));
+function buildGate(n) {
+  document.querySelectorAll('.gatebtn').forEach(b => b.remove());
+  gateFor(n).forEach(u => {
+    if (u.ok && u.ok[n - 1]) return;
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'reward gatebtn';
+    b.textContent = u.label || 'شاهد الإعلان لفتح المتابعة';
+    b.onclick = () => runGate(u, b); els.go.parentNode.insertBefore(b, els.go);
+  });
+}
+async function runGate(u, btn) {
+  if (u.busy) return; u.busy = true; if (btn) btn.disabled = true;
+  try {
+    await Promise.resolve(new Function('return (' + u.show + ')')());
+    (u.ok = u.ok || {})[idx] = true; if (btn) btn.remove(); if (state && state.timeUp) evaluate(true);
+  } catch (e) { if (btn) { btn.disabled = false; btn.textContent = 'لم يكتمل الإعلان، اضغط للمحاولة مجدداً'; } }
+  u.busy = false;
+}
 async function init() {
   let rawCfg = null;
   try { rawCfg = await loadJson('config.json'); config = normalize(rawCfg); } catch (_) { config = normalize(null); }
+  try { if (rawCfg && rawCfg.tpl) document.documentElement.dataset.tpl = String(rawCfg.tpl).replace(/[^a-z]/g, ''); } catch (_) {}
   const injList = cleanInject(rawCfg && rawCfg.inject), injDone = new Set();
   runInject(injList.filter(u => u.pages === 'all'), 'go');
+  window.__gate = injList.filter(u => u.mode === 'gate' && u.show && u.target !== 'app');
   window.__onStep = n => {
+    try { buildGate(n); } catch (_) {}
     const due = injList.filter(u => u.pages !== 'all' && !injDone.has(u) && u.pages.split(/[,\s]+/).includes(String(n)));
     due.forEach(u => injDone.add(u)); if (due.length) runInject(due, 'go');
   };
