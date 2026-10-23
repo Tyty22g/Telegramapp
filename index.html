@@ -1,238 +1,221 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<title>Xtreme Links</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>الملفات</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-:root{--bg:var(--tg-theme-bg-color,#121a24);--s:var(--tg-theme-secondary-bg-color,#1b2633);--t:var(--tg-theme-text-color,#f4f6f8);--h:var(--tg-theme-hint-color,#8c9bab);--a:var(--tg-theme-button-color,#3fa9f5);--at:var(--tg-theme-button-text-color,#fff)}
+:root{--bg:#0b0906;--card:#16120b;--line:#2b2314;--tx:#f5ecd9;--mut:#9c9078;--g1:#ffc247;--g2:#ff9300}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--t);font-family:-apple-system,"Segoe UI",Tahoma,"Noto Sans Arabic",Arial,sans-serif;line-height:1.7;padding:0 0 env(safe-area-inset-bottom)}
-.wrap{max-width:520px;margin:0 auto;padding:16px}
-header{text-align:center;padding:10px 0 4px}
-header h1{font-size:22px;font-weight:800}
-header p{color:var(--h);font-size:14px}
-nav{display:flex;gap:6px;overflow-x:auto;padding:12px 0;position:sticky;top:0;background:var(--bg);z-index:2;scrollbar-width:none}
-nav::-webkit-scrollbar{display:none}
-nav button{flex:none;border:0;border-radius:20px;padding:8px 14px;font:inherit;font-size:14px;background:var(--s);color:var(--h);cursor:pointer}
-nav button.on{background:var(--a);color:var(--at);font-weight:700}
-section{display:none;animation:in .25s ease}
-section.on{display:block}
-@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.card{background:var(--s);border-radius:16px;padding:14px 16px;margin-bottom:12px}
-.card h2{font-size:16px;margin-bottom:6px}
-.card p,.card li{font-size:14px;color:var(--h)}
-.card ul,.card ol{padding-inline-start:20px}
-.me{display:flex;align-items:center;gap:12px}
-.av{width:56px;height:56px;border-radius:50%;background:var(--a);color:var(--at);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;overflow:hidden;flex:none}
-.av img{width:100%;height:100%;object-fit:cover}
-.me b{font-size:17px;display:block}.me span{color:var(--h);font-size:13px}
-.row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid color-mix(in srgb,var(--h) 20%,transparent);font-size:14px}
-.row:first-of-type{border-top:0}
-.row span:first-child{color:var(--h)}.row span:last-child{direction:ltr;text-align:left;word-break:break-all}
-button.act{width:100%;border:0;border-radius:14px;padding:13px;font:inherit;font-weight:700;background:var(--a);color:var(--at);cursor:pointer;margin-top:8px}
-details{background:var(--s);border-radius:14px;padding:12px 16px;margin-bottom:8px}
-summary{font-weight:700;font-size:15px;cursor:pointer}
-details p{margin-top:6px;font-size:14px;color:var(--h)}
-.warn{background:color-mix(in srgb,#ffb23f 15%,transparent);border-radius:12px;padding:10px 14px;font-size:13px;margin-bottom:12px}
-footer{text-align:center;color:var(--h);font-size:12px;padding:14px 0 24px}
-.hero{text-align:center;padding:18px 14px}
-.hero h2{font-size:19px;margin-bottom:6px}
-.steps{display:grid;gap:10px;margin-top:12px}
-.step{display:flex;gap:12px;align-items:flex-start}
-.step i{flex:none;width:30px;height:30px;border-radius:50%;background:var(--a);color:var(--at);display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;font-size:14px}
-.step b{display:block;font-size:14px}.step span{font-size:13px;color:var(--h)}
-.mock{border:1px dashed color-mix(in srgb,var(--h) 55%,transparent);border-radius:12px;padding:10px;margin-top:10px;font-size:12px;color:var(--h);text-align:center}
-.mock .ad{background:color-mix(in srgb,#ffb23f 18%,transparent);border-radius:8px;padding:10px;margin:6px 0;color:var(--t)}
-.mock .bar{background:var(--a);color:var(--at);border-radius:8px;padding:6px;margin-top:6px}
-.sec{background:none;border:1px solid color-mix(in srgb,var(--h) 40%,transparent);color:var(--t)}
-/*M3FLAT*/.card{box-shadow:none!important;backdrop-filter:none!important;border-radius:24px!important}.act{border-radius:100px!important;box-shadow:none!important;background-image:none!important}body{background-image:none!important}/*STEPINJ*//*M3V2*//*ADWALL*/</style>
+body{background:radial-gradient(120% 55% at 50% -10%,#2b1e08 0%,var(--bg) 62%) fixed;color:var(--tx);font-family:-apple-system,"Segoe UI",Tahoma,"Noto Sans Arabic",sans-serif;min-height:100vh;padding-top:env(safe-area-inset-top)}
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}.ic.f{fill:currentColor;stroke:none}
+.top{display:flex;align-items:center;gap:12px;padding:16px 16px 4px;max-width:520px;margin:0 auto}
+.lg{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;color:#2a1700;background:linear-gradient(145deg,var(--g1),var(--g2));box-shadow:0 8px 22px #ff930044}
+.top b{font-size:18px;display:block}.top small{color:var(--mut);font-size:12px}
+#view{max-width:520px;margin:0 auto;padding:6px 16px 120px;animation:in .3s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hero{padding:14px 2px 4px}.hero h1{font-size:21px;line-height:1.5}.hero p{color:var(--mut);font-size:13.5px;margin-top:4px;line-height:1.7}
+.prog{height:7px;background:#221b0e;border-radius:9px;margin-top:14px;overflow:hidden}.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--g1),var(--g2));border-radius:9px;transition:width .5s}
+.task{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;margin-top:12px}
+.task.lock{opacity:.5}.task.done{opacity:.8}.task.feat{border-color:#ffb11b66;box-shadow:inset 0 0 0 1px #ffb11b22}
+.bd{flex:none;width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-weight:800;font-size:22px}
+.bd.fi{background:linear-gradient(145deg,#2a2112,#1b150a);color:var(--g1);border:1px solid var(--line)}
+.tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}.tx b{font-size:16px}.tx span{font-size:12.5px;color:var(--mut);line-height:1.6}
+.meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:3px}.meta em{font-style:normal;font-size:11px;padding:2px 9px;border-radius:9px;background:#221b0e;color:var(--mut)}.meta em.g{background:#3a2a0a;color:var(--g1)}
+.btn{flex:none;min-width:92px;display:flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;font-size:15px;color:#2a1700;background:linear-gradient(180deg,var(--g1),var(--g2));box-shadow:0 6px 18px #ff930033;cursor:pointer}
+.btn .ic{width:18px;height:18px}.btn:disabled{cursor:default}.btn.off{background:#2a2315;color:#6d6249;box-shadow:none}.btn.ok{background:#1f3a22;color:#58d27a;box-shadow:none}.btn:active:not(:disabled){transform:scale(.97)}
+.final{width:100%;margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px;border:1px dashed var(--line);border-radius:18px;padding:16px;font:inherit;font-weight:800;font-size:16px;background:transparent;color:var(--mut)}
+.final.on{border:0;color:#2a1700;background:linear-gradient(180deg,var(--g1),var(--g2));box-shadow:0 10px 28px #ff930044;cursor:pointer}
+.search{width:100%;margin-top:14px;padding:13px 16px;border-radius:16px;border:1px solid var(--line);background:var(--card);color:var(--tx);font:inherit}.search:focus{outline:none;border-color:var(--g2)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0 2px;scrollbar-width:none}.chips button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--mut);padding:7px 15px;border-radius:14px;font:inherit;font-size:13px}.chips button.on{background:#3a2a0a;color:var(--g1);border-color:#ffb11b55}
+.empty{text-align:center;color:var(--mut);font-size:13px;padding:22px 0}
+.slots{margin-top:14px;display:flex;flex-direction:column;gap:10px}.bn{width:100%;border:0;min-height:60px;background:transparent;border-radius:14px}
+nav{position:fixed;left:50%;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom));width:min(92%,380px);display:flex;gap:6px;padding:7px;background:#14100aee;border:1px solid var(--line);border-radius:26px;backdrop-filter:blur(14px);z-index:5}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0;border:0;border-radius:20px;background:transparent;color:var(--mut);font:inherit;font-size:12px}nav button.on{background:#3a2a0a;color:var(--g1)}
+@media (prefers-reduced-motion:reduce){#view{animation:none}.prog i{transition:none}}
+</style>
 </head>
 <body>
-<div class="wrap">
-  <header><h1 id="appname"></h1><p id="tagline"></p></header>
-  <nav id="nav"></nav>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></symbol>
+<symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M6 2h8l5 5v15H6z"/><path d="M14 2v5h5M9 13h6M9 17h6"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+</defs></svg>
 
-  <section id="s-home" class="on">
-    <div class="card hero"><h2>اختصار الروابط وفتحها بأمان</h2><p>افتح الرابط الذي وصلك عبر البوت، وسيُفتح الرابط الأصلي بعد انتظار قصير.</p>
-      <button class="act" id="demo" hidden>جرّب رابطاً تجريبياً</button></div>
-    <div class="card"><h2>خطوات الاستخدام</h2><div class="steps">
-      <div class="step"><i>1</i><div><b>استلم الرابط المختصر</b><span>من قناة أو صديق أو من البوت.</span></div></div>
-      <div class="step"><i>2</i><div><b>افتحه داخل تيليجرام</b><span>تظهر صفحة انتظار فيها عدّاد.</span></div></div>
-      <div class="step"><i>3</i><div><b>انتظر ثوانٍ قليلة</b><span>ثم يُفتح الرابط الأصلي بزر واحد.</span></div></div></div></div>
-    <div class="card"><h2>أين تظهر الإعلانات؟</h2><p>تظهر الإعلانات في صفحة الانتظار فقط، داخل مربع مكتوب عليه «إعلان»، ولا تظهر في هذه الصفحة ولا أثناء استخدامك لحسابك.</p>
-      <div class="mock">صفحة الانتظار<div class="ad">مربع «إعلان» — موضع الإعلان</div>⏱ العدّاد<div class="bar">متابعة إلى الرابط</div></div>
-      <p style="margin-top:8px">لا نُجبرك على الضغط على أي إعلان. الضغط عليه اختياري تماماً.</p></div>
-    <div class="card"><h2>ضمانات الاستخدام</h2><ul><li>لا نطلب أي بيانات شخصية أو رقم هاتف</li><li>نحذف الروابط المخالفة عند الإبلاغ</li><li>مجاني بالكامل</li></ul></div>
-  </section>
-
-  <section id="s-me">
-    <div class="warn" id="outside" hidden>افتح هذه الصفحة من داخل تيليجرام لعرض بيانات حسابك.</div>
-    <div class="card"><div class="me"><div class="av" id="av">?</div><div><b id="uname">زائر</b><span id="uuser"></span></div></div></div>
-    <div class="card"><h2>معلومات الحساب</h2><div id="info"></div>
-      <button class="act" id="copy">نسخ معرّف الحساب</button></div>
-    <div class="card"><h2>معلومات الجهاز والجلسة</h2><div id="dev"></div></div>
-  </section>
-
-  <section id="s-about">
-    <div class="card"><h2>ما هذا التطبيق؟</h2><p id="desc"></p></div>
-    <div class="card"><h2>كيف يعمل؟</h2><ol><li>تصلك رسالة تحتوي على رابط مختصر.</li><li>تفتحه داخل تيليجرام فتظهر صفحات انتظار قصيرة.</li><li>بعد انتهاء العداد يُفتح الرابط الأصلي مباشرة.</li></ol></div>
-    <div class="card"><h2>المميزات</h2><ul><li>مجاني بالكامل وبدون تسجيل</li><li>سريع ويعمل داخل تيليجرام</li><li>روابط مختصرة وسهلة المشاركة</li><li>يعمل على الهاتف والحاسوب</li></ul></div>
-    <div class="card"><h2>الإعلانات</h2><p>يعرض التطبيق إعلانات لدعم استمرار الخدمة، وقد تظهر إعلانات مكافئة اختيارية. نلتزم بسياسات شبكات الإعلانات ولا نطلب منك الضغط على أي إعلان بطريقة مضلِّلة.</p></div>
-  </section>
-
-  <section id="s-faq">
-    <details><summary>هل الخدمة مجانية؟</summary><p>نعم، الاستخدام مجاني بالكامل.</p></details>
-    <details><summary>لماذا تظهر صفحات انتظار؟</summary><p>تظهر لثوانٍ قليلة قبل فتح الرابط، وتتضمن إعلانات تدعم الخدمة.</p></details>
-    <details><summary>هل تحتاجون بياناتي الشخصية؟</summary><p>لا. لا نطلب رقم هاتفك ولا كلمات مرور. المعرّف الظاهر في صفحة "حسابي" يأتي من تيليجرام ويظهر لك فقط.</p></details>
-    <details><summary>الرابط لا يفتح، ماذا أفعل؟</summary><p>تأكد أن الرابط كامل وغير محذوف، ثم افتحه مرة أخرى من البوت. وإذا استمرت المشكلة تواصل معنا.</p></details>
-    <details><summary>كيف أبلّغ عن رابط مخالف؟</summary><p>راسلنا عبر وسيلة التواصل مع الرابط وسنراجعه ونحذفه عند المخالفة.</p></details>
-  </section>
-
-  <section id="s-legal">
-    <div class="card"><h2>سياسة الخصوصية</h2><ul><li>نستلم من تيليجرام بيانات عامة فقط (المعرّف والاسم واللغة) لتشغيل التطبيق.</li><li>لا نبيع بياناتك ولا نشاركها مع أطراف أخرى.</li><li>قد تستخدم شبكات الإعلانات معرّفات تقنية لعرض الإعلانات حسب سياساتها.</li><li>يمكنك التوقف عن استخدام التطبيق في أي وقت.</li></ul></div>
-    <div class="card"><h2>شروط الاستخدام</h2><ul><li>يُمنع استخدام الخدمة لمحتوى غير قانوني أو احتيالي أو ضار.</li><li>يُمنع اختصار روابط التصيّد أو البرمجيات الخبيثة.</li><li>نحتفظ بحق حذف أي رابط مخالف دون إشعار.</li><li>الخدمة مقدّمة كما هي دون ضمانات.</li></ul></div>
-  </section>
-
-  <section id="s-contact">
-    <div class="card"><h2>تواصل معنا</h2><p id="ctext"></p>
-      <button class="act" id="openbot">فتح البوت</button>
-      <button class="act" id="opensup" hidden>مراسلة الدعم</button>
-      <button class="act sec" id="report">الإبلاغ عن رابط مخالف</button></div>
-  </section>
-
-  <footer id="foot"></footer>
-</div>
+<header class="top"><div class="lg"><svg class="ic"><use href="#i-bolt"/></svg></div><div><b id="brand">الملفات</b><small>تحميل سريع وآمن</small></div></header>
+<main id="view"></main>
+<nav><button id="t-files" class="on"><svg class="ic"><use href="#i-file"/></svg>الملفات</button><button id="t-about"><svg class="ic"><use href="#i-info"/></svg>حول</button></nav>
 
 <script>
+/*TGGATE*/ /*SLOT:FOOT*/ /*ADS-V3*/
 (() => {
 'use strict';
-// ===== عدّل هذه القيم فقط =====
-const CONFIG = {
-  name: 'Download platform',
-  tagline: 'اختصار الروابط وفتحها بأمان داخل تيليجرام',
-  desc: 'خدمة مجانية لفتح الروابط المختصرة بشكل سريع وآمن داخل تيليجرام. افتح الرابط الذي وصلك، انتظر ثوانٍ قليلة، وسيُفتح الرابط الأصلي مباشرة.',
-  bot: 'Downloadplatbot',
-  app: 'Downloadplatform',
-  support: '',  // يوزر الدعم بدون @ (اختياري)
-  flow: '',     // دومين فرعي لصفحات الانتظار، مثل go.example.com (فارغ = نفس الدومين، المسار /go.html)
-  demo: ''      // رابط مختصر تجريبي كامل، مثل https://t.me/Downloadplatbot/Downloadplatform?startapp=KEY
-};
-const $ = id => document.getElementById(id);
-const tg = window.Telegram && window.Telegram.WebApp;
-if (tg) { try { tg.ready(); tg.expand(); } catch (_) {} }
-// إذا وصل المستخدم عبر رابط مختصر (startapp) نحوّله لصفحات الانتظار، وإلا تظهر صفحة التطبيق
-const q = new URLSearchParams(location.search);
-const key = (tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || q.get('startapp') || q.get('tgWebAppStartParam') || '';
-if (/^[\w.~-]{1,128}$/.test(key)) {
-  const base = (/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(CONFIG.flow) ? 'https://' + CONFIG.flow : location.origin) + '/go.html';
-  document.body.textContent = 'جاري تحضير الرابط…';
-  location.replace(base + '?startapp=' + encodeURIComponent(key) + location.hash);
-  return;
-}
-const mk = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
-const row = (k, v) => { const r = mk('div', 'row'); r.append(mk('span', '', k), mk('span', '', v == null || v === '' ? '—' : String(v))); return r; };
+const tg = window.Telegram && Telegram.WebApp, $ = s => document.querySelector(s);
+const H = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
+const ic = (n, f) => { const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); s.setAttribute('class', 'ic' + (f ? ' f' : '')); s.innerHTML = '<use href="#i-' + n + '"/>'; return s; };
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const hap = () => { try { tg.HapticFeedback.notificationOccurred('success'); } catch (_) {} };
+const dbg = m => { if (!/[?&]debug=1/.test(location.search)) return; let p = $('#dbg'); if (!p) { p = H('pre'); p.id = 'dbg'; p.style.cssText = 'position:fixed;left:0;right:0;bottom:0;max-height:36vh;overflow:auto;margin:0;padding:8px;background:#000d;color:#9f9;font:11px/1.5 monospace;z-index:99999;direction:ltr;text-align:left;white-space:pre-wrap'; document.body.append(p); } p.textContent += m + '\n'; };
+addEventListener('error', e => dbg('ERR ' + e.message)); addEventListener('unhandledrejection', e => dbg('REJ ' + (e.reason && (e.reason.message || e.reason.description) || e.reason)));
 
-document.title = CONFIG.name; $('appname').textContent = CONFIG.name; $('tagline').textContent = CONFIG.tagline; $('desc').textContent = CONFIG.desc;
-$('foot').textContent = '© ' + new Date().getFullYear() + ' ' + CONFIG.name;
-$('ctext').textContent = 'لأي استفسار أو بلاغ تواصل معنا عبر البوت' + (CONFIG.support ? ' أو الدعم المباشر.' : '.');
+let cfg = {}, links = {}, items = [], gate = null, fromLink = false, away = null;
+const J = async f => { try { const r = await fetch(f + '?t=' + Date.now(), { cache: 'no-store' }); return r.ok ? await r.json() : null; } catch (_) { return null; } };
+const safe = u => /^https?:\/\/\S+$/i.test(String(u || '').trim());
+const openUrl = u => { try { tg && tg.openLink ? tg.openLink(u) : window.open(u, '_blank', 'noopener'); } catch (_) { window.open(u, '_blank', 'noopener'); } };
+const fnOf = p => { try { const f = String(p || '').trim().split('.').reduce((o, k) => o == null ? o : o[k], window); return typeof f === 'function' ? f : null; } catch (_) { return null; } };
+const getKey = () => (tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || new URLSearchParams(location.search).get('startapp') || new URLSearchParams(location.search).get('tgWebAppStartParam') || '';
+const uid = () => String((tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) || '');
 
-// تبويبات
-const tabs = [['home', 'الرئيسية'], ['me', 'حسابي'], ['about', 'عن التطبيق'], ['faq', 'الأسئلة'], ['legal', 'الخصوصية والشروط'], ['contact', 'تواصل']];
-tabs.forEach(([id, label], i) => {
-  const b = mk('button', i ? '' : 'on', label);
-  b.onclick = () => {
-    tabs.forEach(([x], j) => { $('s-' + x).classList.toggle('on', x === id); $('nav').children[j].classList.toggle('on', x === id); });
-    window.scrollTo(0, 0);
-  };
-  $('nav').appendChild(b);
-});
-
-// بيانات المستخدم
-const u = tg && tg.initDataUnsafe && tg.initDataUnsafe.user;
-if (!u) $('outside').hidden = false;
-else {
-  const full = [u.first_name, u.last_name].filter(Boolean).join(' ');
-  $('uname').textContent = full || 'مستخدم';
-  $('uuser').textContent = u.username ? '@' + u.username : 'بدون يوزر';
-  if (u.photo_url && /^https:\/\//.test(u.photo_url)) { const im = mk('img'); im.src = u.photo_url; im.alt = ''; $('av').textContent = ''; $('av').appendChild(im); }
-  else $('av').textContent = (u.first_name || '?').charAt(0).toUpperCase();
-}
-const info = $('info');
-info.append(
-  row('المعرّف (ID)', u && u.id), row('الاسم الأول', u && u.first_name), row('الاسم الأخير', u && u.last_name),
-  row('اليوزر', u && u.username ? '@' + u.username : ''), row('اللغة', u && u.language_code),
-  row('حساب Premium', u ? (u.is_premium ? 'نعم' : 'لا') : ''), row('نوع الفتح', tg && tg.initDataUnsafe && tg.initDataUnsafe.chat_type)
-);
-$('dev').append(
-  row('المنصة', tg && tg.platform), row('إصدار تيليجرام', tg && tg.version), row('الثيم', tg && tg.colorScheme),
-  row('المنطقة الزمنية', Intl.DateTimeFormat().resolvedOptions().timeZone), row('الوقت المحلي', new Date().toLocaleString('ar'))
-);
-$('copy').onclick = async () => {
-  if (!u) return;
-  try { await navigator.clipboard.writeText(String(u.id)); $('copy').textContent = 'تم النسخ ✓'; }
-  catch (_) { prompt('معرّف الحساب:', String(u.id)); }
-  setTimeout(() => { $('copy').textContent = 'نسخ معرّف الحساب'; }, 1800);
-};
-
-// تواصل
-const openTg = url => { if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url, '_blank', 'noopener'); };
-$('openbot').onclick = () => openTg('https://t.me/' + CONFIG.bot + (CONFIG.app ? '/' + CONFIG.app : ''));
-$('report').onclick = () => openTg('https://t.me/' + (CONFIG.support || CONFIG.bot));
-if (CONFIG.demo && /^https:\/\/t\.me\//.test(CONFIG.demo)) { $('demo').hidden = false; $('demo').onclick = () => openTg(CONFIG.demo); }
-if (CONFIG.support) { $('opensup').hidden = false; $('opensup').onclick = () => openTg('https://t.me/' + CONFIG.support); }
-
-const cleanInject = a => (Array.isArray(a) ? a : []).slice(0, 50).map(u => ({
-  where: u && u.where === 'body' ? 'body' : 'head',
-  pages: /^(all|[\d,\s]+)$/i.test(String((u && u.pages) || 'all').trim()) ? String((u && u.pages) || 'all').trim().toLowerCase() : 'all',
-  target: u && ['go', 'app'].includes(u.target) ? u.target : 'both',
-  code: String((u && u.code) || '').slice(0, 50000),
-  on: !(u && u.on === false),
-  tg: !(u && u.tg === false)
-})).filter(u => u.on && u.code.trim());
-const tgUid = () => { try { return String(window.Telegram?.WebApp?.initDataUnsafe?.user?.id || ''); } catch (_) { return ''; } };
-const waitTg = async () => { try { window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.ready(); } catch (_) {} for (let i = 0; i < 30; i++) { if (tgUid()) return true; await new Promise(r => setTimeout(r, 100)); } return false; };
-async function runInject(list, page) {
-  window.TG_USER_ID = tgUid(); /*TGGATE*/
-  for (const u of list) {
-    if (u.target !== 'both' && u.target !== page) continue;
-    if (u.tg && !(await waitTg())) continue;
-    const host = u.where === 'body' ? document.body : document.head;
-    const t = document.createElement('template'); t.innerHTML = u.code.replace(/\{\{TG_USER_ID\}\}/g, tgUid());
-    for (const n of [...t.content.childNodes]) {
-      if (n.nodeName !== 'SCRIPT') { try { host.appendChild(document.importNode(n, true)); } catch (_) {} continue; }
-      const sc = document.createElement('script');
-      for (const a of n.attributes) sc.setAttribute(a.name, a.value);
-      if (n.getAttribute('src')) {
-        sc.async = false;
-        await new Promise(ok => { sc.onload = sc.onerror = ok; host.appendChild(sc); setTimeout(ok, 8000); });
-      } else {
-        sc.text = n.textContent;
-        const orig = document.addEventListener;
-        document.addEventListener = function (type, fn, o) {
-          if (type === 'DOMContentLoaded' && document.readyState === 'loading') return orig.call(this, type, fn, o);
-          if (type === 'DOMContentLoaded') { setTimeout(() => { try { fn.call(document, new Event('DOMContentLoaded')); } catch (e) { console.error(e); } }, 0); return; }
-          return orig.call(this, type, fn, o);
-        };
-        try { host.appendChild(sc); } catch (e) { console.error(e); }
-        document.addEventListener = orig;
-      }
-    }
+// تحميل سكربتات الإعلان بالتتابع وبدون تعارض
+const loaded = new Set();
+async function loadHtml(code, host) {
+  const t = document.createElement('template'); t.innerHTML = code;
+  for (const n of [...t.content.childNodes]) {
+    if (n.nodeName !== 'SCRIPT') continue;
+    const s = document.createElement('script'); for (const a of n.attributes) s.setAttribute(a.name, a.value);
+    if (n.getAttribute('src')) { s.async = false; await new Promise(ok => { s.onload = s.onerror = ok; (host || document.head).append(s); setTimeout(ok, 8000); }); }
+    else { s.text = n.textContent; (host || document.head).append(s); }
   }
 }
-function demoAd(j) {
-  const r = j && j.rewarded, id = String((r && r.blockId) || '').trim();
-  if (!r || r.provider !== 'adsgram' || !/^(int-|task-)?\d+$/i.test(id)) return;
-  const home = document.getElementById('s-home'); if (!home) return;
-  const c = document.createElement('div'); c.className = 'card';
-  c.innerHTML = '<h2>إعلان اختياري لدعم الخدمة</h2><p>هذا موضع إعلان المكافأة. يظهر عند الضغط على الزر فقط، وليس مطلوباً لاستخدام التطبيق.</p>';
-  const b = document.createElement('button'); b.className = 'act'; b.textContent = 'شاهد إعلاناً (اختياري)';
-  b.onclick = () => { try { window.Adsgram.init({ blockId: id }).show().catch(() => {}); } catch (_) {} };
-  c.appendChild(b); home.appendChild(c);
-  const sc = document.createElement('script'); sc.src = 'https://sad.adsgram.ai/js/sad.min.js'; sc.async = true; document.head.appendChild(sc);
+
+// الخطوات: كل شبكة إعلانية = خطوة
+function buildSteps() {
+  const r = cfg.rewarded || {}, out = [];
+  if (r.provider === 'adsgram') { const id = String(r.blockId || '').trim(); if (/^(int-|task-)?\d+$/i.test(id)) out.push({ kind: 'adsgram', name: 'Adsgram', id }); }
+  else if (r.fn) out.push({ kind: 'sdk', name: r.name || 'Monetag', code: r.sdk || '', fn: r.fn, mode: r.mode });
+  if (r.fallbackFn) out.push({ kind: 'sdk', name: 'Ads', code: r.fallbackSdk || '', fn: r.fallbackFn });
+  (Array.isArray(cfg.ads) ? cfg.ads : []).filter(u => u && u.on !== false).forEach(u => {
+    if (u.type === 'rewarded' && u.fn) out.push({ kind: 'sdk', name: u.name || 'Ads', code: u.code || '', fn: u.fn });
+    else if (u.type === 'link' && safe(u.code)) out.push({ kind: 'link', name: u.name || 'Ads', url: String(u.code).trim() });
+  });
+  return out.length ? out : [{ kind: 'timer', name: 'انتظار', seconds: 10 }];
 }
-fetch('config.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { if (j) { runInject(cleanInject(j.inject).filter(u => u.pages === 'all'), 'app'); demoAd(j); } }).catch(() => {});
+async function prep(st) {
+  if (!st || st.ready) return;
+  try {
+    if (st.kind === 'adsgram') { if (!window.Adsgram && !loaded.has('ag')) { loaded.add('ag'); await loadHtml('<script src="https://sad.adsgram.ai/js/sad.min.js"><\/script>'); } for (let i = 0; i < 15 && !window.Adsgram; i++) await sleep(200); st.ready = !!window.Adsgram; }
+    else if (st.kind === 'sdk') { if (st.code.trim() && !loaded.has(st.code)) { loaded.add(st.code); await loadHtml(st.code); } for (let i = 0; i < 15 && !fnOf(st.fn); i++) await sleep(200); st.ready = !!fnOf(st.fn); }
+    else st.ready = true;
+  } catch (e) { dbg('prep error ' + e.message); }
+  dbg(st.name + ' ready=' + st.ready);
+}
+const run = st => {
+  if (st.kind === 'adsgram') { st.ctl = st.ctl || window.Adsgram.init({ blockId: st.id }); return st.ctl.show(); }
+  if (st.kind === 'sdk') { const f = fnOf(st.fn); return Promise.resolve(st.mode === 'pop' ? f('pop') : f()); }
+  if (st.kind === 'link') return new Promise((res, rej) => { const a = { t: Date.now(), res, rej }; away = a; openUrl(st.url); setTimeout(() => { if (away === a) { away = null; res(); } }, ((cfg.minAway || 5) + 12) * 1000); });
+  return sleep(st.seconds * 1000);
+};
+const back = () => { if (!away || Date.now() - away.t < 800) return; const a = away; away = null; Date.now() - a.t >= (cfg.minAway || 5) * 1000 ? a.res() : a.rej({ error: false, done: false }); };
+addEventListener('focus', back); document.addEventListener('visibilitychange', () => { if (!document.hidden) back(); });
+try { tg.onEvent('activated', back); } catch (_) {}
+
+// واجهة
+const BR = { adsgram: ['#2f6bff', '#fff'], monetag: ['#a6e25f', '#1a2a08'], giga: ['#101010', '#b6ff3b'], adex: ['#eef4ff', '#2b7cff'], usl: ['#0b1b4f', '#6aa8ff'] };
+const badge = name => { const n = String(name).toLowerCase(); let c = ['linear-gradient(145deg,#ffc247,#ff9300)', '#2a1700']; for (const k in BR) if (n.includes(k)) c = BR[k]; const b = H('div', 'bd', (String(name).trim()[0] || 'A').toUpperCase()); b.style.background = c[0]; b.style.color = c[1]; return b; };
+const view = () => { const v = $('#view'); v.replaceChildren(); v.style.animation = 'none'; void v.offsetWidth; v.style.animation = ''; window.scrollTo(0, 0); return v; };
+const slots = () => {
+  const w = H('div', 'slots');
+  (Array.isArray(cfg.ads) ? cfg.ads : []).filter(u => u && u.on !== false && u.type === 'banner' && String(u.code || '').trim()).forEach(u => {
+    const f = document.createElement('iframe'); f.className = 'bn'; f.setAttribute('sandbox', 'allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin');
+    f.srcdoc = '<!doctype html><meta name="viewport" content="width=device-width"><body style="margin:0;display:flex;justify-content:center">' + u.code;
+    const fit = () => { try { f.style.height = Math.max(60, f.contentDocument.documentElement.scrollHeight) + 'px'; } catch (_) {} };
+    f.onload = () => { fit(); setTimeout(fit, 2500); }; w.append(f);
+  });
+  return w;
+};
+const onBack = () => setTab('files');
+const setBack = s => { try { tg.BackButton.offClick(onBack); if (s) { tg.BackButton.onClick(onBack); tg.BackButton.show(); } else tg.BackButton.hide(); } catch (_) {} };
+function setTab(t) { $('#t-files').classList.toggle('on', t === 'files'); $('#t-about').classList.toggle('on', t === 'about'); t === 'files' ? paintHome() : paintAbout(); }
+$('#t-files').onclick = () => setTab('files'); $('#t-about').onclick = () => setTab('about');
+
+function paintHome() {
+  gate = null; setBack(false);
+  const v = view(), q = H('input', 'search'), chips = H('div', 'chips'), list = H('div'); let cat = '';
+  q.placeholder = 'ابحث عن ملف';
+  const draw = () => {
+    list.replaceChildren(); const w = q.value.trim().toLowerCase();
+    const arr = items.filter(i => (!cat || i.cat === cat) && (!w || ((i.title || '') + ' ' + (i.desc || '')).toLowerCase().includes(w))).sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0) || (b.t || 0) - (a.t || 0));
+    if (!arr.length) { list.append(H('p', 'empty', items.length ? 'لا نتائج مطابقة.' : 'لا توجد ملفات بعد.')); return; }
+    arr.forEach(i => {
+      const c = H('div', 'task' + (i.featured ? ' feat' : '')), tx = H('div', 'tx'), ib = H('div', 'bd fi'), b = H('button', 'btn');
+      ib.append(ic('file')); tx.append(H('b', '', i.title), H('span', '', i.desc || ''));
+      if (i.cat || i.featured) { const m = H('div', 'meta'); if (i.featured) m.append(H('em', 'g', 'مميز')); if (i.cat) m.append(H('em', '', i.cat)); tx.append(m); }
+      b.append(H('span', '', 'تحميل'), ic('download')); b.onclick = () => startGate(i.link, i.title);
+      c.append(ib, tx, b); list.append(c);
+    });
+  };
+  const cats = [...new Set(items.map(i => i.cat).filter(Boolean))];
+  if (cats.length) ['', ...cats].forEach(n => { const b = H('button', n ? '' : 'on', n || 'الكل'); b.onclick = () => { cat = n; [...chips.children].forEach(x => x.classList.toggle('on', x === b)); draw(); }; chips.append(b); });
+  q.oninput = draw; v.append(q, chips, list, slots()); draw();
+}
+function paintAbout() {
+  gate = null; setBack(false);
+  const a = cfg.about || {}, v = view(), h = H('div', 'hero'); h.append(H('h1', '', a.name || 'عن التطبيق'), H('p', '', a.desc || '')); v.append(h);
+  [['اختر الملف', 'افتح الملف الذي تريده من القائمة الرئيسية.'], ['أكمل الخطوات', 'شاهد إعلاناً في كل خطوة لتنتقل إلى التالية.'], ['حمّل الملف', 'عند اكتمال الخطوات يُفتح الرابط الأصلي مباشرة.']].forEach(([t, d], k) => {
+    const c = H('div', 'task'), tx = H('div', 'tx'); tx.append(H('b', '', t), H('span', '', d)); c.append(badge(String(k + 1)), tx); v.append(c);
+  });
+  const bot = String(a.bot || '').replace(/^@/, '').trim();
+  if (/^[A-Za-z0-9_]{3,64}$/.test(bot)) { const b = H('button', 'final on'); b.append(ic('bolt'), H('span', '', 'افتح البوت @' + bot)); b.onclick = () => { const u = 'https://t.me/' + bot; tg && tg.openTelegramLink ? tg.openTelegramLink(u) : openUrl(u); }; v.append(b); }
+  if (a.contact) v.append(H('p', 'empty', 'للتواصل: ' + a.contact));
+  v.append(H('p', 'empty', 'يعرض التطبيق إعلانات لدعم الخدمة، ولا نجمع أي بيانات شخصية.'));
+}
+function fail(msg) { const v = view(), h = H('div', 'hero'); h.append(H('h1', '', 'تعذّر فتح الرابط'), H('p', '', msg)); v.append(h); const b = H('button', 'final on'); b.append(ic('file'), H('span', '', 'تصفّح الملفات')); b.onclick = () => setTab('files'); v.append(b); }
+
+function startGate(key, title) {
+  const url = links[key]; if (!safe(url)) return fail('هذا الرابط غير موجود أو تم حذفه.');
+  gate = { url, title, i: 0, done: false, busy: false, steps: buildSteps() };
+  setBack(!fromLink); paintGate(); const s = gate.steps[0]; prep(s).then(() => { if (gate && gate.steps[gate.i] === s) paintGate(); });
+}
+const info = (st, s) => s === 'done' ? 'تمت المشاهدة' : s === 'lock' ? 'بانتظار الخطوة السابقة' : st.msg || (st.kind === 'timer' ? 'انتظر ' + st.seconds + ' ثوانٍ' : st.ready ? 'جاهز، اضغط للمشاهدة' : 'جارٍ تجهيز الإعلان');
+function paintGate() {
+  const g = gate; if (!g) return; const v = view(), n = g.steps.length, done = Math.min(g.i, n), hd = H('div', 'hero'), pr = H('div', 'prog'), pf = H('i');
+  hd.append(H('h1', '', g.title || 'رابطك قيد التحضير'), H('p', '', g.done ? 'اكتملت الخطوات، رابطك جاهز.' : 'أكمل الخطوات بالترتيب لفتح الرابط (' + done + '/' + n + ')'));
+  pf.style.width = (100 * done / n) + '%'; pr.append(pf); hd.append(pr); v.append(hd);
+  g.steps.forEach((st, k) => {
+    const s = k < g.i ? 'done' : (k === g.i && !g.done ? 'on' : 'lock'), c = H('div', 'task ' + s), tx = H('div', 'tx'), b = H('button', 'btn');
+    tx.append(H('b', '', st.name), H('span', '', info(st, s))); c.append(badge(st.name), tx);
+    if (s === 'done') { b.className = 'btn ok'; b.append(ic('check')); b.disabled = true; }
+    else if (s === 'lock') { b.className = 'btn off'; b.append(ic('lock')); b.disabled = true; }
+    else { b.append(H('span', '', st.fail ? 'تخطي' : st.kind === 'timer' ? 'ابدأ' : 'شاهد'), ic(st.fail ? 'back' : 'play', !st.fail)); b.disabled = g.busy; b.onclick = () => st.fail ? next() : play(k); }
+    c.append(b); v.append(c);
+  });
+  const f = H('button', 'final' + (g.done ? ' on' : '')); f.append(ic(g.done ? 'link' : 'lock'), H('span', '', g.done ? 'فتح الرابط الآن' : 'الرابط مقفل')); f.disabled = !g.done;
+  f.onclick = () => { hap(); openUrl(g.url); }; v.append(f, slots());
+}
+async function play(k) {
+  const g = gate, st = g.steps[k]; if (g.busy) return; g.busy = true; st.msg = 'جارٍ التشغيل'; paintGate();
+  try { if (!st.ready) await prep(st); if (!st.ready) throw { noad: 1 }; await run(st); st.msg = ''; g.busy = false; next(); return; }
+  catch (e) {
+    dbg(st.name + ' error: ' + (e && (e.description || e.message || JSON.stringify(e))));
+    if (e && e.error === false && e.done === false) st.msg = 'أكمل مشاهدة الإعلان للمتابعة';
+    else { st.fail = cfg.failSkip !== false; st.msg = 'لا يتوفر إعلان حالياً، حاول مرة أخرى أو تخطَّ'; }
+  }
+  g.busy = false; paintGate();
+}
+function next() {
+  gate.i++; hap(); if (gate.i >= gate.steps.length) gate.done = true; paintGate();
+  const s = gate.steps[gate.i]; if (s) prep(s).then(() => { if (gate && gate.steps[gate.i] === s) paintGate(); });
+}
+
+(async function init() {
+  if (tg) { try { tg.ready(); tg.expand(); tg.setHeaderColor('#0b0906'); tg.setBackgroundColor('#0b0906'); } catch (_) {} }
+  const [c, l, k] = await Promise.all([J('config.json'), J('links.json'), J('catalog.json')]);
+  cfg = c || {}; links = l || {}; items = Array.isArray(k && k.items) ? k.items : [];
+  const nm = (cfg.about && cfg.about.name) || ''; if (nm) { $('#brand').textContent = nm; document.title = nm; }
+  (Array.isArray(cfg.inject) ? cfg.inject : []).filter(u => u && u.on !== false && String(u.code || '').trim()).forEach(async u => {
+    if (u.tg !== false) for (let i = 0; i < 30 && !uid(); i++) await sleep(100);
+    loadHtml(String(u.code).replace(/\{\{TG_USER_ID\}\}/g, uid()), u.where === 'body' ? document.body : document.head);
+  });
+  const key = getKey();
+  if (key) { fromLink = true; const it = items.find(i => i.link === key); startGate(key, it ? it.title : ''); } else paintHome();
+})();
 })();
 </script>
 </body>
