@@ -1,24 +1,62 @@
 {
-  "name": "Download platform",
-  "desc": "خدمة مجانية لفتح الروابط بشكل آمن وسريع داخل تيليجرام. افتح الرابط الذي وصلك، انتظر ثوانٍ قليلة، وسيُفتح الرابط الأصلي مباشرة.",
-  "bot": "Downloadplatbot",
-  "app": "Downloadplatform",
-  "accent": "#2a2fd9",
-  "steps": [
+  "pageCount": 1,
+  "minAway": 3,
+  "theme": {
+    "accent": "",
+    "fx": "slide",
+    "confetti": true,
+    "counter": "ring"
+  },
+  "ads": [],
+  "inject": [
     {
-      "t": "جاري تحضير الرابط",
-      "s": 10
+      "name": "Adexium Interstitial (صفحات الانتظار)",
+      "where": "head",
+      "target": "go",
+      "on": true,
+      "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n{\n  const w = new AdexiumWidget({wid: 'bb412979-834b-4a2c-9317-3e809609a72a', adFormat: 'interstitial'});\n  w.autoMode();\n}\n</script>"
     },
     {
-      "t": "نفحص الرابط من أجلك",
-      "s": 10
-    },
-    {
-      "t": "رابطك جاهز",
-      "s": 10
+      "name": "Adexium Push-like (صفحة التطبيق)",
+      "where": "head",
+      "target": "app",
+      "on": true,
+      "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n{\n  const w = new AdexiumWidget({wid: 'b23bbbba-4fb5-44e7-9023-bc065dc83c73', adFormat: 'push-like'});\n  w.autoMode();\n}\n</script>"
     }
   ],
-  "head": "",
-  "mid": "",
-  "foot": ""
+  "adblock": {
+    "on": false,
+    "title": "تم اكتشاف مانع إعلانات",
+    "text": "هذا الموقع مجاني ويعتمد على الإعلانات. عطّل مانع الإعلانات (أو الـ DNS الخاص) ثم اضغط إعادة الفحص."
+  },
+  "about": {
+    "name": "Xtreme Links",
+    "desc": "خدمة مجانية لفتح الروابط بشكل آمن وسريع داخل تيليجرام. افتح الرابط الذي وصلك، انتظر ثوانٍ قليلة، وسيُفتح الرابط الأصلي مباشرة.",
+    "contact": "",
+    "bot": "",
+    "app": ""
+  },
+  "rewarded": {
+    "provider": "adsgram",
+    "blockId": "",
+    "sdk": "",
+    "fn": "",
+    "mode": "interstitial",
+    "fallbackSdk": "",
+    "fallbackFn": "",
+    "offerAfter": 0,
+    "skipAll": false,
+    "passMinutes": 0,
+    "text": "🎁 شاهد إعلاناً ووفّر {s} ثانية"
+  },
+  "pages": [
+    {
+      "title": "رابطك جاهز",
+      "subtitle": "آخر خطوة",
+      "seconds": 10,
+      "adCode": "",
+      "rewarded": true,
+      "require": false
+    }
+  ]
 }
