@@ -34,8 +34,8 @@
       "code": "",
       "fn": "",
       "arg": "",
-      "rep": 3,
-      "opt": 5,
+      "rep": 5,
+      "opt": 0,
       "pages": "1, 2",
       "cap": "once",
       "capMin": 30,
@@ -95,7 +95,7 @@
       "capMin": 30,
       "pts": 2,
       "daily": 0,
-      "on": true
+      "on": false
     }
   ],
   "inject": [
