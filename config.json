@@ -24,7 +24,7 @@
       "name": "GigaPub2",
       "type": "rewarded",
       "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n    document.addEventListener('DOMContentLoaded', () => {\n        const adexiumWidget = new AdexiumWidget({wid: 'b23bbbba-4fb5-44e7-9023-bc065dc83c73', adFormat: 'push-like'});\n        adexiumWidget.autoMode();\n    });\n</script>",
-      "fn": "autoMode()",
+      "fn": "AdexiumWidget",
       "pages": "2,3",
       "cap": "once",
       "capMin": 30,
