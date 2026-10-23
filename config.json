@@ -1,5 +1,5 @@
 {
-  "pageCount": 1,
+  "pageCount": 3,
   "minAway": 3,
   "theme": {
     "accent": "",
@@ -10,18 +10,22 @@
   "ads": [],
   "inject": [
     {
+      "pages": "all",
       "name": "Adexium Interstitial (صفحات الانتظار)",
       "where": "head",
       "target": "go",
+      "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n{\n  const w = new AdexiumWidget({wid: 'bb412979-834b-4a2c-9317-3e809609a72a', adFormat: 'interstitial'});\n  w.autoMode();\n}\n</script>",
       "on": true,
-      "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n{\n  const w = new AdexiumWidget({wid: 'bb412979-834b-4a2c-9317-3e809609a72a', adFormat: 'interstitial'});\n  w.autoMode();\n}\n</script>"
+      "tg": true
     },
     {
+      "pages": "all",
       "name": "Adexium Push-like (صفحة التطبيق)",
       "where": "head",
       "target": "app",
+      "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n{\n  const w = new AdexiumWidget({wid: 'b23bbbba-4fb5-44e7-9023-bc065dc83c73', adFormat: 'push-like'});\n  w.autoMode();\n}\n</script>",
       "on": true,
-      "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n{\n  const w = new AdexiumWidget({wid: 'b23bbbba-4fb5-44e7-9023-bc065dc83c73', adFormat: 'push-like'});\n  w.autoMode();\n}\n</script>"
+      "tg": true
     }
   ],
   "adblock": {
@@ -33,8 +37,8 @@
     "name": "Xtreme Links",
     "desc": "خدمة مجانية لفتح الروابط بشكل آمن وسريع داخل تيليجرام. افتح الرابط الذي وصلك، انتظر ثوانٍ قليلة، وسيُفتح الرابط الأصلي مباشرة.",
     "contact": "",
-    "bot": "",
-    "app": ""
+    "bot": "Downloadplatbot",
+    "app": "Downloadplatform"
   },
   "rewarded": {
     "provider": "adsgram",
@@ -54,6 +58,22 @@
       "title": "رابطك جاهز",
       "subtitle": "آخر خطوة",
       "seconds": 10,
+      "adCode": "",
+      "rewarded": true,
+      "require": false
+    },
+    {
+      "title": "رابطك جاهز",
+      "subtitle": "آخر خطوة",
+      "seconds": 6,
+      "adCode": "",
+      "rewarded": true,
+      "require": false
+    },
+    {
+      "title": "رابطك جاهز",
+      "subtitle": "آخر خطوة",
+      "seconds": 6,
       "adCode": "",
       "rewarded": true,
       "require": false
