@@ -1,5 +1,5 @@
 {
-  "pageCount": 1,
+  "pageCount": 3,
   "minAway": 3,
   "theme": {
     "accent": "",
@@ -8,7 +8,17 @@
     "counter": "ring"
   },
   "ads": [],
-  "inject": [],
+  "inject": [
+    {
+      "pages": "all",
+      "name": "كود جديد",
+      "where": "head",
+      "target": "both",
+      "code": "\nwindow.showGiga()\n  .then(() => {\n    // Your reward logic here\n  })\n  .catch(e => {\n    // Handle errors here\n  });",
+      "on": true,
+      "tg": true
+    }
+  ],
   "adblock": {
     "on": false,
     "title": "تم اكتشاف مانع إعلانات",
@@ -18,8 +28,8 @@
     "name": "Xtreme Links",
     "desc": "خدمة مجانية لفتح الروابط بشكل آمن وسريع داخل تيليجرام. افتح الرابط الذي وصلك، انتظر ثوانٍ قليلة، وسيُفتح الرابط الأصلي مباشرة.",
     "contact": "",
-    "bot": "",
-    "app": ""
+    "bot": "Downloadplatbot",
+    "app": "Downloadplatform"
   },
   "rewarded": {
     "provider": "adsgram",
@@ -39,6 +49,22 @@
       "title": "رابطك جاهز",
       "subtitle": "آخر خطوة",
       "seconds": 10,
+      "adCode": "",
+      "rewarded": true,
+      "require": false
+    },
+    {
+      "title": "رابطك جاهز",
+      "subtitle": "آخر خطوة",
+      "seconds": 6,
+      "adCode": "",
+      "rewarded": true,
+      "require": false
+    },
+    {
+      "title": "رابطك جاهز",
+      "subtitle": "آخر خطوة",
+      "seconds": 6,
       "adCode": "",
       "rewarded": true,
       "require": false
