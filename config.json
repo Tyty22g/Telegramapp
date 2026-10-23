@@ -9,6 +9,21 @@
   },
   "ads": [
     {
+      "id": "umvkx7lleizr",
+      "name": "adexium",
+      "net": "adexium",
+      "zid": "b23bbbba-4fb5-44e7-9023-bc065dc83c73",
+      "type": "rewarded",
+      "code": "",
+      "fn": "",
+      "arg": "",
+      "rep": 3,
+      "pages": "1,2",
+      "cap": "once",
+      "capMin": 30,
+      "on": true
+    },
+    {
       "id": "umvkx3ro6gvk",
       "name": "Aads",
       "net": "custom",
