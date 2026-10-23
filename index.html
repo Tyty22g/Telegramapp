@@ -34,6 +34,26 @@ body{background:radial-gradient(120% 55% at 50% -10%,#2b1e08 0%,var(--bg) 62%) f
 nav{position:fixed;left:50%;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom));width:min(92%,380px);display:flex;gap:6px;padding:7px;background:#14100aee;border:1px solid var(--line);border-radius:26px;backdrop-filter:blur(14px);z-index:5}
 nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0;border:0;border-radius:20px;background:transparent;color:var(--mut);font:inherit;font-size:12px}nav button.on{background:#3a2a0a;color:var(--g1)}
 @media (prefers-reduced-motion:reduce){#view{animation:none}.prog i{transition:none}}
+
+.bd{box-shadow:inset 0 1px 0 #ffffff40,0 6px 14px #0006}
+.bd.fi{display:flex;flex-direction:column;gap:2px;position:relative;overflow:hidden;box-shadow:none}.bd.fi .ic{width:22px;height:22px}.bd.fi small{font-size:8.5px;font-weight:800;letter-spacing:.6px}
+.bd.fi img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.lg{overflow:hidden}.lg img{width:100%;height:100%;object-fit:cover}
+body::before,body::after{content:"";position:fixed;z-index:-1;width:300px;height:300px;border-radius:50%;filter:blur(90px);opacity:.28;animation:fl 14s ease-in-out infinite alternate}
+body::before{background:#ff9300;top:-90px;right:-110px}body::after{background:#ffc247;bottom:-110px;left:-120px;animation-delay:-6s;opacity:.16}
+@keyframes fl{to{transform:translate(40px,50px) scale(1.15)}}
+.hb{position:relative;overflow:hidden;margin-top:12px;padding:18px;border-radius:24px;background:linear-gradient(135deg,#2c1f09,#17110a 65%);border:1px solid #ffb11b44}
+.hb::before{content:"";position:absolute;inset:-60%;background:conic-gradient(from 0deg,transparent,#ffb11b26,transparent 35%);animation:sp 9s linear infinite}
+.hb>*{position:relative}.hr{display:flex;gap:14px;align-items:center}.hb .lg{width:58px;height:58px;border-radius:19px;flex:none}.hb .lg .ic{width:30px;height:30px}.hb .tx b{font-size:19px}.hb .meta{margin-top:14px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.btn:not(:disabled),.final.on{position:relative;overflow:hidden}
+.btn:not(:disabled)::after,.final.on::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,#ffffff66 50%,transparent 70%);transform:translateX(-130%);animation:sh 3.2s infinite}
+@keyframes sh{to{transform:translateX(130%)}}
+.task.on{border-color:#ffb11b77;box-shadow:inset 0 0 0 1px #ffb11b22,0 12px 32px #ff93001c}
+.btn.ok .ic{animation:pp .45s}@keyframes pp{0%{transform:scale(0)}70%{transform:scale(1.35)}100%{transform:scale(1)}}
+.cf{position:fixed;top:32%;left:50%;width:8px;height:12px;border-radius:2px;z-index:50;pointer-events:none;animation:cf 1.2s ease-out forwards}
+@keyframes cf{to{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0}}
+@media (prefers-reduced-motion:reduce){body::before,body::after,.hb::before,.btn::after,.final::after{animation:none}.cf{display:none}}
 </style>
 </head>
 <body>
@@ -47,14 +67,24 @@ nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
 <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 2h8l5 5v15H6z"/><path d="M14 2v5h5M9 13h6M9 17h6"/></symbol>
 <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></symbol>
 <symbol id="i-back" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+<symbol id="i-logo" viewBox="0 0 24 24"><path d="M12 2.5 20 7v10l-8 4.5L4 17V7z"/><path d="m12.8 7.5-3.8 5.5h3l-.8 3.5 3.8-5.5h-3z"/></symbol>
+<symbol id="i-apk" viewBox="0 0 24 24"><path d="M5 16a7 7 0 0 1 14 0v3H5z"/><path d="M8 8 6.5 5.5M16 8l1.5-2.5M9.5 13v.01M14.5 13v.01"/></symbol>
+<symbol id="i-zip" viewBox="0 0 24 24"><path d="M5 3h14v18H5z"/><path d="M12 3v4m0 3v1m-2 3h4v5h-4z"/></symbol>
+<symbol id="i-pdf" viewBox="0 0 24 24"><path d="M6 2h8l5 5v15H6z"/><path d="M14 2v5h5M9 17c1-4 2-5 3-1s2 2 3-1"/></symbol>
+<symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></symbol>
+<symbol id="i-audio" viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="7" cy="18" r="2.5"/><circle cx="17" cy="16" r="2.5"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="m4 18 5-5 4 4 3-3 4 4"/></symbol>
+<symbol id="i-game" viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="11" rx="5"/><path d="M7 10.5v4M5 12.5h4M15.5 11.5v.01M18 13.5v.01"/></symbol>
+<symbol id="i-app" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M7 6.5v.01M10 6.5v.01"/></symbol>
+<symbol id="i-code" viewBox="0 0 24 24"><path d="m8 8-5 4 5 4M16 8l5 4-5 4M14 5l-4 14"/></symbol>
 </defs></svg>
 
-<header class="top"><div class="lg"><svg class="ic"><use href="#i-bolt"/></svg></div><div><b id="brand">الملفات</b><small>تحميل سريع وآمن</small></div></header>
+<header class="top"><div class="lg" id="lg"><svg class="ic"><use href="#i-logo"/></svg></div><div><b id="brand">الملفات</b><small>تحميل سريع وآمن</small></div></header>
 <main id="view"></main>
 <nav><button id="t-files" class="on"><svg class="ic"><use href="#i-file"/></svg>الملفات</button><button id="t-about"><svg class="ic"><use href="#i-info"/></svg>حول</button></nav>
 
 <script>
-/*TGGATE*/ /*SLOT:FOOT*/ /*ADS-V3*/
+/*TGGATE*/ /*SLOT:FOOT*/ /*ADS-V5*/
 (() => {
 'use strict';
 const tg = window.Telegram && Telegram.WebApp, $ = s => document.querySelector(s);
@@ -86,30 +116,34 @@ async function loadHtml(code, host) {
 }
 
 // الخطوات: كل شبكة إعلانية = خطوة
+const pgs = v => { const x = String(v || '').split(/[,\s]+/).map(Number).filter(n => n >= 1 && n <= 20); return x.length ? [...new Set(x)] : [1]; };
 function buildSteps() {
   const r = cfg.rewarded || {}, out = [];
-  if (r.provider === 'adsgram') { const id = String(r.blockId || '').trim(); if (/^(int-|task-)?\d+$/i.test(id)) out.push({ kind: 'adsgram', name: 'Adsgram', id }); }
-  else if (r.fn) out.push({ kind: 'sdk', name: r.name || 'Monetag', code: r.sdk || '', fn: r.fn, mode: r.mode });
-  if (r.fallbackFn) out.push({ kind: 'sdk', name: 'Ads', code: r.fallbackSdk || '', fn: r.fallbackFn });
+  if (r.provider === 'adsgram') { const id = String(r.blockId || '').trim(); if (/^(int-|task-)?\d+$/i.test(id)) out.push({ pg: [1], kind: 'adsgram', name: 'Adsgram', id }); }
+  else if (r.fn) out.push({ pg: [1], kind: 'sdk', name: r.name || 'Monetag', code: r.sdk || '', fn: r.fn, mode: r.mode });
+  if (r.fallbackFn) out.push({ pg: [1], kind: 'sdk', name: 'Ads', code: r.fallbackSdk || '', fn: r.fallbackFn });
   (Array.isArray(cfg.ads) ? cfg.ads : []).filter(u => u && u.on !== false).forEach(u => {
-    if (u.type === 'rewarded' && u.fn) out.push({ kind: 'sdk', name: u.name || 'Ads', code: u.code || '', fn: u.fn });
-    else if (u.type === 'link' && safe(u.code)) out.push({ kind: 'link', name: u.name || 'Ads', url: String(u.code).trim() });
+    if (u.type === 'rewarded' && u.fn) out.push({ pg: pgs(u.pages), kind: 'sdk', name: u.name || 'Ads', code: u.code || '', fn: u.fn, rep: u.rep, arg: u.arg });
+    else if (u.type === 'link' && safe(u.code)) out.push({ pg: pgs(u.pages), kind: 'link', name: u.name || 'Ads', url: String(u.code).trim(), rep: u.rep });
   });
-  return out.length ? out : [{ kind: 'timer', name: 'انتظار', seconds: 10 }];
+  const flat = []; out.forEach(s => s.pg.forEach(p => { const n = Math.max(1, Math.min(50, +s.rep || 1)); for (let k = 1; k <= n; k++) flat.push({ ...s, pg: p, name: n > 1 ? s.name + ' ' + k : s.name }); }));
+  return flat.length ? flat : [{ kind: 'timer', name: 'انتظار', seconds: 10, pg: 1 }];
 }
 async function prep(st) {
   if (!st || st.ready) return;
   try {
     if (st.kind === 'adsgram') { if (!window.Adsgram && !loaded.has('ag')) { loaded.add('ag'); await loadHtml('<script src="https://sad.adsgram.ai/js/sad.min.js"><\/script>'); } for (let i = 0; i < 15 && !window.Adsgram; i++) await sleep(200); st.ready = !!window.Adsgram; }
-    else if (st.kind === 'sdk') { if (st.code.trim() && !loaded.has(st.code)) { loaded.add(st.code); await loadHtml(st.code); } for (let i = 0; i < 15 && !fnOf(st.fn); i++) await sleep(200); st.ready = !!fnOf(st.fn); }
+    else if (st.kind === 'sdk') { if (tg) for (let i = 0; i < 30 && !uid(); i++) await sleep(100); if (st.code.trim() && !loaded.has(st.code)) { loaded.add(st.code); await loadHtml(st.code.replace(/\{\{TG_USER_ID\}\}/g, uid())); } for (let i = 0; i < 15 && !fnOf(st.fn); i++) await sleep(200); st.ready = !!fnOf(st.fn); }
     else st.ready = true;
   } catch (e) { dbg('prep error ' + e.message); }
   dbg(st.name + ' ready=' + st.ready);
 }
+const fill = s => String(s).replace(/\{\{TG_USER_ID\}\}/g, uid()).replace(/\{\{KEY\}\}/g, gate ? gate.key : '');
+const argOf = st => { const a = String(st.arg || '').trim(), id = uid(); if (!a) return /^show_/.test(st.fn) && id ? { ymid: id, requestVar: gate ? gate.key : '' } : undefined; const x = fill(a); try { return JSON.parse(x); } catch (_) { return x; } };
 const run = st => {
   if (st.kind === 'adsgram') { st.ctl = st.ctl || window.Adsgram.init({ blockId: st.id }); return st.ctl.show(); }
-  if (st.kind === 'sdk') { const f = fnOf(st.fn); return Promise.resolve(st.mode === 'pop' ? f('pop') : f()); }
-  if (st.kind === 'link') return new Promise((res, rej) => { const a = { t: Date.now(), res, rej }; away = a; openUrl(st.url); setTimeout(() => { if (away === a) { away = null; res(); } }, ((cfg.minAway || 5) + 12) * 1000); });
+  if (st.kind === 'sdk') { const f = fnOf(st.fn), x = argOf(st); return Promise.resolve(st.mode === 'pop' ? f('pop') : x === undefined ? f() : f(x)); }
+  if (st.kind === 'link') return new Promise((res, rej) => { const a = { t: Date.now(), res, rej }; away = a; openUrl(fill(st.url)); setTimeout(() => { if (away === a) { away = null; res(); } }, ((cfg.minAway || 5) + 12) * 1000); });
   return sleep(st.seconds * 1000);
 };
 const back = () => { if (!away || Date.now() - away.t < 800) return; const a = away; away = null; Date.now() - a.t >= (cfg.minAway || 5) * 1000 ? a.res() : a.rej({ error: false, done: false }); };
@@ -124,7 +158,7 @@ const slots = () => {
   const w = H('div', 'slots');
   (Array.isArray(cfg.ads) ? cfg.ads : []).filter(u => u && u.on !== false && u.type === 'banner' && String(u.code || '').trim()).forEach(u => {
     const f = document.createElement('iframe'); f.className = 'bn'; f.setAttribute('sandbox', 'allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin');
-    f.srcdoc = '<!doctype html><meta name="viewport" content="width=device-width"><body style="margin:0;display:flex;justify-content:center">' + u.code;
+    f.srcdoc = '<!doctype html><meta name="viewport" content="width=device-width"><body style="margin:0;display:flex;justify-content:center">' + fill(u.code);
     const fit = () => { try { f.style.height = Math.max(60, f.contentDocument.documentElement.scrollHeight) + 'px'; } catch (_) {} };
     f.onload = () => { fit(); setTimeout(fit, 2500); }; w.append(f);
   });
@@ -135,6 +169,17 @@ const setBack = s => { try { tg.BackButton.offClick(onBack); if (s) { tg.BackBut
 function setTab(t) { $('#t-files').classList.toggle('on', t === 'files'); $('#t-about').classList.toggle('on', t === 'about'); t === 'files' ? paintHome() : paintAbout(); }
 $('#t-files').onclick = () => setTab('files'); $('#t-about').onclick = () => setTab('about');
 
+const TYPES = { apk: ['APK', '#58d27a', 'apk'], zip: ['ZIP', '#ffb11b', 'zip'], pdf: ['PDF', '#ff6b5e', 'pdf'], doc: ['DOC', '#5aa2ff', 'file'], video: ['VIDEO', '#b07bff', 'video'], audio: ['AUDIO', '#ff6fb1', 'audio'], image: ['IMG', '#35d4c4', 'image'], game: ['GAME', '#ff8a3d', 'game'], app: ['APP', '#4cc3ff', 'app'], code: ['CODE', '#a6e25f', 'code'], file: ['FILE', '#ffc247', 'file'] };
+const RX = [['apk', /apk/], ['zip', /\.(zip|rar|7z)|zip|rar/], ['pdf', /pdf/], ['video', /\.(mp4|mkv|avi)|video|فيديو/], ['audio', /\.(mp3|wav)|mp3|صوت/], ['image', /\.(png|jpe?g|webp)|صور/], ['game', /game|لعبة|العاب|ألعاب/], ['code', /\.(js|py|json)|script|سكربت|كود/], ['doc', /\.(docx?|txt)|doc|كتاب/], ['app', /app|تطبيق|برنامج|\.exe|\.ipa/]];
+const guessType = i => { const AL = { music: 'audio', book: 'pdf', tool: 'code', star: 'file' }, r0 = String(i.type || i.icon || '').toLowerCase(), t = AL[r0] || r0; if (TYPES[t]) return t; const s = ((i.title || '') + ' ' + (links[i.link] || '')).toLowerCase(); for (const [k, r] of RX) if (r.test(s)) return k; return 'file'; };
+const fileTile = i => { const t = guessType(i), [lb, c, sy] = TYPES[t], d = H('div', 'bd fi'); d.style.cssText = 'background:' + c + '1f;color:' + c + ';border:1px solid ' + c + '55'; d.append(ic(sy), H('small', '', lb)); if (safe(i.img)) { const im = document.createElement('img'); im.alt = ''; im.loading = 'lazy'; im.onerror = () => im.remove(); im.src = i.img; d.append(im); } return d; };
+const banner = () => {
+  const a = cfg.about || {}, b = H('div', 'hb'), r = H('div', 'hr'), l = H('div', 'lg'), t = H('div', 'tx'), m = H('div', 'meta');
+  if (safe(a.logo)) { const im = document.createElement('img'); im.alt = ''; im.src = a.logo; l.append(im); } else l.append(ic('logo'));
+  t.append(H('b', '', a.name || 'منصة التحميل'), H('span', '', 'حمّل ملفاتك المفضلة بسرعة وأمان')); r.append(l, t);
+  [items.length + ' ملف', 'روابط آمنة', 'تحديث مستمر'].forEach(x => m.append(H('em', 'g', x))); b.append(r, m); return b;
+};
+const burst = () => { const cs = ['#ffc247', '#ff9300', '#58d27a', '#4cc3ff', '#ff6fb1']; for (let i = 0; i < 26; i++) { const e = H('i', 'cf'); e.style.background = cs[i % 5]; e.style.setProperty('--x', (Math.random() * 320 - 160) + 'px'); e.style.setProperty('--y', (Math.random() * 380 - 60) + 'px'); e.style.setProperty('--r', (Math.random() * 720) + 'deg'); document.body.append(e); setTimeout(() => e.remove(), 1300); } };
 function paintHome() {
   gate = null; setBack(false);
   const v = view(), q = H('input', 'search'), chips = H('div', 'chips'), list = H('div'); let cat = '';
@@ -144,8 +189,8 @@ function paintHome() {
     const arr = items.filter(i => (!cat || i.cat === cat) && (!w || ((i.title || '') + ' ' + (i.desc || '')).toLowerCase().includes(w))).sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0) || (b.t || 0) - (a.t || 0));
     if (!arr.length) { list.append(H('p', 'empty', items.length ? 'لا نتائج مطابقة.' : 'لا توجد ملفات بعد.')); return; }
     arr.forEach(i => {
-      const c = H('div', 'task' + (i.featured ? ' feat' : '')), tx = H('div', 'tx'), ib = H('div', 'bd fi'), b = H('button', 'btn');
-      ib.append(ic('file')); tx.append(H('b', '', i.title), H('span', '', i.desc || ''));
+      const c = H('div', 'task' + (i.featured ? ' feat' : '')), tx = H('div', 'tx'), ib = fileTile(i), b = H('button', 'btn');
+      tx.append(H('b', '', i.title), H('span', '', i.desc || ''));
       if (i.cat || i.featured) { const m = H('div', 'meta'); if (i.featured) m.append(H('em', 'g', 'مميز')); if (i.cat) m.append(H('em', '', i.cat)); tx.append(m); }
       b.append(H('span', '', 'تحميل'), ic('download')); b.onclick = () => startGate(i.link, i.title);
       c.append(ib, tx, b); list.append(c);
@@ -153,7 +198,7 @@ function paintHome() {
   };
   const cats = [...new Set(items.map(i => i.cat).filter(Boolean))];
   if (cats.length) ['', ...cats].forEach(n => { const b = H('button', n ? '' : 'on', n || 'الكل'); b.onclick = () => { cat = n; [...chips.children].forEach(x => x.classList.toggle('on', x === b)); draw(); }; chips.append(b); });
-  q.oninput = draw; v.append(q, chips, list, slots()); draw();
+  q.oninput = draw; v.append(banner(), q, chips, list, slots()); draw();
 }
 function paintAbout() {
   gate = null; setBack(false);
@@ -170,14 +215,15 @@ function fail(msg) { const v = view(), h = H('div', 'hero'); h.append(H('h1', ''
 
 function startGate(key, title) {
   const url = links[key]; if (!safe(url)) return fail('هذا الرابط غير موجود أو تم حذفه.');
-  gate = { url, title, i: 0, done: false, busy: false, steps: buildSteps() };
+  const all = buildSteps(), pn = [...new Set(all.map(s => s.pg))].sort((x, y) => x - y), pages = pn.map(p => all.filter(s => s.pg === p));
+  gate = { key, url, title, i: 0, p: 0, pages, total: all.length, done: false, pageDone: false, busy: false, steps: pages[0] };
   setBack(!fromLink); paintGate(); const s = gate.steps[0]; prep(s).then(() => { if (gate && gate.steps[gate.i] === s) paintGate(); });
 }
 const info = (st, s) => s === 'done' ? 'تمت المشاهدة' : s === 'lock' ? 'بانتظار الخطوة السابقة' : st.msg || (st.kind === 'timer' ? 'انتظر ' + st.seconds + ' ثوانٍ' : st.ready ? 'جاهز، اضغط للمشاهدة' : 'جارٍ تجهيز الإعلان');
 function paintGate() {
-  const g = gate; if (!g) return; const v = view(), n = g.steps.length, done = Math.min(g.i, n), hd = H('div', 'hero'), pr = H('div', 'prog'), pf = H('i');
-  hd.append(H('h1', '', g.title || 'رابطك قيد التحضير'), H('p', '', g.done ? 'اكتملت الخطوات، رابطك جاهز.' : 'أكمل الخطوات بالترتيب لفتح الرابط (' + done + '/' + n + ')'));
-  pf.style.width = (100 * done / n) + '%'; pr.append(pf); hd.append(pr); v.append(hd);
+  const g = gate; if (!g) return; const v = view(), n = g.steps.length, done = g.pages.slice(0, g.p).reduce((x, s) => x + s.length, 0) + Math.min(g.i, n), hd = H('div', 'hero'), pr = H('div', 'prog'), pf = H('i');
+  hd.append(H('h1', '', g.title || 'رابطك قيد التحضير'), H('p', '', g.done ? 'اكتملت الخطوات، رابطك جاهز.' : g.pageDone ? 'اكتملت هذه الصفحة، تابع للصفحة التالية.' : (g.pages.length > 1 ? 'الصفحة ' + (g.p + 1) + ' من ' + g.pages.length + ' - ' : '') + 'أكمل الخطوات بالترتيب لفتح الرابط (' + done + '/' + g.total + ')'));
+  pf.style.width = (100 * done / g.total) + '%'; pr.append(pf); hd.append(pr); v.append(hd);
   g.steps.forEach((st, k) => {
     const s = k < g.i ? 'done' : (k === g.i && !g.done ? 'on' : 'lock'), c = H('div', 'task ' + s), tx = H('div', 'tx'), b = H('button', 'btn');
     tx.append(H('b', '', st.name), H('span', '', info(st, s))); c.append(badge(st.name), tx);
@@ -186,8 +232,8 @@ function paintGate() {
     else { b.append(H('span', '', st.fail ? 'تخطي' : st.kind === 'timer' ? 'ابدأ' : 'شاهد'), ic(st.fail ? 'back' : 'play', !st.fail)); b.disabled = g.busy; b.onclick = () => st.fail ? next() : play(k); }
     c.append(b); v.append(c);
   });
-  const f = H('button', 'final' + (g.done ? ' on' : '')); f.append(ic(g.done ? 'link' : 'lock'), H('span', '', g.done ? 'فتح الرابط الآن' : 'الرابط مقفل')); f.disabled = !g.done;
-  f.onclick = () => { hap(); openUrl(g.url); }; v.append(f, slots());
+  const f = H('button', 'final' + (g.done || g.pageDone ? ' on' : '')); f.append(ic(g.done ? 'link' : g.pageDone ? 'back' : 'lock'), H('span', '', g.done ? 'فتح الرابط الآن' : g.pageDone ? 'الصفحة التالية' : 'الرابط مقفل')); f.disabled = !(g.done || g.pageDone);
+  f.onclick = () => { hap(); if (g.pageDone) { g.p++; g.i = 0; g.pageDone = false; g.steps = g.pages[g.p]; paintGate(); const s = g.steps[0]; prep(s).then(() => { if (gate === g && g.steps[g.i] === s) paintGate(); }); } else openUrl(g.url); }; v.append(f, slots());
 }
 async function play(k) {
   const g = gate, st = g.steps[k]; if (g.busy) return; g.busy = true; st.msg = 'جارٍ التشغيل'; paintGate();
@@ -200,7 +246,7 @@ async function play(k) {
   g.busy = false; paintGate();
 }
 function next() {
-  gate.i++; hap(); if (gate.i >= gate.steps.length) gate.done = true; paintGate();
+  gate.i++; hap(); if (gate.i >= gate.steps.length) { if (gate.p < gate.pages.length - 1) gate.pageDone = true; else { gate.done = true; burst(); } } paintGate();
   const s = gate.steps[gate.i]; if (s) prep(s).then(() => { if (gate && gate.steps[gate.i] === s) paintGate(); });
 }
 
@@ -209,6 +255,8 @@ function next() {
   const [c, l, k] = await Promise.all([J('config.json'), J('links.json'), J('catalog.json')]);
   cfg = c || {}; links = l || {}; items = Array.isArray(k && k.items) ? k.items : [];
   const nm = (cfg.about && cfg.about.name) || ''; if (nm) { $('#brand').textContent = nm; document.title = nm; }
+  window.TG_USER_ID = uid(); window.getTgUserId = uid;
+  { const lo = cfg.about && cfg.about.logo; if (safe(lo)) { const im = document.createElement('img'); im.alt = ''; im.onerror = () => im.remove(); im.src = lo; $('#lg').replaceChildren(im); } }
   (Array.isArray(cfg.inject) ? cfg.inject : []).filter(u => u && u.on !== false && String(u.code || '').trim()).forEach(async u => {
     if (u.tg !== false) for (let i = 0; i < 30 && !uid(); i++) await sleep(100);
     loadHtml(String(u.code).replace(/\{\{TG_USER_ID\}\}/g, uid()), u.where === 'body' ? document.body : document.head);
