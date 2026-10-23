@@ -60,6 +60,11 @@ body::before{background:#ff9300;top:-90px;right:-110px}body::after{background:#f
 .acts{display:flex;gap:8px;flex:none}.sh{flex:none;width:44px;height:44px;border:1px solid var(--line);background:var(--card);color:var(--mut);border-radius:14px;display:grid;place-items:center;cursor:pointer}
 .dt{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-top:12px}.dt summary{cursor:pointer;font-weight:700;list-style:none}.dt summary::-webkit-details-marker{display:none}.dt p{color:var(--mut);font-size:13px;line-height:1.9;margin-top:8px}
 nav button{font-size:11.5px}
+.adf{position:relative;margin:14px 0;padding:24px 8px 8px;border-radius:18px;border:1.5px solid transparent;background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(135deg,#ffc247,#ff9300,#ff6fb1,#4cc3ff) border-box;box-shadow:0 8px 26px #0007}
+.adf>b{position:absolute;top:5px;right:14px;font-size:10px;font-weight:700;color:var(--mut);letter-spacing:.4px}
+.adf iframe{width:100%;border:0;border-radius:12px;display:block}
+.adf.neon{background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(135deg,#00e5ff,#7c4dff) border-box;box-shadow:0 0 18px #00e5ff55}
+.adf.gold{background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(135deg,#ffe08a,#c98a00) border-box}
 </style>
 </head>
 <body>
@@ -94,7 +99,7 @@ nav button{font-size:11.5px}
 <nav><button id="t-files" class="on"><svg class="ic"><use href="#i-file"/></svg>الملفات</button><button id="t-about"><svg class="ic"><use href="#i-info"/></svg>حول</button><button id="t-legal"><svg class="ic"><use href="#i-shield"/></svg>السياسات</button></nav>
 
 <script>
-/*TGGATE*/ /*SLOT:FOOT*/ /*ADS-V7*/
+/*TGGATE*/ /*SLOT:FOOT*/ /*ADS-V8*/
 (() => {
 'use strict';
 const tg = window.Telegram && Telegram.WebApp, $ = s => document.querySelector(s);
@@ -135,7 +140,7 @@ function buildSteps() {
   if (r.fallbackFn) out.push({ pg: [1], kind: 'sdk', name: 'Ads', code: r.fallbackSdk || '', fn: r.fallbackFn });
   const NETN = { adsgram: 'Adsgram', monetag: 'Monetag', gigapub: 'GigaPub', adexium: 'Adexium', link: 'Ads' };
   (Array.isArray(cfg.ads) ? cfg.ads : []).filter(u => u && u.on !== false).forEach(u => {
-    const net = u.net || 'custom', z = String(u.zid || '').trim(), pg = pgs(u.pages), nm = u.name || NETN[net] || 'Ads', rep = u.rep;
+    const net = u.net || 'custom', z = String(u.zid || '').trim(), pg = pgs(u.pages), nm = u.name || NETN[net] || 'Ads', rep = u.rep, n0 = out.length;
     if (net === 'adsgram' && z) out.push({ pg, kind: 'adsgram', name: nm, id: z, rep });
     else if (net === 'monetag' && /^\d+$/.test(z)) out.push({ pg, kind: 'sdk', name: nm, code: '<script src="//libtl.com/sdk.js" data-zone="' + z + '" data-sdk="show_' + z + '"><\/script>', fn: 'show_' + z, arg: u.arg, rep });
     else if (net === 'gigapub' && /^\d+$/.test(z)) out.push({ pg, kind: 'sdk', name: nm, code: '<script src="https://ad.gigapub.tech/script?id=' + z + '"><\/script>', fn: 'showGiga', arg: u.arg, rep });
@@ -145,6 +150,7 @@ function buildSteps() {
       if (u.type === 'rewarded' && u.fn) out.push({ pg, kind: 'sdk', name: nm, code: u.code || '', fn: u.fn, rep, arg: u.arg });
       else if (u.type === 'link' && safe(u.code)) out.push({ pg, kind: 'link', name: nm, url: String(u.code).trim(), rep });
     }
+    for (let q = n0; q < out.length; q++) out[q].opt = Math.max(0, +u.opt || 0);
   });
   const flat = []; out.forEach(s => s.pg.forEach(p => { const n = Math.max(1, Math.min(50, +s.rep || 1)); flat.push({ ...s, pg: p, need: n, got: 0 }); }));
   return flat.length ? flat : [{ kind: 'timer', name: 'انتظار', seconds: 10, pg: 1, need: 1, got: 0 }];
@@ -188,7 +194,7 @@ const slots = () => {
     const f = document.createElement('iframe'); f.className = 'bn'; f.setAttribute('sandbox', 'allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin');
     f.srcdoc = '<!doctype html><meta name="viewport" content="width=device-width"><body style="margin:0;display:flex;justify-content:center">' + fill(u.code);
     const fit = () => { try { f.style.height = Math.max(60, f.contentDocument.documentElement.scrollHeight) + 'px'; } catch (_) {} };
-    f.onload = () => { fit(); setTimeout(fit, 2500); }; w.append(f);
+    f.onload = () => { fit(); setTimeout(fit, 2500); }; const fm = (cfg.theme && cfg.theme.frame) || 'rainbow'; if (fm === 'none') w.append(f); else { const fr = H('div', 'adf ' + fm); fr.append(H('b', '', 'إعلان ممول'), f); w.append(fr); }
   });
   return w;
 };
@@ -261,7 +267,15 @@ function paintAbout() {
 }
 function fail(msg) { const v = view(), h = H('div', 'hero'); h.append(H('h1', '', 'تعذّر فتح الرابط'), H('p', '', msg)); v.append(h); const b = H('button', 'final on'); b.append(ic('file'), H('span', '', 'تصفّح الملفات')); b.onclick = () => setTab('files'); v.append(b); }
 
+const CK = 'tg_ad_consent';
+const hasConsent = () => { try { if (localStorage.getItem(CK) === '1') return true; } catch (_) {} return !!window.__consent; };
+function paintConsent(go) {
+  gate = null; setBack(!fromLink); const v = view(), h = H('div', 'hero'), c = cfg.consent || {};
+  h.append(H('h1', '', 'موافقة على عرض الإعلانات'), H('p', '', c.text || '')); v.append(h);
+  const b = H('button', 'final on'); b.append(ic('check'), H('span', '', 'أوافق وأتابع')); b.onclick = () => { try { localStorage.setItem(CK, '1'); } catch (_) {} window.__consent = true; go(); }; v.append(b);
+}
 function startGate(key, title) {
+  if (cfg.consent && cfg.consent.on && !hasConsent()) return paintConsent(() => startGate(key, title));
   runInject('go');
   const url = links[key]; if (!safe(url)) return fail('هذا الرابط غير موجود أو تم حذفه.');
   const all = buildSteps(), pn = [...new Set(all.map(s => s.pg))].sort((x, y) => x - y), pages = pn.map(p => all.filter(s => s.pg === p));
@@ -279,21 +293,29 @@ function paintGate() {
     tx.append(H('b', '', st.name), H('span', '', info(st, s))); c.append(badge(st.name), tx);
     if (s === 'done') { b.className = 'btn ok'; b.append(ic('check')); b.disabled = true; }
     else if (s === 'lock') { b.className = 'btn off'; b.append(ic('lock')); b.disabled = true; }
-    else { const cd = st.cool && st.cool > Date.now() ? Math.ceil((st.cool - Date.now()) / 1000) : 0; b.append(H('span', '', cd ? cd + ' ث' : (st.need > 1 && !st.fail ? (st.got || 0) + '/' + st.need + ' ' : '') + (st.fail ? 'التالي' : st.kind === 'timer' ? 'ابدأ' : 'متابعة')), ic(st.fail ? 'back' : 'play', !st.fail)); b.disabled = g.busy || !!cd; b.onclick = () => st.fail ? next() : play(k); }
-    c.append(b); v.append(c);
+    else { const cd = st.cool && st.cool > Date.now() ? Math.ceil((st.cool - Date.now()) / 1000) : 0; b.append(H('span', '', cd ? cd + ' ث' : (st.need > 1 && !st.fail ? (st.got || 0) + '/' + st.need + ' ' : '') + (st.fail ? 'التالي' : st.verify ? 'تحقق' : st.kind === 'timer' ? 'ابدأ' : 'متابعة')), ic(st.fail ? 'back' : 'play', !st.fail)); b.disabled = g.busy || !!cd; b.onclick = () => st.fail ? next() : play(k); }
+    c.append(b);
+    if (s === 'on' && st.opt > 0 && !st.fail) { if (!st.skipAt) st.skipAt = Date.now() + st.opt * 1000; const left = Math.ceil((st.skipAt - Date.now()) / 1000), sk = H('button', 'sh', left > 0 ? String(left) : 'تخطٍّ'); sk.style.cssText = 'width:auto;min-width:44px;padding:0 10px;font-size:12px'; sk.disabled = left > 0 || g.busy; sk.onclick = () => { st.skipped = true; next(); }; c.append(sk); if (left > 0 && !st.skipTm) st.skipTm = setTimeout(() => { st.skipTm = 0; if (gate === g && g.steps[g.i] === st && !g.busy) paintGate(); }, 1000); }
+    v.append(c);
   });
   const f = H('button', 'final' + (g.done || g.pageDone ? ' on' : '')); f.append(ic(g.done ? 'link' : g.pageDone ? 'back' : 'lock'), H('span', '', g.done ? 'فتح الرابط الآن' : g.pageDone ? 'الصفحة التالية' : 'الرابط مقفل')); f.disabled = !(g.done || g.pageDone);
   f.onclick = () => { hap(); if (g.pageDone) { g.p++; g.i = 0; g.pageDone = false; g.painted = false; g.steps = g.pages[g.p]; paintGate(); const s = g.steps[0]; prep(s).then(() => { if (gate === g && g.steps[g.i] === s) paintGate(); }); } else openUrl(g.url); }; v.append(f, H('p', 'note', 'الإعلانات من جهات خارجية وتُعرض عند الضغط على زر المتابعة، وهي تدعم استمرار الخدمة مجاناً.'), slots());
 }
 function tick() { const g = gate, st = g && g.steps[g.i]; if (!st || !st.cool) return; if (Date.now() >= st.cool) { st.cool = 0; paintGate(); return; } paintGate(); setTimeout(tick, 1000); }
 async function play(k) {
-  const g = gate, st = g.steps[k]; if (g.busy) return; g.busy = true; st.msg = 'جارٍ التشغيل'; paintGate();
-  try { if (!st.ready) await prep(st); if (!st.ready) throw { noad: 1 }; await run(st); st.msg = ''; g.busy = false; st.got = (st.got || 0) + 1; if (st.got < st.need) { st.cool = Date.now() + 4000; hap(); paintGate(); tick(); return; } next(); return; }
-  catch (e) {
-    dbg(st.name + ' error: ' + (e && (e.description || e.message || JSON.stringify(e))));
-    if (e && e.error === false && e.done === false) st.msg = 'لم يكتمل العرض، حاول مرة أخرى';
-    else { st.fail = cfg.failSkip !== false; st.msg = 'لا يتوفر إعلان حالياً، حاول مرة أخرى أو اضغط التالي'; }
+  const g = gate, st = g.steps[k]; if (g.busy) return; g.busy = true; st.verify = false;
+  const max = Math.max(0, Math.min(5, cfg.retries == null ? 2 : +cfg.retries || 0));
+  for (let a = 0; a <= max; a++) {
+    st.msg = a ? 'إعادة المحاولة (' + a + '/' + max + ')…' : 'جارٍ التشغيل'; paintGate();
+    try { if (!st.ready) await prep(st); if (!st.ready) throw { noad: 1 }; await run(st); st.msg = ''; st.verified = false; g.busy = false; st.got = (st.got || 0) + 1; if (st.got < st.need) { st.cool = Date.now() + 4000; hap(); paintGate(); tick(); return; } next(); return; }
+    catch (e) {
+      dbg(st.name + ' error (' + a + '): ' + (e && (e.description || e.message || JSON.stringify(e))));
+      if (e && e.error === false && e.done === false) { st.msg = 'لم يكتمل العرض، حاول مرة أخرى'; g.busy = false; paintGate(); return; }
+      if (a < max) { st.ready = false; await sleep(1500); }
+    }
   }
+  if (st.verified) { st.fail = cfg.failSkip !== false; st.msg = 'لا يتوفر إعلان حالياً، اضغط التالي'; }
+  else { st.verified = true; st.verify = true; st.msg = 'تعذّر عرض الإعلان، اضغط «تحقق» لمحاولة أخيرة'; }
   g.busy = false; paintGate();
 }
 function next() {
@@ -314,7 +336,8 @@ function blockOutside() {
   const nm = (cfg.about && cfg.about.name) || ''; if (nm) { $('#brand').textContent = nm; document.title = nm; }
   window.TG_USER_ID = uid(); window.getTgUserId = uid;
   { const lo = cfg.about && cfg.about.logo; if (safe(lo)) { const im = document.createElement('img'); im.alt = ''; im.onerror = () => im.remove(); im.src = lo; $('#lg').replaceChildren(im); } }
-  if (!(tg && typeof tg.initData === 'string' && tg.initData.length > 0)) { blockOutside(); return; }
+  if (cfg.tgOnly !== false && !(tg && typeof tg.initData === 'string' && tg.initData.length > 0)) { blockOutside(); return; }
+  if (cfg.maint && cfg.maint.on) { const v = view(), h = H('div', 'hero'); h.append(H('h1', '', cfg.maint.title || 'الخدمة متوقفة مؤقتاً'), H('p', '', cfg.maint.text || 'نعود قريباً.')); v.append(h); const n = $('nav'); if (n) n.style.display = 'none'; return; }
   const key = getKey();
   if (key) { fromLink = true; const it = items.find(i => i.link === key); startGate(key, it ? it.title : ''); } else paintHome();
 })();
