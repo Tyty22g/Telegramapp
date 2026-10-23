@@ -47,29 +47,14 @@ footer{text-align:center;color:var(--h);font-size:12px;padding:14px 0 24px}
 .mock .ad{background:color-mix(in srgb,#ffb23f 18%,transparent);border-radius:8px;padding:10px;margin:6px 0;color:var(--t)}
 .mock .bar{background:var(--a);color:var(--at);border-radius:8px;padding:6px;margin-top:6px}
 .sec{background:none;border:1px solid color-mix(in srgb,var(--h) 40%,transparent);color:var(--t)}
-/*M3FLAT*/.card{box-shadow:none!important;backdrop-filter:none!important;border-radius:24px!important}.act{border-radius:100px!important;box-shadow:none!important;background-image:none!important}body{background-image:none!important}/*STEPINJ*//*M3V2*//*ADWALL*/
-.fsearch{width:100%;background:var(--s);color:inherit;border:1px solid transparent;border-radius:12px;padding:11px;font:inherit;margin:4px 0 10px}
-.fsearch:focus{outline:none;border-color:var(--a)}
-#fcats{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
-#fcats button{flex:none;border:0;border-radius:16px;padding:6px 12px;font:inherit;font-size:13px;background:var(--s);color:var(--h)}
-#fcats button.on{background:var(--a);color:var(--at)}
-.file{background:var(--s);border-radius:14px;padding:12px;margin-top:10px;display:flex;flex-direction:column;gap:8px}
-.file.feat{border:1px solid var(--a)}
-.ftop{display:flex;gap:10px;align-items:center}.fic{font-size:30px;line-height:1}
-.ftx{display:flex;flex-direction:column}.ftx span{font-size:13px;color:var(--h)}
-.fbad{display:flex;gap:6px;flex-wrap:wrap}.fbad em{font-style:normal;font-size:11px;background:var(--bg);color:var(--h);padding:2px 8px;border-radius:10px}
-.empty{text-align:center;color:var(--h);padding:24px 0}
-.fact{display:flex;gap:8px}.fact .act{flex:1}.fact .sm{flex:none;width:46px;border:0;border-radius:12px;background:var(--bg);color:var(--h);font-size:18px;cursor:pointer}
-</style>
+/*M3FLAT*/.card{box-shadow:none!important;backdrop-filter:none!important;border-radius:24px!important}.act{border-radius:100px!important;box-shadow:none!important;background-image:none!important}body{background-image:none!important}/*STEPINJ*//*M3V2*//*ADWALL*/</style>
 </head>
 <body>
 <div class="wrap">
   <header><h1 id="appname"></h1><p id="tagline"></p></header>
   <nav id="nav"></nav>
 
-  <section id="s-files" class="on"><input id="fq" class="fsearch" placeholder="ابحث عن ملف…"><div id="fcats"></div><div id="fgrid"></div></section>
-
-  <section id="s-home">
+  <section id="s-home" class="on">
     <div class="card hero"><h2>اختصار الروابط وفتحها بأمان</h2><p>افتح الرابط الذي وصلك عبر البوت، وسيُفتح الرابط الأصلي بعد انتظار قصير.</p>
       <button class="act" id="demo" hidden>جرّب رابطاً تجريبياً</button></div>
     <div class="card"><h2>خطوات الاستخدام</h2><div class="steps">
@@ -154,7 +139,7 @@ $('foot').textContent = '© ' + new Date().getFullYear() + ' ' + CONFIG.name;
 $('ctext').textContent = 'لأي استفسار أو بلاغ تواصل معنا عبر البوت' + (CONFIG.support ? ' أو الدعم المباشر.' : '.');
 
 // تبويبات
-const tabs = [['files', 'الملفات'], ['home', 'الرئيسية'], ['me', 'حسابي'], ['about', 'عن التطبيق'], ['faq', 'الأسئلة'], ['legal', 'الخصوصية والشروط'], ['contact', 'تواصل']];
+const tabs = [['home', 'الرئيسية'], ['me', 'حسابي'], ['about', 'عن التطبيق'], ['faq', 'الأسئلة'], ['legal', 'الخصوصية والشروط'], ['contact', 'تواصل']];
 tabs.forEach(([id, label], i) => {
   const b = mk('button', i ? '' : 'on', label);
   b.onclick = () => {
@@ -163,37 +148,6 @@ tabs.forEach(([id, label], i) => {
   };
   $('nav').appendChild(b);
 });
-
-// ===== متجر الملفات =====
-(async () => {
-  let items = [], cat = '', bot = '', app = '', favs = [];
-  try { favs = JSON.parse(localStorage.getItem('favs') || '[]'); } catch (_) {}
-  try { const r = await fetch('config.json?t=' + Date.now()); const j = r.ok ? await r.json() : {}; bot = (j.about && j.about.bot) || ''; app = (j.about && j.about.app) || ''; } catch (_) {}
-  try { const r = await fetch('catalog.json?t=' + Date.now(), { cache: 'no-store' }); const j = r.ok ? await r.json() : {}; items = Array.isArray(j.items) ? j.items : []; } catch (_) {}
-  const go = k => { const base = (/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(CONFIG.flow) ? 'https://' + CONFIG.flow : location.origin) + '/go.html'; location.href = base + '?startapp=' + encodeURIComponent(k) + location.hash; };
-  const draw = () => {
-    const box = $('fgrid'); box.textContent = '';
-    const w = $('fq').value.trim().toLowerCase();
-    const list = items.filter(i => (!cat || (cat === '★' ? favs.includes(i.id) : i.cat === cat)) && (!w || ((i.title || '') + ' ' + (i.desc || '')).toLowerCase().includes(w)))
-      .sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0) || (b.t || 0) - (a.t || 0));
-    if (!list.length) { box.append(mk('p', 'empty', items.length ? 'لا نتائج مطابقة.' : 'لا توجد ملفات بعد.')); return; }
-    list.forEach(i => {
-      const c = mk('div', 'file' + (i.featured ? ' feat' : '')), top = mk('div', 'ftop'), tx = mk('div', 'ftx'), bd = mk('div', 'fbad');
-      tx.append(mk('b', '', i.title), mk('span', '', i.desc || '')); top.append(mk('span', 'fic', i.icon || '📦'), tx);
-      if (i.featured) bd.append(mk('em', '', '⭐ مميز'));
-      if (Date.now() - (i.t || 0) < 6048e5) bd.append(mk('em', '', 'جديد'));
-      if (i.cat) bd.append(mk('em', '', i.cat));
-      const b = mk('button', 'act', 'تحميل'); b.onclick = () => go(i.link);
-      const fv = mk('button', 'sm', favs.includes(i.id) ? '❤️' : '🤍'); fv.onclick = () => { favs = favs.includes(i.id) ? favs.filter(f => f !== i.id) : [...favs, i.id]; try { localStorage.setItem('favs', JSON.stringify(favs)); } catch (_) {} draw(); };
-      const row = mk('div', 'fact', ''); row.append(b, fv);
-      if (bot && app) { const sh = mk('button', 'sm', '↗'); sh.onclick = () => { const u = 'https://t.me/' + bot + '/' + app + '?startapp=' + i.link; const s = 'https://t.me/share/url?url=' + encodeURIComponent(u) + '&text=' + encodeURIComponent(i.title); tg && tg.openTelegramLink ? tg.openTelegramLink(s) : window.open(s, '_blank'); }; row.append(sh); }
-      c.append(top, bd, row); box.append(c);
-    });
-  };
-  const cats = [...new Set(items.map(i => i.cat).filter(Boolean))];
-  if (items.length) ['', '★', ...cats].forEach(n => { const b = mk('button', n ? '' : 'on', n === '★' ? '❤️ المفضلة' : (n || 'الكل')); b.onclick = () => { cat = n; [...$('fcats').children].forEach(x => x.classList.toggle('on', x === b)); draw(); }; $('fcats').append(b); });
-  $('fq').oninput = draw; draw();
-})();
 
 // بيانات المستخدم
 const u = tg && tg.initDataUnsafe && tg.initDataUnsafe.user;
