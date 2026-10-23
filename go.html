@@ -94,7 +94,7 @@ nav button{font-size:11.5px}
 <nav><button id="t-files" class="on"><svg class="ic"><use href="#i-file"/></svg>الملفات</button><button id="t-about"><svg class="ic"><use href="#i-info"/></svg>حول</button><button id="t-legal"><svg class="ic"><use href="#i-shield"/></svg>السياسات</button></nav>
 
 <script>
-/*TGGATE*/ /*SLOT:FOOT*/ /*ADS-V6*/
+/*TGGATE*/ /*SLOT:FOOT*/ /*ADS-V7*/
 (() => {
 'use strict';
 const tg = window.Telegram && Telegram.WebApp, $ = s => document.querySelector(s);
@@ -102,7 +102,8 @@ const H = (t, c, x) => { const e = document.createElement(t); if (c) e.className
 const ic = (n, f) => { const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); s.setAttribute('class', 'ic' + (f ? ' f' : '')); s.innerHTML = '<use href="#i-' + n + '"/>'; return s; };
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const hap = () => { try { tg.HapticFeedback.notificationOccurred('success'); } catch (_) {} };
-const dbg = m => { if (!/[?&]debug=1/.test(location.search)) return; let p = $('#dbg'); if (!p) { p = H('pre'); p.id = 'dbg'; p.style.cssText = 'position:fixed;left:0;right:0;bottom:0;max-height:36vh;overflow:auto;margin:0;padding:8px;background:#000d;color:#9f9;font:11px/1.5 monospace;z-index:99999;direction:ltr;text-align:left;white-space:pre-wrap'; document.body.append(p); } p.textContent += m + '\n'; };
+const DBG = () => /[?&]debug=1/.test(location.search) || /-dbg$/.test(String((tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || ''));
+const dbg = m => { if (!DBG()) return; let p = $('#dbg'); if (!p) { p = H('pre'); p.id = 'dbg'; p.style.cssText = 'position:fixed;left:0;right:0;bottom:0;max-height:36vh;overflow:auto;margin:0;padding:8px;background:#000d;color:#9f9;font:11px/1.5 monospace;z-index:99999;direction:ltr;text-align:left;white-space:pre-wrap'; document.body.append(p); } p.textContent += m + '\n'; };
 addEventListener('error', e => dbg('ERR ' + e.message)); addEventListener('unhandledrejection', e => dbg('REJ ' + (e.reason && (e.reason.message || e.reason.description) || e.reason)));
 
 let cfg = {}, links = {}, items = [], gate = null, fromLink = false, away = null;
@@ -110,7 +111,7 @@ const J = async f => { try { const r = await fetch(f + '?t=' + Date.now(), { cac
 const safe = u => /^https?:\/\/\S+$/i.test(String(u || '').trim());
 const openUrl = u => { try { tg && tg.openLink ? tg.openLink(u) : window.open(u, '_blank', 'noopener'); } catch (_) { window.open(u, '_blank', 'noopener'); } };
 const fnOf = p => { try { const f = String(p || '').trim().split('.').reduce((o, k) => o == null ? o : o[k], window); return typeof f === 'function' ? f : null; } catch (_) { return null; } };
-const getKey = () => (tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || new URLSearchParams(location.search).get('startapp') || new URLSearchParams(location.search).get('tgWebAppStartParam') || '';
+const getKey = () => String((tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || new URLSearchParams(location.search).get('startapp') || new URLSearchParams(location.search).get('tgWebAppStartParam') || '').replace(/-dbg$/, '');
 const uid = () => String((tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) || '');
 
 // تحميل سكربتات الإعلان بالتتابع وبدون تعارض
@@ -300,6 +301,12 @@ function next() {
   const s = gate.steps[gate.i]; if (s) prep(s).then(() => { if (gate && gate.steps[gate.i] === s) paintGate(); });
 }
 
+function blockOutside() {
+  ['nav', '#slot-mid', '#slot-foot'].forEach(s => { const e = $(s); if (e) e.style.display = 'none'; });
+  const a = cfg.about || {}, v = view(), h = H('div', 'hero'), bot = String(a.bot || '').replace(/^@/, '').trim();
+  h.append(H('h1', '', 'افتح الخدمة من تيليجرام'), H('p', '', (a.desc ? a.desc + ' ' : '') + 'هذه الصفحة تعمل داخل تطبيق تيليجرام فقط.')); v.append(h);
+  if (/^[A-Za-z0-9_]{3,64}$/.test(bot)) { const b = H('button', 'final on'); b.append(ic('bolt'), H('span', '', 'افتح @' + bot + ' في تيليجرام')); b.onclick = () => { location.href = 'https://t.me/' + bot + (a.app ? '/' + a.app : ''); }; v.append(b); }
+}
 (async function init() {
   if (tg) { try { tg.ready(); tg.expand(); tg.setHeaderColor('#0b0906'); tg.setBackgroundColor('#0b0906'); } catch (_) {} }
   const [c, l, k] = await Promise.all([J('config.json'), J('links.json'), J('catalog.json')]);
@@ -307,6 +314,7 @@ function next() {
   const nm = (cfg.about && cfg.about.name) || ''; if (nm) { $('#brand').textContent = nm; document.title = nm; }
   window.TG_USER_ID = uid(); window.getTgUserId = uid;
   { const lo = cfg.about && cfg.about.logo; if (safe(lo)) { const im = document.createElement('img'); im.alt = ''; im.onerror = () => im.remove(); im.src = lo; $('#lg').replaceChildren(im); } }
+  if (!(tg && typeof tg.initData === 'string' && tg.initData.length > 0)) { blockOutside(); return; }
   const key = getKey();
   if (key) { fromLink = true; const it = items.find(i => i.link === key); startGate(key, it ? it.title : ''); } else paintHome();
 })();
