@@ -13,8 +13,8 @@
       "pages": "all",
       "name": "Adexium Interstitial (صفحات الانتظار)",
       "where": "head",
-      "target": "go",
-      "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n{\n  const w = new AdexiumWidget({wid: 'bb412979-834b-4a2c-9317-3e809609a72a', adFormat: 'interstitial'});\n  w.autoMode();\n}\n</script>",
+      "target": "both",
+      "code": "\nwindow.showGiga()\n  .then(() => {\n    // Your reward logic here\n  })\n  .catch(e => {\n    // Handle errors here\n  });",
       "on": true,
       "tg": true
     },
@@ -22,7 +22,7 @@
       "pages": "all",
       "name": "Adexium Push-like (صفحة التطبيق)",
       "where": "head",
-      "target": "app",
+      "target": "both",
       "code": "<script type=\"text/javascript\" src=\"https://cdn.tgads.space/assets/js/adexium-widget.min.js\"></script>\n<script type=\"text/javascript\">\n{\n  const w = new AdexiumWidget({wid: 'b23bbbba-4fb5-44e7-9023-bc065dc83c73', adFormat: 'push-like'});\n  w.autoMode();\n}\n</script>",
       "on": true,
       "tg": true
