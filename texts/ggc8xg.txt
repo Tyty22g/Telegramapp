@@ -1,0 +1,3 @@
+User: R6GJ59
+ Pass: W1FHJP
+ Host: http://line.conex-tivi.cc:80
