@@ -65,6 +65,14 @@ nav button{font-size:11.5px}
 .adf iframe{width:100%;border:0;border-radius:12px;display:block}
 .adf.neon{background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(135deg,#00e5ff,#7c4dff) border-box;box-shadow:0 0 18px #00e5ff55}
 .adf.gold{background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(135deg,#ffe08a,#c98a00) border-box}
+
+.uc{margin-top:12px;padding:16px;border-radius:24px;background:linear-gradient(135deg,#33230a,#17110a 70%);border:1px solid #ffb11b55;box-shadow:0 12px 30px #ff93001f}
+.ur{display:flex;align-items:center;gap:12px}.av{width:52px;height:52px;border-radius:50%;overflow:hidden;display:grid;place-items:center;font-weight:800;font-size:22px;color:#2a1700;background:linear-gradient(145deg,var(--g1),var(--g2));flex:none;border:2px solid #ffffff22}.av img{width:100%;height:100%;object-fit:cover}
+.pt{text-align:center;padding:6px 14px;border-radius:16px;background:#0b0906aa;border:1px solid var(--line)}.pt small{display:block;font-size:10.5px;color:var(--mut)}.pt strong{font-size:22px;color:var(--g1)}
+.ub{display:flex;gap:8px;margin-top:14px}.ub .btn{flex:1;min-width:0}.btn.sc{background:#221b0e;color:var(--g1);box-shadow:none;border:1px solid #ffb11b55}
+.btn.dr{margin-top:6px;min-width:0;padding:8px 12px;font-size:13px;align-self:flex-start;background:#221b0e;color:var(--g1);box-shadow:none;border:1px solid #ffb11b55}
+#tst{position:fixed;left:50%;top:18px;transform:translate(-50%,-20px);background:#2a1f08;border:1px solid #ffb11b88;color:var(--g1);padding:10px 18px;border-radius:14px;font-size:13.5px;opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:90%;text-align:center}#tst.on{opacity:1;transform:translate(-50%,0)}
+.cin{margin-top:10px}
 </style>
 </head>
 <body>
@@ -90,16 +98,16 @@ nav button{font-size:11.5px}
 <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 8-5 4 5 4M16 8l5 4-5 4M14 5l-4 14"/></symbol>
 <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.5 3 7.7 7.5 9.5 4.5-1.8 7.5-5 7.5-9.5V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
 <symbol id="i-share" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="m8.2 10.8 7.6-3.6M8.2 13.2l7.6 3.6"/></symbol>
-</defs></svg>
+<symbol id="i-gift" viewBox="0 0 24 24"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2-5.5-3-5.5 3 1-6.2L3 9.6l6.2-.9z"/></symbol></defs></svg>
 
 <header class="top"><div class="lg" id="lg"><svg class="ic"><use href="#i-logo"/></svg></div><div><b id="brand">Download Platform</b><small>تحميل سريع وآمن</small></div></header>
 <div id="slot-mid"><!--SLOT:MID--><!--/SLOT:MID--></div>
 <main id="view"></main>
 <div id="slot-foot"><!--SLOT:FOOT--><!--/SLOT:FOOT--></div>
-<nav><button id="t-files" class="on"><svg class="ic"><use href="#i-file"/></svg>الملفات</button><button id="t-about"><svg class="ic"><use href="#i-info"/></svg>حول</button><button id="t-legal"><svg class="ic"><use href="#i-shield"/></svg>السياسات</button></nav>
+<nav><button id="t-files" class="on"><svg class="ic"><use href="#i-file"/></svg>الملفات</button><button id="t-pts"><svg class="ic"><use href="#i-gift"/></svg>النقاط</button><button id="t-about"><svg class="ic"><use href="#i-info"/></svg>حول</button><button id="t-legal"><svg class="ic"><use href="#i-shield"/></svg>السياسات</button></nav>
 
 <script>
-/*TGGATE*/ /*SLOT:FOOT*/ /*ADS-V8*/
+/*TGGATE*/ /*SLOT:FOOT*/ /*ADS-V9*/
 (() => {
 'use strict';
 const tg = window.Telegram && Telegram.WebApp, $ = s => document.querySelector(s);
@@ -150,7 +158,7 @@ function buildSteps() {
       if (u.type === 'rewarded' && u.fn) out.push({ pg, kind: 'sdk', name: nm, code: u.code || '', fn: u.fn, rep, arg: u.arg });
       else if (u.type === 'link' && safe(u.code)) out.push({ pg, kind: 'link', name: nm, url: String(u.code).trim(), rep });
     }
-    for (let q = n0; q < out.length; q++) out[q].opt = Math.max(0, +u.opt || 0);
+    for (let q = n0; q < out.length; q++) out[q].opt = Math.max(0, +u.opt || 0); out[q].uid = u.id;
   });
   const flat = []; out.forEach(s => s.pg.forEach(p => { const n = Math.max(1, Math.min(50, +s.rep || 1)); flat.push({ ...s, pg: p, need: n, got: 0 }); }));
   return flat.length ? flat : [{ kind: 'timer', name: 'انتظار', seconds: 10, pg: 1, need: 1, got: 0 }];
@@ -200,8 +208,9 @@ const slots = () => {
 };
 const onBack = () => setTab('files');
 const setBack = s => { try { tg.BackButton.offClick(onBack); if (s) { tg.BackButton.onClick(onBack); tg.BackButton.show(); } else tg.BackButton.hide(); } catch (_) {} };
-function setTab(t) { ['files', 'about', 'legal'].forEach(x => $('#t-' + x).classList.toggle('on', x === t)); ({ files: paintHome, about: paintAbout, legal: paintLegal })[t](); }
-$('#t-files').onclick = () => setTab('files'); $('#t-about').onclick = () => setTab('about'); $('#t-legal').onclick = () => setTab('legal');
+let curT = 'files';
+function setTab(t) { curT = t; ['files', 'pts', 'about', 'legal'].forEach(x => $('#t-' + x).classList.toggle('on', x === t)); ({ files: paintHome, pts: paintPts, about: paintAbout, legal: paintLegal })[t](); }
+$('#t-files').onclick = () => setTab('files'); $('#t-pts').onclick = () => setTab('pts'); $('#t-about').onclick = () => setTab('about'); $('#t-legal').onclick = () => setTab('legal');
 
 const TYPES = { apk: ['APK', '#58d27a', 'apk'], zip: ['ZIP', '#ffb11b', 'zip'], pdf: ['PDF', '#ff6b5e', 'pdf'], doc: ['DOC', '#5aa2ff', 'file'], video: ['VIDEO', '#b07bff', 'video'], audio: ['AUDIO', '#ff6fb1', 'audio'], image: ['IMG', '#35d4c4', 'image'], game: ['GAME', '#ff8a3d', 'game'], app: ['APP', '#4cc3ff', 'app'], code: ['CODE', '#a6e25f', 'code'], file: ['FILE', '#ffc247', 'file'] };
 const RX = [['apk', /apk/], ['zip', /\.(zip|rar|7z)|zip|rar/], ['pdf', /pdf/], ['video', /\.(mp4|mkv|avi)|video|فيديو/], ['audio', /\.(mp3|wav)|mp3|صوت/], ['image', /\.(png|jpe?g|webp)|صور/], ['game', /game|لعبة|العاب|ألعاب/], ['code', /\.(js|py|json)|script|سكربت|كود/], ['doc', /\.(docx?|txt)|doc|كتاب/], ['app', /app|تطبيق|برنامج|\.exe|\.ipa/]];
@@ -233,6 +242,79 @@ function paintLegal() {
    ['الملكية وحقوق النشر', 'نحترم حقوق الملكية الفكرية. إذا كنت صاحب حق وترى أن ملفاً مخالف لحقوقك، راسلنا وسنراجع الطلب ونزيل المحتوى عند ثبوته.'],
    ['التواصل', 'للاستفسار أو الإبلاغ: ' + ct]].forEach(([t, d]) => { const x = H('details', 'dt'); x.append(H('summary', '', t), H('p', '', d)); v.append(x); });
 }
+
+// ===== النقاط والمكافآت =====
+let pcfg = {}, S = { p: 0, d: '', v: {}, c: [], all: 0 }, earning = false, PU = null, tt;
+const PC = () => (pcfg && pcfg.on) ? pcfg : { on: false };
+const today = () => new Date().toISOString().slice(0, 10), SK = 'pts1';
+const cst = () => { try { return tg && tg.CloudStorage && tg.isVersionAtLeast('6.9') ? tg.CloudStorage : null; } catch (_) { return null; } };
+const roll = () => { if (S.d !== today()) { S.d = today(); S.v = {}; S.all = 0; saveS(); } };
+async function loadS() {
+  let raw = null, c = cst();
+  if (c) raw = await new Promise(ok => { try { c.getItem(SK, (e, v) => ok(e ? null : v)); } catch (_) { ok(null); } setTimeout(() => ok(null), 2000); });
+  if (!raw) { try { raw = localStorage.getItem(SK + '_' + uid()); } catch (_) {} }
+  try { const o = JSON.parse(raw); if (o && typeof o.p === 'number') S = { ...S, ...o }; } catch (_) {}
+  roll();
+}
+function saveS() { const j = JSON.stringify(S); try { localStorage.setItem(SK + '_' + uid(), j); } catch (_) {} const c = cst(); if (c) try { c.setItem(SK, j, () => {}); } catch (_) {} }
+const toast = m => { let e = $('#tst'); if (!e) { e = H('div'); e.id = 'tst'; document.body.append(e); } e.textContent = m; e.className = 'on'; clearTimeout(tt); tt = setTimeout(() => e.className = '', 3200); };
+const pu = () => { if (PU) return PU; const P = PC(), seen = new Set(); return PU = !P.on ? [] : buildSteps().filter(s => s.uid && !seen.has(s.uid) && seen.add(s.uid)).map(s => { const o = (P.ads || {})[s.uid] || {}; return o.on === false ? null : Object.assign(s, { pts: +o.pts || +P.def || 1, daily: +o.daily || +P.daily || 5, need: 1, got: 0, opt: 0 }); }).filter(Boolean); };
+const totNeed = () => pu().reduce((a, u) => a + u.daily, 0), totDone = () => pu().reduce((a, u) => a + Math.min(u.daily, S.v[u.uid] || 0), 0);
+async function earn(u) {
+  roll(); if (earning || (S.v[u.uid] || 0) >= u.daily || (u.cool || 0) > Date.now()) return;
+  earning = true; u.msg = 'جارٍ التشغيل…'; paintPts(true);
+  try {
+    if (!u.ready) await prep(u); if (!u.ready) throw 0;
+    await run(u);
+    S.v[u.uid] = (S.v[u.uid] || 0) + 1; S.p += u.pts; u.msg = '+' + u.pts + ' نقطة';
+    if (!S.all && totDone() >= totNeed()) { S.all = 1; S.p += +PC().bonus || 0; toast('🎉 أكملت إعلانات اليوم، فُتحت المكافآت'); burst(); }
+    saveS(); u.cool = Date.now() + 5000; hap(); setTimeout(() => { if (curT === 'pts') paintPts(true); }, 5100);
+  } catch (e) { u.msg = 'لا يتوفر إعلان الآن، حاول لاحقاً'; u.ready = false; }
+  earning = false; paintPts(true);
+}
+const sha = async s => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)))].map(x => x.toString(16).padStart(2, '0')).join('');
+async function redeem(raw) {
+  const code = String(raw || '').trim().toUpperCase(); if (!code) return 'اكتب الكود أولاً';
+  let h; try { h = await sha(code); } catch (_) { return 'تعذّر التحقق من الكود'; }
+  const c = (PC().codes || []).find(x => x.h === h);
+  if (!c) return 'الكود غير صحيح'; if (S.c.includes(h)) return 'استخدمت هذا الكود من قبل'; if (c.exp && Date.now() > c.exp) return 'انتهت صلاحية الكود';
+  if (+c.max > 0) { try { const r = await (await fetch('/api/redeem', { method: 'POST', body: JSON.stringify({ h, uid: uid() }) })).json(); if (!r.nokv && !r.ok) return r.msg || 'تعذّر تفعيل الكود'; } catch (_) {} }
+  S.c.push(h); S.p += +c.pts || 0; saveS(); return '🎁 تمت إضافة ' + c.pts + ' نقطة';
+}
+const directBtn = i => { const b = H('button', 'btn dr'); b.append(H('span', '', 'فتح مباشر · ' + i.cost + ' نقطة'), ic('bolt'));
+  b.onclick = () => { roll(); if (!S.all) return toast('أكمل جميع إعلانات اليوم أولاً من تبويب النقاط'); if (S.p < +i.cost) return toast('نقاطك لا تكفي (' + S.p + '/' + i.cost + ')'); const url = links[i.link]; if (!safe(url)) return toast('الرابط غير متاح');
+    S.p -= +i.cost; saveS(); const e = $('#ucp'); if (e) e.textContent = S.p; openUrl(url); toast('تم الفتح، المتبقي ' + S.p + ' نقطة'); }; return b; };
+const userCard = () => {
+  const P = PC(); if (!P.on) return H('i'); roll();
+  const u = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || {}, c = H('div', 'uc'), r = H('div', 'ur'), av = H('div', 'av'), t = H('div', 'tx'), pt = H('div', 'pt'), nm = [u.first_name, u.last_name].filter(Boolean).join(' ') || 'مستخدم';
+  if (safe(u.photo_url)) { const im = document.createElement('img'); im.alt = ''; im.src = u.photo_url; im.onerror = () => im.remove(); av.append(im); } else av.textContent = nm[0];
+  t.append(H('b', '', nm), H('span', '', u.username ? '@' + u.username : 'ID ' + (uid() || '—')));
+  const st = H('strong', '', String(S.p)); st.id = 'ucp'; pt.append(H('small', '', 'نقاطك'), st); r.append(av, t, pt);
+  const dn = totDone(), nd = totNeed(), bar = H('div', 'prog'), f = H('i'), m = H('div', 'meta'), bt = H('div', 'ub'), b1 = H('button', 'btn'), b2 = H('button', 'btn sc');
+  f.style.width = nd ? (100 * dn / nd) + '%' : '0'; bar.append(f);
+  m.append(H('em', 'g', 'إعلانات اليوم ' + dn + '/' + nd), H('em', '', S.all ? 'المكافآت مفتوحة ✓' : 'أكملها لفتح المكافآت'));
+  b1.append(H('span', '', 'شاهد واكسب'), ic('play')); b1.onclick = () => setTab('pts');
+  b2.append(H('span', '', 'كود ربحي'), ic('bolt')); b2.onclick = () => { window.__fc = 1; setTab('pts'); };
+  bt.append(b1, b2); c.append(r, bar, m, bt); return c;
+};
+function paintPts(keep) {
+  gate = null; setBack(false); roll(); const P = PC(), v = view(keep), h = H('div', 'hero');
+  if (!P.on) { h.append(H('h1', '', 'النقاط غير مفعّلة')); v.append(h); return; }
+  const dn = totDone(), nd = totNeed(), pr = H('div', 'prog'), pf = H('i'); pf.style.width = nd ? (100 * dn / nd) + '%' : '0'; pr.append(pf);
+  h.append(H('h1', '', 'نقاطك: ' + S.p), H('p', '', 'شاهد كل شركة حتى حدّها اليومي لتجمع النقاط، وبعد إكمالها كلها تفتح الملفات المخصصة مباشرة بنقاطك. (' + dn + '/' + nd + ')'), pr); v.append(h);
+  if (!pu().length) v.append(H('p', 'empty', 'لا توجد إعلانات متاحة حالياً.'));
+  pu().forEach(u => {
+    const got = S.v[u.uid] || 0, ok = got >= u.daily, cd = (u.cool || 0) > Date.now(), c = H('div', 'task' + (ok ? ' done' : '')), tx = H('div', 'tx'), m = H('div', 'meta'), b = H('button', 'btn');
+    m.append(H('em', 'g', '+' + u.pts + ' نقطة'), H('em', '', got + '/' + u.daily)); tx.append(H('b', '', u.name), H('span', '', u.msg || (ok ? 'اكتمل اليوم' : 'إعلان قصير من راعٍ')), m);
+    if (ok) { b.className = 'btn ok'; b.append(ic('check')); b.disabled = true; } else { b.append(H('span', '', 'شاهد'), ic('play')); if (earning || cd) { b.className = 'btn off'; b.disabled = true; } else b.onclick = () => earn(u); }
+    c.append(badge(u.name), tx, b); v.append(c);
+  });
+  const bx = H('div', 'dt'), inp = H('input', 'search cin'), rb = H('button', 'final on');
+  inp.placeholder = 'أدخل الكود الربحي'; inp.setAttribute('autocapitalize', 'off'); rb.append(ic('bolt'), H('span', '', 'تفعيل الكود'));
+  rb.onclick = async () => { rb.disabled = true; toast(await redeem(inp.value)); paintPts(true); };
+  bx.append(H('b', '', 'كود ربحي'), H('p', '', 'عندك كود من الإدارة؟ أدخله لتحصل على نقاط إضافية.'), inp, rb); v.append(bx);
+  if (window.__fc) { window.__fc = 0; setTimeout(() => { inp.focus(); bx.scrollIntoView({ behavior: 'smooth' }); }, 120); }
+}
 function paintHome() {
   gate = null; setBack(false);
   const v = view(), q = H('input', 'search'), chips = H('div', 'chips'), list = H('div'); let cat = '';
@@ -243,7 +325,7 @@ function paintHome() {
     if (!arr.length) { list.append(H('p', 'empty', items.length ? 'لا نتائج مطابقة.' : 'لا توجد ملفات بعد.')); return; }
     arr.forEach(i => {
       const c = H('div', 'task' + (i.featured ? ' feat' : '')), tx = H('div', 'tx'), ib = fileTile(i), b = H('button', 'btn');
-      tx.append(H('b', '', i.title), H('span', '', i.desc || ''));
+      tx.append(H('b', '', i.title), H('span', '', i.desc || '')); if (PC().on && +i.cost > 0) tx.append(directBtn(i));
       if (i.cat || i.featured) { const m = H('div', 'meta'); if (i.featured) m.append(H('em', 'g', 'مميز')); if (i.cat) m.append(H('em', '', i.cat)); tx.append(m); }
       b.append(H('span', '', 'تحميل'), ic('download')); b.onclick = () => startGate(i.link, i.title);
       const ac = H('div', 'acts'); ac.append(b); if (cfg.about && cfg.about.app) { const sh = H('button', 'sh'); sh.append(ic('share')); sh.onclick = () => shareLink(i); ac.append(sh); }
@@ -252,7 +334,7 @@ function paintHome() {
   };
   const cats = [...new Set(items.map(i => i.cat).filter(Boolean))];
   if (cats.length) ['', ...cats].forEach(n => { const b = H('button', n ? '' : 'on', n || 'الكل'); b.onclick = () => { cat = n; [...chips.children].forEach(x => x.classList.toggle('on', x === b)); draw(); }; chips.append(b); });
-  q.oninput = draw; runInject('app'); v.append(banner(), notice(), q, chips, list, slots()); draw();
+  q.oninput = draw; runInject('app'); v.append(banner(), notice(), userCard(), q, chips, list, slots()); draw();
 }
 function paintAbout() {
   gate = null; setBack(false);
@@ -331,8 +413,8 @@ function blockOutside() {
 }
 (async function init() {
   if (tg) { try { tg.ready(); tg.expand(); tg.setHeaderColor('#0b0906'); tg.setBackgroundColor('#0b0906'); } catch (_) {} }
-  const [c, l, k] = await Promise.all([J('config.json'), J('links.json'), J('catalog.json')]);
-  cfg = c || {}; links = l || {}; items = Array.isArray(k && k.items) ? k.items : [];
+  const [c, l, k, pj] = await Promise.all([J('config.json'), J('links.json'), J('catalog.json'), J('points.json')]);
+  cfg = c || {}; pcfg = pj || {}; await loadS(); if (!PC().on) { const n = $('#t-pts'); if (n) n.style.display = 'none'; } links = l || {}; items = Array.isArray(k && k.items) ? k.items : [];
   const nm = (cfg.about && cfg.about.name) || ''; if (nm) { $('#brand').textContent = nm; document.title = nm; }
   window.TG_USER_ID = uid(); window.getTgUserId = uid;
   { const lo = cfg.about && cfg.about.logo; if (safe(lo)) { const im = document.createElement('img'); im.alt = ''; im.onerror = () => im.remove(); im.src = lo; $('#lg').replaceChildren(im); } }
