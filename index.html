@@ -59,6 +59,7 @@ footer{text-align:center;color:var(--h);font-size:12px;padding:14px 0 24px}
 .ftx{display:flex;flex-direction:column}.ftx span{font-size:13px;color:var(--h)}
 .fbad{display:flex;gap:6px;flex-wrap:wrap}.fbad em{font-style:normal;font-size:11px;background:var(--bg);color:var(--h);padding:2px 8px;border-radius:10px}
 .empty{text-align:center;color:var(--h);padding:24px 0}
+.fact{display:flex;gap:8px}.fact .act{flex:1}.fact .sm{flex:none;width:46px;border:0;border-radius:12px;background:var(--bg);color:var(--h);font-size:18px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -165,13 +166,15 @@ tabs.forEach(([id, label], i) => {
 
 // ===== متجر الملفات =====
 (async () => {
-  let items = [], cat = '';
+  let items = [], cat = '', bot = '', app = '', favs = [];
+  try { favs = JSON.parse(localStorage.getItem('favs') || '[]'); } catch (_) {}
+  try { const r = await fetch('config.json?t=' + Date.now()); const j = r.ok ? await r.json() : {}; bot = (j.about && j.about.bot) || ''; app = (j.about && j.about.app) || ''; } catch (_) {}
   try { const r = await fetch('catalog.json?t=' + Date.now(), { cache: 'no-store' }); const j = r.ok ? await r.json() : {}; items = Array.isArray(j.items) ? j.items : []; } catch (_) {}
   const go = k => { const base = (/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(CONFIG.flow) ? 'https://' + CONFIG.flow : location.origin) + '/go.html'; location.href = base + '?startapp=' + encodeURIComponent(k) + location.hash; };
   const draw = () => {
     const box = $('fgrid'); box.textContent = '';
     const w = $('fq').value.trim().toLowerCase();
-    const list = items.filter(i => (!cat || i.cat === cat) && (!w || ((i.title || '') + ' ' + (i.desc || '')).toLowerCase().includes(w)))
+    const list = items.filter(i => (!cat || (cat === '★' ? favs.includes(i.id) : i.cat === cat)) && (!w || ((i.title || '') + ' ' + (i.desc || '')).toLowerCase().includes(w)))
       .sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0) || (b.t || 0) - (a.t || 0));
     if (!list.length) { box.append(mk('p', 'empty', items.length ? 'لا نتائج مطابقة.' : 'لا توجد ملفات بعد.')); return; }
     list.forEach(i => {
@@ -181,11 +184,14 @@ tabs.forEach(([id, label], i) => {
       if (Date.now() - (i.t || 0) < 6048e5) bd.append(mk('em', '', 'جديد'));
       if (i.cat) bd.append(mk('em', '', i.cat));
       const b = mk('button', 'act', 'تحميل'); b.onclick = () => go(i.link);
-      c.append(top, bd, b); box.append(c);
+      const fv = mk('button', 'sm', favs.includes(i.id) ? '❤️' : '🤍'); fv.onclick = () => { favs = favs.includes(i.id) ? favs.filter(f => f !== i.id) : [...favs, i.id]; try { localStorage.setItem('favs', JSON.stringify(favs)); } catch (_) {} draw(); };
+      const row = mk('div', 'fact', ''); row.append(b, fv);
+      if (bot && app) { const sh = mk('button', 'sm', '↗'); sh.onclick = () => { const u = 'https://t.me/' + bot + '/' + app + '?startapp=' + i.link; const s = 'https://t.me/share/url?url=' + encodeURIComponent(u) + '&text=' + encodeURIComponent(i.title); tg && tg.openTelegramLink ? tg.openTelegramLink(s) : window.open(s, '_blank'); }; row.append(sh); }
+      c.append(top, bd, row); box.append(c);
     });
   };
   const cats = [...new Set(items.map(i => i.cat).filter(Boolean))];
-  if (cats.length) ['', ...cats].forEach(n => { const b = mk('button', n ? '' : 'on', n || 'الكل'); b.onclick = () => { cat = n; [...$('fcats').children].forEach(x => x.classList.toggle('on', x === b)); draw(); }; $('fcats').append(b); });
+  if (items.length) ['', '★', ...cats].forEach(n => { const b = mk('button', n ? '' : 'on', n === '★' ? '❤️ المفضلة' : (n || 'الكل')); b.onclick = () => { cat = n; [...$('fcats').children].forEach(x => x.classList.toggle('on', x === b)); draw(); }; $('fcats').append(b); });
   $('fq').oninput = draw; draw();
 })();
 
