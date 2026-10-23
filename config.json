@@ -39,7 +39,7 @@
       "pages": "1,2",
       "cap": "once",
       "capMin": 30,
-      "pts": 0,
+      "pts": 2,
       "daily": 0,
       "on": true
     },
@@ -75,7 +75,7 @@
       "pages": "1",
       "cap": "once",
       "capMin": 30,
-      "pts": 0,
+      "pts": 2,
       "daily": 0,
       "on": true
     }
