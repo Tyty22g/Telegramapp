@@ -189,12 +189,15 @@ const cleanInject = a => (Array.isArray(a) ? a : []).slice(0, 50).map(u => ({
   target: u && ['go', 'app'].includes(u.target) ? u.target : 'both',
   code: String((u && u.code) || '').slice(0, 50000),
   on: !(u && u.on === false),
-  tg: !(u && u.tg === false)
+  tg: !(u && u.tg === false),
+  mode: u && u.mode === 'gate' ? 'gate' : 'auto',
+  show: String((u && u.show) || '').slice(0, 500),
+  label: String((u && u.label) || '').slice(0, 60)
 })).filter(u => u.on && u.code.trim());
 const tgUid = () => { try { return String(window.Telegram?.WebApp?.initDataUnsafe?.user?.id || ''); } catch (_) { return ''; } };
 const waitTg = async () => { try { window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.ready(); } catch (_) {} for (let i = 0; i < 30; i++) { if (tgUid()) return true; await new Promise(r => setTimeout(r, 100)); } return false; };
 async function runInject(list, page) {
-  window.TG_USER_ID = tgUid(); /*TGGATE*/
+  window.TG_USER_ID = tgUid(); /*TGGATE*//*GATE1*/
   for (const u of list) {
     if (u.target !== 'both' && u.target !== page) continue;
     if (u.tg && !(await waitTg())) continue;
