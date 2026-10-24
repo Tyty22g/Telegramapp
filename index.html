@@ -54,7 +54,7 @@ body::before{background:#ff9300;top:-90px;right:-110px}body::after{background:#f
 .cf{position:fixed;top:32%;left:50%;width:8px;height:12px;border-radius:2px;z-index:50;pointer-events:none;animation:cf 1.2s ease-out forwards}
 @keyframes cf{to{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0}}
 @media (prefers-reduced-motion:reduce){body::before,body::after,.hb::before,.btn::after,.final::after{animation:none}.cf{display:none}}
-#slot-mid,#slot-foot{max-width:520px;margin:0 auto;padding:0 16px}#slot-foot{padding-bottom:112px}
+#slot-mid,#slot-foot,#slot-auto{max-width:520px;margin:0 auto;padding:0 16px}#slot-foot{padding-bottom:112px}
 .note{text-align:center;color:var(--mut);font-size:11.5px;line-height:1.8;margin-top:14px}
 .nt{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:12px 14px;border-radius:16px;background:#2a1f08;border:1px solid #ffb11b44;color:var(--g1);font-size:13px;line-height:1.7}
 .acts{display:flex;gap:8px;flex:none}.sh{flex:none;width:44px;height:44px;border:1px solid var(--line);background:var(--card);color:var(--mut);border-radius:14px;display:grid;place-items:center;cursor:pointer}
@@ -100,11 +100,12 @@ nav button{font-size:11.5px}
 <header class="top"><div class="lg" id="lg"><svg class="ic"><use href="#i-logo"/></svg></div><div><b id="brand">Download Platform</b><small>تحميل سريع وآمن</small></div></header>
 <div id="slot-mid"><!--SLOT:MID--><!--/SLOT:MID--></div>
 <main id="view"></main>
+<div id="slot-auto"><!--SLOT:AUTO--><!--/SLOT:AUTO--></div>
 <div id="slot-foot"><!--SLOT:FOOT--><!--/SLOT:FOOT--></div>
 <nav><button id="t-files" class="on"><svg class="ic"><use href="#i-file"/></svg>الملفات</button><button id="t-about"><svg class="ic"><use href="#i-info"/></svg>حول</button><button id="t-legal"><svg class="ic"><use href="#i-shield"/></svg>السياسات</button></nav>
 
 <script>
-/*TGGATE*/ /*SLOT:FOOT*/ /*ADS-V9*/
+/*TGGATE*/ /*SLOT:FOOT*/ /*ADS-V10*/
 (() => {
 'use strict';
 const tg = window.Telegram && Telegram.WebApp, $ = s => document.querySelector(s);
@@ -122,7 +123,7 @@ const safe = u => /^https?:\/\/\S+$/i.test(String(u || '').trim());
 const openUrl = u => { try { tg && tg.openLink ? tg.openLink(u) : window.open(u, '_blank', 'noopener'); } catch (_) { window.open(u, '_blank', 'noopener'); } };
 const fnOf = p => { try { const f = String(p || '').trim().split('.').reduce((o, k) => o == null ? o : o[k], window); return typeof f === 'function' ? f : null; } catch (_) { return null; } };
 const getKey = () => String((tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || new URLSearchParams(location.search).get('startapp') || new URLSearchParams(location.search).get('tgWebAppStartParam') || '').replace(/-dbg$/, '');
-const uid = () => String((tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) || '');
+const uid = () => { try { const u = tg.initDataUnsafe && tg.initDataUnsafe.user; if (u && u.id) return String(u.id); const j = new URLSearchParams(tg.initData || '').get('user'); return j ? String(JSON.parse(j).id || '') : ''; } catch (_) { return ''; } };
 
 // تحميل سكربتات الإعلان بالتتابع وبدون تعارض
 const loaded = new Set();
@@ -165,7 +166,7 @@ async function prep(st) {
   try {
     if (st.kind === 'adsgram') { if (!window.Adsgram && !loaded.has('ag')) { loaded.add('ag'); await loadHtml('<script src="https://sad.adsgram.ai/js/sad.min.js"><\/script>'); } for (let i = 0; i < 15 && !window.Adsgram; i++) await sleep(200); st.ready = !!window.Adsgram; }
     else if (st.kind === 'adexium') { if (!window.AdexiumWidget && !loaded.has('adx')) { loaded.add('adx'); await loadHtml('<script src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"><\/script>'); } for (let i = 0; i < 15 && !window.AdexiumWidget; i++) await sleep(200); st.ready = !!window.AdexiumWidget; }
-    else if (st.kind === 'sdk') { if (tg) for (let i = 0; i < 30 && !uid(); i++) await sleep(100); if (st.code.trim() && !loaded.has(st.code)) { loaded.add(st.code); await loadHtml(st.code.replace(/\{\{TG_USER_ID\}\}/g, uid())); } for (let i = 0; i < 15 && !fnOf(st.fn); i++) await sleep(200); st.ready = !!fnOf(st.fn); }
+    else if (st.kind === 'sdk') { if (tg) for (let i = 0; i < 50 && !uid(); i++) await sleep(100); if (st.code.trim() && !loaded.has(st.code)) { loaded.add(st.code); await loadHtml(st.code.replace(/\{\{TG_USER_ID\}\}/g, uid())); } for (let i = 0; i < 15 && !fnOf(st.fn); i++) await sleep(200); st.ready = !!fnOf(st.fn); }
     else st.ready = true;
   } catch (e) { dbg('prep error ' + e.message); }
   dbg(st.name + ' ready=' + st.ready);
@@ -195,7 +196,7 @@ const badge = name => { const n = String(name).toLowerCase(); let c = ['linear-g
 const view = keep => { const v = $('#view'); v.replaceChildren(); if (!keep) { v.style.animation = 'none'; void v.offsetWidth; v.style.animation = ''; window.scrollTo(0, 0); } return v; };
 const slots = () => {
   const w = H('div', 'slots');
-  (Array.isArray(cfg.ads) ? cfg.ads : []).filter(u => u && u.on !== false && u.type === 'banner' && String(u.code || '').trim()).forEach(u => {
+  (Array.isArray(cfg.ads) ? cfg.ads : []).filter(u => u && u.on !== false && !u.st && u.type === 'banner' && String(u.code || '').trim()).forEach(u => {
     const f = document.createElement('iframe'); f.className = 'bn'; f.setAttribute('sandbox', 'allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin');
     f.srcdoc = '<!doctype html><meta name="viewport" content="width=device-width"><body style="margin:0;display:flex;justify-content:center">' + fill(u.code);
     const fit = () => { try { f.style.height = Math.max(60, f.contentDocument.documentElement.scrollHeight) + 'px'; } catch (_) {} };
@@ -223,7 +224,7 @@ const injected = new Set();
 const runInject = mode => (Array.isArray(cfg.inject) ? cfg.inject : []).forEach(async (u, idx) => {
   if (!u || u.on === false || !String(u.code || '').trim() || injected.has(idx)) return;
   const t = u.target || 'both'; if (t !== 'both' && t !== mode) return; injected.add(idx);
-  if (u.tg !== false) for (let i = 0; i < 30 && !uid(); i++) await sleep(100);
+  if (u.tg !== false) for (let i = 0; i < 50 && !uid(); i++) await sleep(100);
   loadHtml(String(u.code).replace(/\{\{TG_USER_ID\}\}/g, uid()), u.where === 'body' ? document.body : document.head);
 });
 const notice = () => { const n = cfg.about && cfg.about.notice; if (!n) return H('i'); const d = H('div', 'nt'); d.append(ic('info'), H('span', '', n)); return d; };
@@ -400,7 +401,7 @@ function next() {
 }
 
 function blockOutside() {
-  ['nav', '#slot-mid', '#slot-foot'].forEach(s => { const e = $(s); if (e) e.style.display = 'none'; });
+  ['nav'].forEach(s => { const e = $(s); if (e) e.style.display = 'none'; });
   const a = cfg.about || {}, v = view(), h = H('div', 'hero'), bot = String(a.bot || '').replace(/^@/, '').trim();
   h.append(H('h1', '', 'افتح الخدمة من تيليجرام'), H('p', '', (a.desc ? a.desc + ' ' : '') + 'هذه الصفحة تعمل داخل تطبيق تيليجرام فقط.')); v.append(h);
   if (/^[A-Za-z0-9_]{3,64}$/.test(bot)) { const b = H('button', 'final on'); b.append(ic('bolt'), H('span', '', 'افتح @' + bot + ' في تيليجرام')); b.onclick = () => { location.href = 'https://t.me/' + bot + (a.app ? '/' + a.app : ''); }; v.append(b); }
