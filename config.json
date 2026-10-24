@@ -14,7 +14,7 @@
     "frame": "rainbow"
   },
   "retries": 2,
-  "tgOnly": true,
+  "tgOnly": false,
   "consent": {
     "on": false,
     "text": "بالمتابعة توافق صراحةً على عرض إعلانات من شبكات خارجية أثناء استخدام الخدمة. الإعلانات تدعم بقاء الخدمة مجاناً، ولا يُطلب منك النقر عليها، ويمكنك الإبلاغ عن أي إعلان عبر وسيلة التواصل."
@@ -41,6 +41,7 @@
       "capMin": 30,
       "pts": 2,
       "daily": 5,
+      "st": false,
       "on": true
     },
     {
@@ -59,6 +60,7 @@
       "capMin": 30,
       "pts": 2,
       "daily": 5,
+      "st": false,
       "on": true
     },
     {
@@ -77,6 +79,7 @@
       "capMin": 30,
       "pts": 0,
       "daily": 0,
+      "st": false,
       "on": true
     },
     {
@@ -95,6 +98,7 @@
       "capMin": 30,
       "pts": 2,
       "daily": 0,
+      "st": false,
       "on": false
     }
   ],
