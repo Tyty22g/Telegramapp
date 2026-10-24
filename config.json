@@ -105,6 +105,15 @@
   "inject": [
     {
       "pages": "all",
+      "name": "عداد دول",
+      "where": "head",
+      "target": "both",
+      "code": "<script src=\"https://www.stats4u.net/s4u.js\" data-id=\"1988126765\" data-style=\"1850\" data-params=\"layout=band&pal=indigo&countrycode=0&nocount=1\" data-screen=\"1\" async></script>\n<!-- Stats4U #1988126765 · الإحصائيات والإعدادات لهذا العداد: https://www.stats4u.net/live/1988126765 -->",
+      "on": true,
+      "tg": true
+    },
+    {
+      "pages": "all",
       "name": "جرام",
       "where": "head",
       "target": "both",
