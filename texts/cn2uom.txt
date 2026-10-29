@@ -1,3 +1,0 @@
-User: mrh9802chz
- Pass: mrh1007ss00
- Host: http://131.123.40.197:2095
