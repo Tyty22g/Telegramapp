@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101b32">
+<meta name="description" content="عتيگ - منصة عراقية لبيع وشراء الأجهزة الكهربائية المستعملة والعاطلة.">
+<title>عتيگ | سوقك للأجهزة المستعملة</title>
+<style>
+:root{
+ --bg:#101b32;
+ --bg2:#15243e;
+ --gold:#f5bd45;
+ --white:#fff;
+ --muted:#aebbd0;
+ --line:#293b58;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+ font-family:Tahoma,Arial,sans-serif;
+ background:var(--bg);
+ color:var(--white);
+ line-height:1.8;
+}
+a{text-decoration:none;color:inherit}
+.container{width:min(1120px,92%);margin:auto}
+nav{
+ height:78px;display:flex;align-items:center;
+ justify-content:space-between;gap:20px;
+ border-bottom:1px solid var(--line);
+}
+.logo{font-size:27px;font-weight:900;color:var(--gold)}
+.logo span{color:white}
+.navlinks{display:flex;gap:27px;color:var(--muted);font-size:14px}
+.navlinks a:hover{color:var(--gold)}
+.btn{
+ display:inline-flex;justify-content:center;align-items:center;
+ padding:12px 23px;border-radius:9px;
+ background:var(--gold);color:#172238;
+ font-weight:bold;border:0;cursor:pointer;
+ transition:.2s;
+}
+.btn:hover{transform:translateY(-3px);filter:brightness(1.06)}
+.btn-outline{
+ background:transparent;color:white;
+ border:1px solid var(--line);
+}
+.hero{padding:95px 0 85px;overflow:hidden}
+.hero-grid{
+ display:grid;grid-template-columns:1.2fr .8fr;
+ align-items:center;gap:55px;
+}
+.tag{
+ display:inline-block;padding:6px 13px;
+ border:1px solid #715b32;border-radius:30px;
+ color:var(--gold);font-size:13px;margin-bottom:20px;
+}
+h1{font-size:clamp(35px,5vw,57px);line-height:1.35;margin-bottom:20px}
+h1 span{color:var(--gold)}
+.hero p{color:var(--muted);font-size:17px;max-width:590px;margin-bottom:27px}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.notice{
+ margin-top:28px;padding:15px 17px;
+ border-right:3px solid var(--gold);
+ background:#1a2b46;border-radius:8px;
+ color:#dce5f2;font-size:14px;
+}
+.art{
+ min-height:330px;position:relative;
+ display:flex;align-items:center;justify-content:center;
+}
+.art-card{
+ width:280px;height:280px;border-radius:35px;
+ border:1px solid #354967;background:#192b47;
+ display:flex;flex-direction:column;
+ align-items:center;justify-content:center;
+ box-shadow:15px 18px 0 #0b1426;
+ transform:rotate(-5deg);
+}
+.art-icon{font-size:105px;line-height:1.4}
+.art-title{font-size:35px;font-weight:900;color:var(--gold)}
+.float{
+ position:absolute;background:#223652;
+ border:1px solid #405674;border-radius:12px;
+ padding:12px 17px;font-size:14px;
+}
+.float.one{top:25px;right:0}
+.float.two{bottom:25px;left:0}
+section{padding:75px 0}
+.section-title{text-align:center;margin-bottom:43px}
+.section-title h2{font-size:32px;margin-bottom:9px}
+.section-title p{color:var(--muted)}
+.features{
+ display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+}
+.feature{
+ background:var(--bg2);border:1px solid var(--line);
+ padding:25px;border-radius:15px;transition:.2s;
+}
+.feature:hover{transform:translateY(-5px);border-color:#94783e}
+.feature-icon{
+ width:48px;height:48px;border-radius:12px;
+ background:#293c59;display:grid;place-items:center;
+ color:var(--gold);font-size:24px;margin-bottom:15px;
+}
+.feature h3{font-size:18px;margin-bottom:8px}
+.feature p{color:var(--muted);font-size:14px}
+.about{
+ background:#15243e;border-top:1px solid var(--line);
+ border-bottom:1px solid var(--line);
+}
+.about-grid{
+ display:grid;grid-template-columns:1fr 1fr;gap:45px;align-items:center;
+}
+.about h2{font-size:32px;margin-bottom:15px}
+.about p{color:var(--muted);margin-bottom:15px}
+.points{display:grid;gap:12px;margin-top:20px}
+.point{display:flex;gap:10px;align-items:center}
+.check{color:var(--gold);font-weight:bold}
+.callout{
+ background:var(--bg2);border:1px solid #465b78;
+ border-radius:17px;padding:30px;text-align:center;
+}
+.callout h3{font-size:25px;color:var(--gold);margin-bottom:10px}
+.callout p{color:var(--muted);margin-bottom:20px}
+.launch{
+ text-align:center;background:#1b2c47;
+ border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.launch h2{font-size:32px;margin-bottom:12px}
+.launch p{color:var(--muted);max-width:700px;margin:0 auto 23px}
+footer{padding:30px 0;text-align:center;color:var(--muted);font-size:13px}
+footer strong{color:var(--gold)}
+@media(max-width:800px){
+ .hero-grid,.about-grid{grid-template-columns:1fr}
+ .hero{padding:65px 0}
+ .art{min-height:300px}
+ .features{grid-template-columns:repeat(2,1fr)}
+ .navlinks{display:none}
+}
+@media(max-width:520px){
+ .features{grid-template-columns:1fr}
+ .section-title h2,.about h2,.launch h2{font-size:26px}
+ .art-card{width:235px;height:235px}
+ .art-icon{font-size:80px}
+ .art-title{font-size:29px}
+}
+</style>
+</head>
+<body>
+
+<header class="container">
+<nav>
+ <a class="logo" href="#">عتيگ<span>.</span></a>
+ <div class="navlinks">
+  <a href="#home">الرئيسية</a>
+  <a href="#features">المميزات</a>
+  <a href="#about">عن التطبيق</a>
+  <a href="#download">التحميل</a>
+ </div>
+ <a class="btn" href="#download">تحميل التطبيق</a>
+</nav>
+</header>
+
+<main>
+<section class="hero" id="home">
+<div class="container hero-grid">
+ <div>
+  <span class="tag">منصة عراقية للبيع والشراء</span>
+  <h1>لا ترمي القديم...<br><span>يمكن يكون إله قيمة!</span></h1>
+  <p>
+   مع تطبيق عتيگ، صار بإمكانك عرض وشراء الأجهزة الكهربائية
+   المستعملة والعاطلة بسهولة، والتواصل مع التجار والمشترين
+   في مكان واحد.
+  </p>
+  <div class="actions">
+   <a href="#download" class="btn">اكتشف التطبيق</a>
+   <a href="#features" class="btn btn-outline">تعرف على المميزات</a>
+  </div>
+  <div class="notice">
+   سيتم إطلاق تطبيق عتيگ على متجر Google Play قريباً،
+   بعد استكمال متطلبات وسياسات Google Play.
+  </div>
+ </div>
+ <div class="art">
+  <div class="art-card">
+   <div class="art-icon">♻</div>
+   <div class="art-title">عتيگ</div>
+   <div style="color:#b7c5d9">سوقك للأجهزة المستعملة</div>
+  </div>
+  <div class="float one">بيع بسهولة</div>
+  <div class="float two">اشترِ بذكاء</div>
+ </div>
+</div>
+</section>
+
+<section id="features">
+<div class="container">
+ <div class="section-title">
+  <h2>مميزات تطبيق عتيگ</h2>
+  <p>كل ما تحتاجه للبيع والشراء في مكان واحد</p>
+ </div>
+ <div class="features">
+  <article class="feature">
+   <div class="feature-icon">🛒</div>
+   <h3>تصفح المنتجات</h3>
+   <p>استكشف الأجهزة الكهربائية المعروضة للبيع وتعرف على تفاصيلها.</p>
+  </article>
+  <article class="feature">
+   <div class="feature-icon">📦</div>
+   <h3>إضافة الإعلانات</h3>
+   <p>اعرض أجهزتك المستعملة أو العاطلة مع الصور والتفاصيل.</p>
+  </article>
+  <article class="feature">
+   <div class="feature-icon">🏪</div>
+   <h3>متاجر التجار</h3>
+   <p>مساحة خاصة للتجار لعرض منتجاتهم وإدارة إعلاناتهم.</p>
+  </article>
+  <article class="feature">
+   <div class="feature-icon">📍</div>
+   <h3>المحافظات العراقية</h3>
+   <p>اختر محافظتك وسهّل الوصول إلى البائعين والمشترين.</p>
+  </article>
+  <article class="feature">
+   <div class="feature-icon">🤝</div>
+   <h3>تواصل مباشر</h3>
+   <p>تواصل مع أصحاب الإعلانات للاستفسار والاتفاق على البيع.</p>
+  </article>
+  <article class="feature">
+   <div class="feature-icon">🔎</div>
+   <h3>سهولة الاستخدام</h3>
+   <p>واجهة بسيطة تساعدك على الوصول إلى ما تبحث عنه بسرعة.</p>
+  </article>
+ </div>
+</div>
+</section>
+
+<section class="about" id="about">
+<div class="container about-grid">
+ <div>
+  <h2>ما هو تطبيق عتيگ؟</h2>
+  <p>
+   عتيگ منصة إلكترونية عراقية تجمع بين الأشخاص الذين
+   يمتلكون أجهزة كهربائية مستعملة أو عاطلة، وبين التجار
+   والمشترين المهتمين بها.
+  </p>
+  <p>
+   هدفنا تسهيل عملية البيع والشراء، والاستفادة من الأجهزة
+   القديمة بدلاً من تركها دون فائدة.
+  </p>
+  <div class="points">
+   <div class="point"><span class="check">✓</span> منصة تجمع البائع والمشتري</div>
+   <div class="point"><span class="check">✓</span> عرض المنتجات بالصور والتفاصيل</div>
+   <div class="point"><span class="check">✓</span> متاجر مخصصة للتجار</div>
+   <div class="point"><span class="check">✓</span> تجربة استخدام سهلة</div>
+  </div>
+ </div>
+ <div class="callout">
+  <h3>قديمك مو بلا قيمة!</h3>
+  <p>قد يكون جهازك القديم فرصة لشخص آخر. اكتشف عتيگ وابدأ رحلة البيع والشراء.</p>
+  <a class="btn" href="#download">تابع موعد الإطلاق</a>
+ </div>
+</div>
+</section>
+
+<section class="launch" id="download">
+<div class="container">
+ <span class="tag">قريباً</span>
+ <h2>عتيگ قادم إلى Google Play</h2>
+ <p>
+  نعمل حالياً على استكمال متطلبات النشر ومراجعة التطبيق
+  وفق شروط وسياسات Google Play. سنعلن عن رابط التحميل
+  الرسمي فور توفر التطبيق على المتجر.
+ </p>
+ <a class="btn" id="downloadBtn" href="#" onclick="return false"
+ style="opacity:.6;cursor:not-allowed">
+  التحميل سيكون متاحاً قريباً
+ </a>
+ <p style="font-size:13px;margin-top:15px">
+  تابعنا حتى تكون من أوائل مستخدمي تطبيق عتيگ.
+ </p>
+</div>
+</section>
+</main>
+
+<footer>
+ <div class="container">
+  <div class="logo">عتيگ.</div>
+  <p>منصتك العراقية لبيع وشراء الأجهزة المستعملة والعاطلة.</p>
+  <p>جميع الحقوق محفوظة © <strong>عتيگ 2026</strong></p>
+ </div>
+</footer>
+
+</body>
+</html>
