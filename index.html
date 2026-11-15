@@ -1,202 +1,516 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101b32">
-<meta name="description" content="عتيگ - منصة عراقية لبيع وشراء الأجهزة الكهربائية المستعملة والعاطلة.">
-<title>عتيگ | سوقك للأجهزة المستعملة</title>
+<meta name="theme-color" content="#0e1830">
+<meta name="description" content="عتيگ - منصة عراقية لبيع وشراء الأجهزة المستعملة والخردة: سبلتات، مكيفات، نحاس، أسلاك، صفر وغيرها.">
+<title>عتيگ | سوقك للأجهزة المستعملة والخردة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
- --bg:#101b32;
- --bg2:#15243e;
+ --bg:#0e1830;
+ --bg2:#142342;
+ --card:#172848;
  --gold:#f5bd45;
- --white:#fff;
- --muted:#aebbd0;
- --line:#293b58;
+ --gold2:#ffd77a;
+ --white:#ffffff;
+ --muted:#a9b8d0;
+ --line:#253a5e;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+*{
+ box-sizing:border-box;margin:0;padding:0;
+ -webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;
+ -webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;
+}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
 body{
- font-family:Tahoma,Arial,sans-serif;
- background:var(--bg);
- color:var(--white);
- line-height:1.8;
+ font-family:'Cairo',Tahoma,Arial,sans-serif;
+ background:var(--bg);color:var(--white);line-height:1.8;
+ -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
+body.locked{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 a{text-decoration:none;color:inherit}
-.container{width:min(1120px,92%);margin:auto}
-nav{
- height:78px;display:flex;align-items:center;
- justify-content:space-between;gap:20px;
+svg,img{-webkit-user-drag:none;user-drag:none}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+.container{width:min(1140px,92%);margin:auto}
+.ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* Top bar */
+.topbar{background:var(--gold);color:#162441;font-size:14px;font-weight:700}
+.topbar .container{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;padding:8px 0}
+.topbar a.dl-link{
+ display:inline-flex;align-items:center;gap:6px;padding:3px 14px;border-radius:30px;
+ background:#162441;color:var(--gold);font-size:13px;
+}
+.topbar a.dl-link .ic{font-size:16px}
+.topbar .sep{opacity:.35}
+.topbar .soon{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.topbar .soon .ic{font-size:16px}
+
+/* Store badge */
+.store-badge{
+ display:inline-flex;align-items:center;gap:12px;padding:8px 18px;border-radius:12px;
+ background:#050b19;border:1px solid #4a6189;color:var(--white);cursor:default;text-align:right;
+}
+.store-badge .ic{font-size:30px;color:var(--gold);fill:var(--gold);stroke:none}
+.store-badge small{display:block;font-size:11px;color:var(--muted);line-height:1.3}
+.store-badge b{display:block;font-size:19px;line-height:1.3;font-family:Arial,Helvetica,sans-serif;font-weight:700;direction:ltr;text-align:right}
+
+/* Header */
+header{
+ position:sticky;top:0;z-index:50;
+ background:rgba(14,24,48,.9);
+ -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
  border-bottom:1px solid var(--line);
 }
-.logo{font-size:27px;font-weight:900;color:var(--gold)}
-.logo span{color:white}
-.navlinks{display:flex;gap:27px;color:var(--muted);font-size:14px}
-.navlinks a:hover{color:var(--gold)}
+nav{height:74px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{display:flex;align-items:center;gap:10px;font-size:27px;font-weight:900;color:var(--gold)}
+.logo-mark{
+ width:40px;height:40px;border-radius:12px;background:var(--gold);color:#162441;
+ display:grid;place-items:center;font-size:23px;
+}
+.navlinks{display:flex;gap:6px}
+.navlinks a{padding:6px 14px;border-radius:30px;color:var(--muted);font-size:15px;font-weight:600;transition:.2s}
+.navlinks a:hover{color:var(--gold);background:var(--bg2)}
+.menu-btn{
+ display:none;width:44px;height:44px;border-radius:12px;
+ background:var(--bg2);border:1px solid var(--line);color:var(--white);
+ font-size:22px;cursor:pointer;place-items:center;
+}
 .btn{
- display:inline-flex;justify-content:center;align-items:center;
- padding:12px 23px;border-radius:9px;
- background:var(--gold);color:#172238;
- font-weight:bold;border:0;cursor:pointer;
- transition:.2s;
+ display:inline-flex;justify-content:center;align-items:center;gap:8px;
+ padding:12px 24px;border-radius:12px;
+ background:var(--gold);color:#162441;font:inherit;font-weight:700;
+ border:1px solid var(--gold);cursor:pointer;transition:.2s;
 }
-.btn:hover{transform:translateY(-3px);filter:brightness(1.06)}
-.btn-outline{
- background:transparent;color:white;
- border:1px solid var(--line);
+.btn:hover{transform:translateY(-2px);background:var(--gold2)}
+.btn-outline{background:transparent;color:var(--white);border-color:var(--line)}
+.btn-outline:hover{background:var(--bg2);border-color:var(--gold)}
+
+/* Full-screen menu */
+.drawer{
+ position:fixed;inset:0;z-index:200;background:var(--bg);
+ display:flex;flex-direction:column;padding:0 6% 30px;
+ visibility:hidden;opacity:0;transform:translateY(-10px);
+ transition:opacity .25s,transform .25s,visibility 0s .25s;
+ overscroll-behavior:contain;touch-action:none;
 }
-.hero{padding:95px 0 85px;overflow:hidden}
-.hero-grid{
- display:grid;grid-template-columns:1.2fr .8fr;
- align-items:center;gap:55px;
+.drawer.open{visibility:visible;opacity:1;transform:none;transition:opacity .25s,transform .25s}
+.drawer-top{height:74px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.drawer-links{display:flex;flex-direction:column;justify-content:center;flex:1;gap:6px}
+.drawer-links a{
+ display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;
+ font-size:21px;font-weight:700;color:var(--white);
 }
+.drawer-links a .ic{font-size:24px;color:var(--gold)}
+.drawer-links a:active{background:var(--bg2)}
+.drawer .btn{width:100%}
+
+/* Hero */
+.hero{padding:80px 0 70px;position:relative;overflow:hidden}
+.hero::before{
+ content:"";position:absolute;inset:-120px auto auto -120px;width:420px;height:420px;
+ background:radial-gradient(circle,rgba(245,189,69,.14),transparent 68%);pointer-events:none;
+}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:50px;position:relative}
 .tag{
- display:inline-block;padding:6px 13px;
- border:1px solid #715b32;border-radius:30px;
- color:var(--gold);font-size:13px;margin-bottom:20px;
+ display:inline-flex;align-items:center;gap:8px;padding:6px 15px;
+ border:1px solid #6a5630;border-radius:30px;background:rgba(245,189,69,.07);
+ color:var(--gold);font-size:14px;font-weight:600;margin-bottom:20px;
 }
-h1{font-size:clamp(35px,5vw,57px);line-height:1.35;margin-bottom:20px}
-h1 span{color:var(--gold)}
-.hero p{color:var(--muted);font-size:17px;max-width:590px;margin-bottom:27px}
+h1{font-size:clamp(34px,5.2vw,58px);line-height:1.4;font-weight:900;margin-bottom:18px}
+h1 em{font-style:normal;color:var(--gold)}
+.hero p.lead{color:var(--muted);font-size:18px;max-width:580px;margin-bottom:24px}
+.mini-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.mini-tags span{
+ display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:30px;
+ background:var(--bg2);border:1px solid var(--line);font-size:14px;font-weight:600;
+}
+.mini-tags .ic{color:var(--gold);font-size:16px}
 .actions{display:flex;gap:12px;flex-wrap:wrap}
 .notice{
- margin-top:28px;padding:15px 17px;
- border-right:3px solid var(--gold);
- background:#1a2b46;border-radius:8px;
- color:#dce5f2;font-size:14px;
+ margin-top:28px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;
+ border:1px solid var(--line);border-right:3px solid var(--gold);
+ background:var(--bg2);border-radius:12px;color:#dbe4f1;font-size:14px;max-width:580px;
 }
-.art{
- min-height:330px;position:relative;
- display:flex;align-items:center;justify-content:center;
+.notice .ic{font-size:22px;color:var(--gold);margin-top:3px}
+
+/* Phone mockup */
+.stage{display:flex;justify-content:center;position:relative;min-height:470px;align-items:center}
+.phone{
+ width:265px;border-radius:38px;padding:12px;background:#0a1226;
+ border:1px solid #34496d;box-shadow:0 30px 60px rgba(0,0,0,.45);
+ transform:rotate(-4deg);
 }
-.art-card{
- width:280px;height:280px;border-radius:35px;
- border:1px solid #354967;background:#192b47;
- display:flex;flex-direction:column;
- align-items:center;justify-content:center;
- box-shadow:15px 18px 0 #0b1426;
- transform:rotate(-5deg);
+.screen{background:var(--bg2);border-radius:28px;padding:16px 13px 14px;min-height:420px}
+.screen-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.screen-top b{color:var(--gold);font-size:19px}
+.screen-top .ic{font-size:20px;color:var(--muted)}
+.search{
+ display:flex;align-items:center;gap:8px;background:#0e1a33;border:1px solid var(--line);
+ border-radius:10px;padding:7px 11px;font-size:12px;color:var(--muted);margin-bottom:12px;
 }
-.art-icon{font-size:105px;line-height:1.4}
-.art-title{font-size:35px;font-weight:900;color:var(--gold)}
+.search .ic{font-size:15px}
+.chips{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.chip{font-size:11px;padding:2px 10px;border-radius:20px;border:1px solid var(--line);color:var(--muted)}
+.chip.on{background:var(--gold);border-color:var(--gold);color:#162441;font-weight:700}
+.item{
+ display:flex;align-items:center;gap:10px;background:var(--card);
+ border:1px solid var(--line);border-radius:13px;padding:9px;margin-bottom:9px;
+}
+.thumb{width:46px;height:46px;border-radius:10px;background:#223a62;color:var(--gold);display:grid;place-items:center;font-size:24px}
+.item h4{font-size:13px;line-height:1.5}
+.item small{display:flex;align-items:center;gap:4px;color:var(--muted);font-size:11px}
+.item small .ic{font-size:12px}
+.price{margin-right:auto;font-size:12px;font-weight:700;color:var(--gold)}
 .float{
- position:absolute;background:#223652;
- border:1px solid #405674;border-radius:12px;
- padding:12px 17px;font-size:14px;
+ position:absolute;display:flex;align-items:center;gap:8px;
+ background:var(--card);border:1px solid #3a5079;border-radius:14px;
+ padding:10px 15px;font-size:14px;font-weight:600;box-shadow:0 14px 30px rgba(0,0,0,.35);
 }
-.float.one{top:25px;right:0}
-.float.two{bottom:25px;left:0}
-section{padding:75px 0}
-.section-title{text-align:center;margin-bottom:43px}
-.section-title h2{font-size:32px;margin-bottom:9px}
+.float .ic{font-size:20px;color:var(--gold)}
+.float.one{top:42px;right:-4px}
+.float.two{bottom:50px;left:-4px}
+
+/* Stats */
+.stats{padding:0 0 20px}
+.stats-row{
+ display:grid;grid-template-columns:repeat(4,1fr);
+ border:1px solid var(--line);border-radius:18px;background:var(--bg2);overflow:hidden;
+}
+.stat{display:flex;align-items:center;gap:12px;padding:20px 22px;border-left:1px solid var(--line)}
+.stat:last-child{border-left:0}
+.stat .ic{font-size:30px;color:var(--gold)}
+.stat b{display:block;font-size:15px;line-height:1.4}
+.stat span{font-size:13px;color:var(--muted)}
+
+/* Sections */
+section{padding:80px 0}
+.section-title{text-align:center;margin-bottom:46px}
+.section-title h2{font-size:clamp(26px,4vw,34px);font-weight:900;margin-bottom:6px}
 .section-title p{color:var(--muted)}
-.features{
- display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+
+/* Categories */
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.cat{
+ background:var(--bg2);border:1px solid var(--line);border-radius:18px;
+ padding:24px 14px;text-align:center;transition:border-color .2s,transform .2s;
 }
+.cat:hover{transform:translateY(-4px);border-color:#94783e}
+.cat .ic{font-size:42px;color:var(--gold);margin-bottom:10px}
+.cat h3{font-size:17px;line-height:1.5}
+.cat p{font-size:13px;color:var(--muted);line-height:1.6;margin-top:2px}
+
+/* Steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:s}
+.step{position:relative;padding:28px 24px;border:1px dashed #3a5079;border-radius:18px}
+.step::before{
+ counter-increment:s;content:counter(s);
+ position:absolute;top:-17px;right:22px;width:34px;height:34px;border-radius:50%;
+ background:var(--gold);color:#162441;font-weight:900;display:grid;place-items:center;
+}
+.step .ic{font-size:32px;color:var(--gold);margin-bottom:10px}
+.step h3{font-size:19px;margin-bottom:4px}
+.step p{color:var(--muted);font-size:15px}
+
+/* Features */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .feature{
- background:var(--bg2);border:1px solid var(--line);
- padding:25px;border-radius:15px;transition:.2s;
+ background:var(--bg2);border:1px solid var(--line);padding:26px;border-radius:18px;
+ transition:border-color .2s,transform .2s;
 }
-.feature:hover{transform:translateY(-5px);border-color:#94783e}
+.feature:hover{transform:translateY(-4px);border-color:#94783e}
 .feature-icon{
- width:48px;height:48px;border-radius:12px;
- background:#293c59;display:grid;place-items:center;
- color:var(--gold);font-size:24px;margin-bottom:15px;
+ width:52px;height:52px;border-radius:14px;background:#233a5f;color:var(--gold);
+ display:grid;place-items:center;font-size:26px;margin-bottom:16px;
 }
-.feature h3{font-size:18px;margin-bottom:8px}
-.feature p{color:var(--muted);font-size:14px}
-.about{
- background:#15243e;border-top:1px solid var(--line);
- border-bottom:1px solid var(--line);
-}
-.about-grid{
- display:grid;grid-template-columns:1fr 1fr;gap:45px;align-items:center;
-}
-.about h2{font-size:32px;margin-bottom:15px}
-.about p{color:var(--muted);margin-bottom:15px}
+.feature h3{font-size:19px;margin-bottom:6px}
+.feature p{color:var(--muted);font-size:15px}
+
+/* About */
+.about{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+.about h2{font-size:clamp(26px,4vw,34px);font-weight:900;margin-bottom:14px}
+.about p{color:var(--muted);margin-bottom:14px}
 .points{display:grid;gap:12px;margin-top:20px}
-.point{display:flex;gap:10px;align-items:center}
-.check{color:var(--gold);font-weight:bold}
+.point{display:flex;gap:10px;align-items:center;font-weight:600}
+.point .ic{font-size:22px;color:var(--gold)}
 .callout{
- background:var(--bg2);border:1px solid #465b78;
- border-radius:17px;padding:30px;text-align:center;
+ background:linear-gradient(160deg,#1b3055,#142342);border:1px solid #4a6189;
+ border-radius:22px;padding:36px 30px;text-align:center;
 }
-.callout h3{font-size:25px;color:var(--gold);margin-bottom:10px}
-.callout p{color:var(--muted);margin-bottom:20px}
-.launch{
- text-align:center;background:#1b2c47;
- border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+.callout .big{font-size:44px;color:var(--gold);display:block;margin:0 auto 8px}
+.callout h3{font-size:26px;color:var(--gold);margin-bottom:8px}
+.callout p{color:var(--muted);margin-bottom:22px}
+
+/* Launch */
+.launch{text-align:center}
+.launch-box{
+ max-width:820px;margin:auto;padding:50px 28px;border-radius:26px;
+ border:1px solid #4a6189;background:#172a4b;
 }
-.launch h2{font-size:32px;margin-bottom:12px}
-.launch p{color:var(--muted);max-width:700px;margin:0 auto 23px}
-footer{padding:30px 0;text-align:center;color:var(--muted);font-size:13px}
+.launch h2{font-size:clamp(26px,4vw,34px);font-weight:900;margin-bottom:10px}
+.launch p{color:var(--muted);max-width:640px;margin:0 auto 24px}
+.btn[aria-disabled="true"]{opacity:.65;cursor:not-allowed;transform:none;background:var(--gold)}
+.launch .small{font-size:14px;margin:16px auto 0}
+
+footer{padding:34px 0;text-align:center;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+footer .logo{justify-content:center;margin-bottom:6px}
 footer strong{color:var(--gold)}
+
+@media(max-width:1000px){
+ .cats{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:900px){
+ .stats-row{grid-template-columns:repeat(2,1fr)}
+ .stat:nth-child(2){border-left:0}
+ .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+}
 @media(max-width:800px){
+ .hero{padding:50px 0}
  .hero-grid,.about-grid{grid-template-columns:1fr}
- .hero{padding:65px 0}
- .art{min-height:300px}
- .features{grid-template-columns:repeat(2,1fr)}
- .navlinks{display:none}
+ .features,.steps{grid-template-columns:repeat(2,1fr)}
+ .cats{grid-template-columns:repeat(2,1fr)}
+ .steps{gap:28px 20px}
+ .menu-btn{display:grid}
+ .nav-cta,.navlinks{display:none}
+ .stage{min-height:440px}
 }
 @media(max-width:520px){
- .features{grid-template-columns:1fr}
- .section-title h2,.about h2,.launch h2{font-size:26px}
- .art-card{width:235px;height:235px}
- .art-icon{font-size:80px}
- .art-title{font-size:29px}
+ .topbar{font-size:12.5px}
+ .topbar .sep{display:none}
+ .features,.steps{grid-template-columns:1fr}
+ .float.one{right:0}.float.two{left:0}
+ .phone{width:240px}
+ .stat{padding:16px 14px}
+ .cat{padding:20px 10px}
+}
+@media(prefers-reduced-motion:reduce){
+ *{transition:none!important;scroll-behavior:auto!important}
 }
 </style>
 </head>
 <body>
 
-<header class="container">
+<!-- Icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <defs>
+  <symbol id="i-recycle" viewBox="0 0 24 24"><path d="M7 19H4.8a1.8 1.8 0 0 1-1.6-2.7l2-3.6"/><path d="m11 16-3 3 3 3"/><path d="M8.3 9.4 6.5 6.3a1.8 1.8 0 0 1 1.6-2.7h3.4"/><path d="m11.6 7.7 2.9-3.1-2.9-3"/><path d="M14.5 8.4h3.4a1.8 1.8 0 0 1 1.6 2.7l-2 3.6"/><path d="m18.5 12.2-1 3.9-3.9-1"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 11.2a1.5 1.5 0 0 0 1.5 1.1h8.6a1.5 1.5 0 0 0 1.5-1.1L21 7H6"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5"/><path d="M12 13v8"/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><path d="M3 9.5 4.5 4h15L21 9.5"/><path d="M3 9.5a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/><path d="M5 12.5V20h14v-7.5"/><path d="M10 20v-4.5h4V20"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-5.4A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14h4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.7-3.7"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="m8 12.3 2.7 2.7L16 9.5"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v5.5M12 7.6v.1"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M5 3.5v17l15-8.5z"/></symbol>
+  <symbol id="i-tv" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="13" rx="2"/><path d="M8 21h8M12 18v3"/></symbol>
+  <symbol id="i-fridge" viewBox="0 0 24 24"><rect x="5" y="2.5" width="14" height="19" rx="2"/><path d="M5 10.5h14M8.5 6v2M8.5 13v3"/></symbol>
+  <symbol id="i-wash" viewBox="0 0 24 24"><rect x="4" y="2.5" width="16" height="19" rx="2"/><circle cx="12" cy="13.5" r="4.5"/><path d="M7.5 6h.01M11 6h5"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.6l1.5-2.5h6.8L17 7h2.5A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11 12 3l9 8"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h12M9 12h12M9 18h12"/><path d="M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+  <symbol id="i-ac" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="8" rx="2"/><path d="M6 9h12"/><path d="M7 15.5c0 1.8-1 2.2-1 4M12 15.5v4.5M17 15.5c0 1.8 1 2.2 1 4"/></symbol>
+  <symbol id="i-ingot" viewBox="0 0 24 24"><path d="M3 19.5h18l-2-5H5z"/><path d="M7 14.5l1.5-4.5h7l1.5 4.5"/><path d="M9.5 10l1-4h3l1 4"/></symbol>
+  <symbol id="i-cable" viewBox="0 0 24 24"><path d="M9 2.5v5M15 2.5v5"/><path d="M7 7.5h10v3.5a5 5 0 0 1-10 0z"/><path d="M12 16v2a3 3 0 0 0 3 3h3"/></symbol>
+  <symbol id="i-metal" viewBox="0 0 24 24"><path d="M12 2.5 4 6.5v6.7c0 4 3.2 7 8 8.300 4.800-1.300 8-4.300 8-8.300V6.500z"/><path d="M12 8v5.500M9.300 10.700h5.400"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10.5 5 5 5-5"/><path d="M4 20h16"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.700 6.300a4 4 0 0 0-5.400 5.400L3 18l3 3 6.300-6.300a4 4 0 0 0 5.400-5.400l-2.600 2.600-2.400-.6-.6-2.400z"/></symbol>
+ </defs>
+</svg>
+
+<div class="topbar">
+ <div class="container">
+  <span>حمّل تطبيق عتيگ الآن</span>
+  <a class="dl-link" href="#download">
+   <svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> رابط التحميل
+  </a>
+  <span class="sep">|</span>
+  <span class="soon"><svg class="ic" aria-hidden="true" style="fill:#162441;stroke:none"><use href="#i-play"/></svg> وسيتوفر أيضاً على Google Play قريباً</span>
+ </div>
+</div>
+
+<header>
+<div class="container">
 <nav>
- <a class="logo" href="#">عتيگ<span>.</span></a>
+ <a class="logo" href="#home" aria-label="عتيگ">
+  <span class="logo-mark"><svg class="ic" aria-hidden="true"><use href="#i-recycle"/></svg></span>
+  عتيگ
+ </a>
  <div class="navlinks">
   <a href="#home">الرئيسية</a>
+  <a href="#cats">الأقسام</a>
+  <a href="#how">كيف يشتغل</a>
   <a href="#features">المميزات</a>
   <a href="#about">عن التطبيق</a>
-  <a href="#download">التحميل</a>
  </div>
- <a class="btn" href="#download">تحميل التطبيق</a>
+ <a class="btn nav-cta dl-link" href="#download">
+  <svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>
+  تحميل التطبيق
+ </a>
+ <button class="menu-btn" id="menuBtn" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="drawer">
+  <svg class="ic" aria-hidden="true"><use href="#i-menu"/></svg>
+ </button>
 </nav>
+</div>
 </header>
+
+<!-- Full-screen menu: covers the page and locks background scroll -->
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="القائمة" aria-hidden="true">
+ <div class="drawer-top">
+  <a class="logo" href="#home" data-close>
+   <span class="logo-mark"><svg class="ic" aria-hidden="true"><use href="#i-recycle"/></svg></span>
+   عتيگ
+  </a>
+  <button class="menu-btn" id="closeBtn" type="button" aria-label="إغلاق القائمة" style="display:grid">
+   <svg class="ic" aria-hidden="true"><use href="#i-close"/></svg>
+  </button>
+ </div>
+ <nav class="drawer-links" aria-label="روابط القائمة">
+  <a href="#home" data-close><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg> الرئيسية</a>
+  <a href="#cats" data-close><svg class="ic" aria-hidden="true"><use href="#i-list"/></svg> الأقسام</a>
+  <a href="#how" data-close><svg class="ic" aria-hidden="true"><use href="#i-box"/></svg> كيف يشتغل</a>
+  <a href="#features" data-close><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> المميزات</a>
+  <a href="#about" data-close><svg class="ic" aria-hidden="true"><use href="#i-info"/></svg> عن التطبيق</a>
+ </nav>
+ <a class="btn dl-link" href="#download" data-close>
+  <svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>
+  تحميل التطبيق
+ </a>
+</div>
 
 <main>
 <section class="hero" id="home">
 <div class="container hero-grid">
  <div>
-  <span class="tag">منصة عراقية للبيع والشراء</span>
-  <h1>لا ترمي القديم...<br><span>يمكن يكون إله قيمة!</span></h1>
-  <p>
-   مع تطبيق عتيگ، صار بإمكانك عرض وشراء الأجهزة الكهربائية
-   المستعملة والعاطلة بسهولة، والتواصل مع التجار والمشترين
+  <span class="tag"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg> منصة عراقية للبيع والشراء</span>
+  <h1>لا ترمي القديم...<br><em>يمكن يكون إله قيمة!</em></h1>
+  <p class="lead">
+   بيع واشترِ الأجهزة المستعملة والخردة بسهولة: سبلتات ومكيفات،
+   نحاس وأسلاك وصفر وغيرها، وتواصل مع التجار والمشترين
    في مكان واحد.
   </p>
+  <div class="mini-tags">
+   <span><svg class="ic" aria-hidden="true"><use href="#i-ac"/></svg> سبلتات ومكيفات</span>
+   <span><svg class="ic" aria-hidden="true"><use href="#i-ingot"/></svg> نحاس وصفر</span>
+   <span><svg class="ic" aria-hidden="true"><use href="#i-cable"/></svg> أسلاك</span>
+  </div>
   <div class="actions">
-   <a href="#download" class="btn">اكتشف التطبيق</a>
-   <a href="#features" class="btn btn-outline">تعرف على المميزات</a>
+   <a href="#download" class="btn dl-link">
+    <svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>
+    تحميل التطبيق
+   </a>
+   <span class="store-badge" aria-label="سيتوفر قريباً على Google Play">
+    <svg class="ic" aria-hidden="true"><use href="#i-play"/></svg>
+    <span><small>سيتوفر قريباً على</small><b>Google Play</b></span>
+   </span>
   </div>
   <div class="notice">
-   سيتم إطلاق تطبيق عتيگ على متجر Google Play قريباً،
-   بعد استكمال متطلبات وسياسات Google Play.
+   <svg class="ic" aria-hidden="true"><use href="#i-info"/></svg>
+   <span>التطبيق متاح للتحميل عبر الرابط، وسيتوفر أيضاً على متجر Google Play قريباً بعد استكمال متطلبات وسياسات Google Play.</span>
   </div>
  </div>
- <div class="art">
-  <div class="art-card">
-   <div class="art-icon">♻</div>
-   <div class="art-title">عتيگ</div>
-   <div style="color:#b7c5d9">سوقك للأجهزة المستعملة</div>
+
+ <div class="stage" aria-hidden="true">
+  <div class="phone">
+   <div class="screen">
+    <div class="screen-top">
+     <b>عتيگ</b>
+     <svg class="ic"><use href="#i-bell"/></svg>
+    </div>
+    <div class="search"><svg class="ic"><use href="#i-search"/></svg> ابحث عن سبلت، نحاس، أسلاك...</div>
+    <div class="chips">
+     <span class="chip on">الكل</span>
+     <span class="chip">بغداد</span>
+     <span class="chip">البصرة</span>
+    </div>
+    <div class="item">
+     <div class="thumb"><svg class="ic"><use href="#i-ac"/></svg></div>
+     <div><h4>سبلت مستعمل</h4><small><svg class="ic"><use href="#i-pin"/></svg> بغداد</small></div>
+     <span class="price">للبيع</span>
+    </div>
+    <div class="item">
+     <div class="thumb"><svg class="ic"><use href="#i-ingot"/></svg></div>
+     <div><h4>نحاس خردة</h4><small><svg class="ic"><use href="#i-pin"/></svg> البصرة</small></div>
+     <span class="price">للبيع</span>
+    </div>
+    <div class="item">
+     <div class="thumb"><svg class="ic"><use href="#i-cable"/></svg></div>
+     <div><h4>أسلاك نحاس</h4><small><svg class="ic"><use href="#i-pin"/></svg> أربيل</small></div>
+     <span class="price">للبيع</span>
+    </div>
+   </div>
   </div>
-  <div class="float one">بيع بسهولة</div>
-  <div class="float two">اشترِ بذكاء</div>
+  <div class="float one"><svg class="ic"><use href="#i-box"/></svg> بيع بسهولة</div>
+  <div class="float two"><svg class="ic"><use href="#i-cart"/></svg> اشترِ بذكاء</div>
  </div>
 </div>
 </section>
 
-<section id="features">
+<div class="stats">
+<div class="container">
+ <div class="stats-row">
+  <div class="stat"><svg class="ic" aria-hidden="true"><use href="#i-recycle"/></svg><div><b>مستعمل وخردة</b><span>شغال أو عاطل</span></div></div>
+  <div class="stat"><svg class="ic" aria-hidden="true"><use href="#i-store"/></svg><div><b>متاجر التجار</b><span>مساحة لكل تاجر</span></div></div>
+  <div class="stat"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg><div><b>كل المحافظات</b><span>من الشمال للجنوب</span></div></div>
+  <div class="stat"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><div><b>تواصل مباشر</b><span>بين البائع والمشتري</span></div></div>
+ </div>
+</div>
+</div>
+
+<section id="cats">
+<div class="container">
+ <div class="section-title">
+  <h2>شنو تلكى بعتيگ؟</h2>
+  <p>أقسام تغطي الأجهزة المستعملة والخردة والمعادن</p>
+ </div>
+ <div class="cats">
+  <div class="cat"><svg class="ic" aria-hidden="true"><use href="#i-ac"/></svg><h3>سبلتات ومكيفات</h3><p>شغالة أو عاطلة</p></div>
+  <div class="cat"><svg class="ic" aria-hidden="true"><use href="#i-ingot"/></svg><h3>نحاس</h3><p>خردة وقطع نحاس</p></div>
+  <div class="cat"><svg class="ic" aria-hidden="true"><use href="#i-cable"/></svg><h3>أسلاك</h3><p>أسلاك وكيبلات</p></div>
+  <div class="cat"><svg class="ic" aria-hidden="true"><use href="#i-metal"/></svg><h3>صفر ومعادن</h3><p>صفر وألمنيوم وحديد</p></div>
+  <div class="cat"><svg class="ic" aria-hidden="true"><use href="#i-fridge"/></svg><h3>ثلاجات</h3><p>مستعملة وعاطلة</p></div>
+  <div class="cat"><svg class="ic" aria-hidden="true"><use href="#i-wash"/></svg><h3>غسالات</h3><p>مستعملة وعاطلة</p></div>
+  <div class="cat"><svg class="ic" aria-hidden="true"><use href="#i-tv"/></svg><h3>شاشات وإلكترونيات</h3><p>تلفزيونات وأجهزة</p></div>
+  <div class="cat"><svg class="ic" aria-hidden="true"><use href="#i-wrench"/></svg><h3>أجهزة عاطلة</h3><p>للتصليح أو التفكيك</p></div>
+ </div>
+</div>
+</section>
+
+<section id="how" style="padding-top:10px">
+<div class="container">
+ <div class="section-title">
+  <h2>كيف يشتغل عتيگ؟</h2>
+  <p>ثلاث خطوات بس وگديمك يلكى صاحبه</p>
+ </div>
+ <div class="steps">
+  <div class="step">
+   <svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg>
+   <h3>صوّر البضاعة</h3>
+   <p>أضف صور وتفاصيل الجهاز أو المعدن أو الأسلاك.</p>
+  </div>
+  <div class="step">
+   <svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>
+   <h3>انشر إعلانك</h3>
+   <p>اختر محافظتك ليوصل إعلانك للمشترين القريبين منك.</p>
+  </div>
+  <div class="step">
+   <svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>
+   <h3>اتفق وبيع</h3>
+   <p>تواصل مباشرة مع المهتمين واتفقوا على السعر والتسليم.</p>
+  </div>
+ </div>
+</div>
+</section>
+
+<section id="features" style="padding-top:10px">
 <div class="container">
  <div class="section-title">
   <h2>مميزات تطبيق عتيگ</h2>
@@ -204,32 +518,32 @@ footer strong{color:var(--gold)}
  </div>
  <div class="features">
   <article class="feature">
-   <div class="feature-icon">🛒</div>
+   <div class="feature-icon"><svg class="ic" aria-hidden="true"><use href="#i-cart"/></svg></div>
    <h3>تصفح المنتجات</h3>
-   <p>استكشف الأجهزة الكهربائية المعروضة للبيع وتعرف على تفاصيلها.</p>
+   <p>استكشف الأجهزة والمعادن المعروضة للبيع وتعرف على تفاصيلها.</p>
   </article>
   <article class="feature">
-   <div class="feature-icon">📦</div>
+   <div class="feature-icon"><svg class="ic" aria-hidden="true"><use href="#i-box"/></svg></div>
    <h3>إضافة الإعلانات</h3>
-   <p>اعرض أجهزتك المستعملة أو العاطلة مع الصور والتفاصيل.</p>
+   <p>اعرض بضاعتك المستعملة أو العاطلة مع الصور والتفاصيل.</p>
   </article>
   <article class="feature">
-   <div class="feature-icon">🏪</div>
+   <div class="feature-icon"><svg class="ic" aria-hidden="true"><use href="#i-store"/></svg></div>
    <h3>متاجر التجار</h3>
    <p>مساحة خاصة للتجار لعرض منتجاتهم وإدارة إعلاناتهم.</p>
   </article>
   <article class="feature">
-   <div class="feature-icon">📍</div>
+   <div class="feature-icon"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg></div>
    <h3>المحافظات العراقية</h3>
    <p>اختر محافظتك وسهّل الوصول إلى البائعين والمشترين.</p>
   </article>
   <article class="feature">
-   <div class="feature-icon">🤝</div>
+   <div class="feature-icon"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg></div>
    <h3>تواصل مباشر</h3>
    <p>تواصل مع أصحاب الإعلانات للاستفسار والاتفاق على البيع.</p>
   </article>
   <article class="feature">
-   <div class="feature-icon">🔎</div>
+   <div class="feature-icon"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg></div>
    <h3>سهولة الاستخدام</h3>
    <p>واجهة بسيطة تساعدك على الوصول إلى ما تبحث عنه بسرعة.</p>
   </article>
@@ -243,21 +557,22 @@ footer strong{color:var(--gold)}
   <h2>ما هو تطبيق عتيگ؟</h2>
   <p>
    عتيگ منصة إلكترونية عراقية تجمع بين الأشخاص الذين
-   يمتلكون أجهزة كهربائية مستعملة أو عاطلة، وبين التجار
+   يمتلكون أجهزة مستعملة أو عاطلة أو خردة ومعادن، وبين التجار
    والمشترين المهتمين بها.
   </p>
   <p>
    هدفنا تسهيل عملية البيع والشراء، والاستفادة من الأجهزة
-   القديمة بدلاً من تركها دون فائدة.
+   والمعادن القديمة بدلاً من تركها دون فائدة.
   </p>
   <div class="points">
-   <div class="point"><span class="check">✓</span> منصة تجمع البائع والمشتري</div>
-   <div class="point"><span class="check">✓</span> عرض المنتجات بالصور والتفاصيل</div>
-   <div class="point"><span class="check">✓</span> متاجر مخصصة للتجار</div>
-   <div class="point"><span class="check">✓</span> تجربة استخدام سهلة</div>
+   <div class="point"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> منصة تجمع البائع والمشتري</div>
+   <div class="point"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> عرض المنتجات بالصور والتفاصيل</div>
+   <div class="point"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> متاجر مخصصة للتجار</div>
+   <div class="point"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> تجربة استخدام سهلة</div>
   </div>
  </div>
  <div class="callout">
+  <svg class="ic big" aria-hidden="true"><use href="#i-recycle"/></svg>
   <h3>قديمك مو بلا قيمة!</h3>
   <p>قد يكون جهازك القديم فرصة لشخص آخر. اكتشف عتيگ وابدأ رحلة البيع والشراء.</p>
   <a class="btn" href="#download">تابع موعد الإطلاق</a>
@@ -267,31 +582,111 @@ footer strong{color:var(--gold)}
 
 <section class="launch" id="download">
 <div class="container">
- <span class="tag">قريباً</span>
- <h2>عتيگ قادم إلى Google Play</h2>
- <p>
-  نعمل حالياً على استكمال متطلبات النشر ومراجعة التطبيق
-  وفق شروط وسياسات Google Play. سنعلن عن رابط التحميل
-  الرسمي فور توفر التطبيق على المتجر.
- </p>
- <a class="btn" id="downloadBtn" href="#" onclick="return false"
- style="opacity:.6;cursor:not-allowed">
-  التحميل سيكون متاحاً قريباً
- </a>
- <p style="font-size:13px;margin-top:15px">
-  تابعنا حتى تكون من أوائل مستخدمي تطبيق عتيگ.
- </p>
+ <div class="launch-box">
+  <span class="tag"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> التحميل</span>
+  <h2>حمّل عتيگ الآن</h2>
+  <p>
+   حمّل التطبيق مباشرة من الرابط أدناه. ونعمل حالياً على استكمال
+   متطلبات النشر وفق شروط وسياسات Google Play، وسنعلن فور
+   توفره على المتجر.
+  </p>
+  <div class="actions" style="justify-content:center">
+   <a class="btn dl-link" id="downloadBtn" href="#download">
+    <svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>
+    تحميل التطبيق
+   </a>
+   <span class="store-badge" aria-label="سيتوفر قريباً على Google Play">
+    <svg class="ic" aria-hidden="true"><use href="#i-play"/></svg>
+    <span><small>سيتوفر قريباً على</small><b>Google Play</b></span>
+   </span>
+  </div>
+  <p class="small">تابعنا حتى تكون من أوائل مستخدمي تطبيق عتيگ.</p>
+ </div>
 </div>
 </section>
 </main>
 
 <footer>
  <div class="container">
-  <div class="logo">عتيگ.</div>
-  <p>منصتك العراقية لبيع وشراء الأجهزة المستعملة والعاطلة.</p>
+  <div class="logo">
+   <span class="logo-mark"><svg class="ic" aria-hidden="true"><use href="#i-recycle"/></svg></span>
+   عتيگ
+  </div>
+  <p>منصتك العراقية لبيع وشراء الأجهزة المستعملة والخردة.</p>
   <p>جميع الحقوق محفوظة © <strong>عتيگ 2026</strong></p>
  </div>
 </footer>
 
+<script>
+(function(){
+ var drawer=document.getElementById('drawer');
+ var openBtn=document.getElementById('menuBtn');
+ var closeBtn=document.getElementById('closeBtn');
+ // ضع رابط التحميل الحقيقي هنا (مثال: "https://raw.githubusercontent.com/Tyty22g/Telegramapp/refs/heads/main/%D8%B9%D8%AA%D9%8A%DA%AF.signed.apk")
+ var DOWNLOAD_URL="";
+ var savedY=0;
+ var isOpen=false;
+
+ function openMenu(){
+  if(isOpen)return;
+  isOpen=true;
+  savedY=window.pageYOffset||document.documentElement.scrollTop||0;
+  document.body.style.top=(-savedY)+'px';
+  document.body.classList.add('locked');
+  drawer.classList.add('open');
+  drawer.setAttribute('aria-hidden','false');
+  openBtn.setAttribute('aria-expanded','true');
+  closeBtn.focus();
+ }
+ function closeMenu(){
+  if(!isOpen)return;
+  isOpen=false;
+  drawer.classList.remove('open');
+  drawer.setAttribute('aria-hidden','true');
+  openBtn.setAttribute('aria-expanded','false');
+  document.body.classList.remove('locked');
+  document.body.style.top='';
+  window.scrollTo({top:savedY,left:0,behavior:'instant'});
+ }
+
+ openBtn.addEventListener('click',openMenu);
+ closeBtn.addEventListener('click',function(){closeMenu();openBtn.focus();});
+
+ // Close, then jump to the chosen section
+ var closers=drawer.querySelectorAll('[data-close]');
+ Array.prototype.forEach.call(closers,function(a){
+  a.addEventListener('click',function(e){
+   var href=a.getAttribute('href');
+   if(!href||href.charAt(0)!=='#'){closeMenu();return;}
+   e.preventDefault();
+   closeMenu();
+   var target=href&&href.length>1?document.querySelector(href):null;
+   if(target){target.scrollIntoView({behavior:'smooth',block:'start'});}
+   else{window.scrollTo({top:0,behavior:'smooth'});}
+  });
+ });
+
+ document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&isOpen){closeMenu();openBtn.focus();}
+ });
+ window.addEventListener('resize',function(){
+  if(isOpen&&window.innerWidth>800){closeMenu();}
+ });
+
+ // Block scroll gestures behind the open menu
+ drawer.addEventListener('touchmove',function(e){e.preventDefault();},{passive:false});
+ drawer.addEventListener('wheel',function(e){e.preventDefault();},{passive:false});
+
+ // كل أزرار التحميل تستخدم الرابط أعلاه. إذا كان فارغاً تنقلك لقسم التحميل.
+ var dls=document.querySelectorAll('.dl-link');
+ Array.prototype.forEach.call(dls,function(a){
+  if(DOWNLOAD_URL){
+   a.setAttribute('href',DOWNLOAD_URL);
+   a.setAttribute('rel','noopener');
+   a.removeAttribute('data-close');
+  }
+ });
+})();
+</script>
 </body>
 </html>
